@@ -14,12 +14,14 @@ const Footer = () => {
             transition={{ duration: 0.5 }}
             className="mb-6 md:mb-0"
           >
-            <div className="flex items-center mb-2">
-              <div className="w-[2px] h-6 bg-light mr-2"></div>
-              <span className="font-mono text-lg tracking-wider">YASHWANTH</span>
+            <div className="flex items-center mb-4">
+              <div className="flex items-center justify-center w-8 h-8 border border-light/50 mr-4">
+                <span className="font-mono text-xs font-black tracking-tighter text-light">YP</span>
+              </div>
+              <span className="font-mono text-lg tracking-[0.2em] text-light">YASHWANTH</span>
             </div>
-            <p className="text-muted text-sm">
-              Tech enthusiast building innovative solutions
+            <p className="text-muted text-xs font-mono uppercase tracking-widest">
+              Full-Stack Developer & AI/ML Researcher
             </p>
           </motion.div>
 
@@ -28,7 +30,7 @@ const Footer = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex space-x-6"
+            className="flex space-x-6 md:ml-auto"
           >
             <a href="#home" className="text-muted hover:text-light transition-colors">Home</a>
             <a href="#projects" className="text-muted hover:text-light transition-colors">Projects</a>
@@ -47,9 +49,6 @@ const Footer = () => {
           >
             © {currentYear} Yashwanth Patam. All rights reserved.
           </motion.p>
-
-
-
         </div>
       </div>
     </footer>

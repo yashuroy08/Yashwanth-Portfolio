@@ -37,7 +37,7 @@ const Education = () => {
   };
 
   return (
-    <section id="education" className="section-padding bg-primary">
+    <section id="education" className="section-padding bg-transparent">
       <div className="container-custom" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}

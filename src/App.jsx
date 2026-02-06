@@ -10,6 +10,10 @@ import Education from './components/Education.jsx';
 import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
 import Loader from './components/Loader.jsx';
+import BackToTop from './components/BackToTop.jsx';
+import AnimatedBackground from './components/AnimatedBackground.jsx';
+
+import { ThemeProvider } from './context/ThemeContext.jsx';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -21,40 +25,44 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/resume" element={<ResumeRedirect />} />
-        <Route
-          path="/*"
-          element={
-            <AnimatePresence>
-              {loading ? (
-                <Loader key="loader" />
-              ) : (
-                <motion.div
-                  key="app"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="bg-primary text-accent min-h-screen"
-                >
-                  <Header />
-                  <main>
-                    <Hero />
-                    <Projects />
-                    <Skills />
-                    <Education />
-                    <Contact />
-                  </main>
-                  <Footer />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          }
-        />
-      </Routes>
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <Routes>
+          <Route path="/resume" element={<ResumeRedirect />} />
+          <Route
+            path="/*"
+            element={
+              <AnimatePresence>
+                {loading ? (
+                  <Loader key="loader" />
+                ) : (
+                  <motion.div
+                    key="app"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="bg-primary text-accent min-h-screen relative z-0"
+                  >
+                    <AnimatedBackground />
+                    <Header />
+                    <main>
+                      <Hero />
+                      <Projects />
+                      <Skills />
+                      <Education />
+                      <Contact />
+                    </main>
+                    <Footer />
+                    <BackToTop />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            }
+          />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 

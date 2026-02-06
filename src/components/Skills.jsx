@@ -44,7 +44,7 @@ const Skills = () => {
   };
 
   return (
-    <section id="skills" className="section-padding bg-secondary">
+    <section id="skills" className="section-padding bg-transparent">
       <div className="container-custom" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -58,7 +58,7 @@ const Skills = () => {
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -66,7 +66,7 @@ const Skills = () => {
           {categories.map((category, i) => (
             <motion.div
               key={i}
-              className="border border-muted border-opacity-20 bg-primary bg-opacity-40 p-6"
+              className="border border-muted/20 bg-secondary/50 p-6"
               variants={itemVariants}
             >
               <h3 className="text-light font-medium mb-4 pb-2 border-b border-muted border-opacity-20">
@@ -74,17 +74,16 @@ const Skills = () => {
               </h3>
               <div className="flex flex-wrap gap-2">
                 {category.skills.map((skill, j) => (
-                  <motion.span
+                  <motion.div
                     key={j}
-                    className="text-sm bg-secondary px-3 py-1 rounded-sm"
-                    whileHover={{
-                      y: -2,
-                      backgroundColor: "rgba(245, 245, 245, 0.05)",
-                      transition: { duration: 0.2 }
-                    }}
+                    className="group relative flex items-center px-3 py-2 border border-muted/10 bg-primary/20 transition-all duration-300 hover:border-light/20"
+                    whileHover={{ y: -2 }}
                   >
-                    {skill}
-                  </motion.span>
+                    <div className="w-1 h-1 bg-light rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <span className="text-[11px] font-mono tracking-wider text-muted group-hover:text-light transition-colors">
+                      {skill}
+                    </span>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
@@ -92,7 +91,7 @@ const Skills = () => {
         </motion.div>
 
         <motion.div
-          className="mt-16 flex flex-col md:flex-row items-center justify-between p-6 border border-muted border-opacity-20 bg-primary bg-opacity-40"
+          className="mt-16 flex flex-col md:flex-row items-center justify-between p-6 border border-muted/20 bg-secondary/50"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
