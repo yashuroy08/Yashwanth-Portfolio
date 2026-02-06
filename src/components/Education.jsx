@@ -7,26 +7,18 @@ const Education = () => {
 
   const education = [
     {
-      institution: "Vasavi College of Engineering",
+      institution: "Saveetha School of Engineering",
       degree: "Bachelor of Engineering",
-      field: "Electronics and Communication Engineering (ECE)",
-      period: "2019-2023"
-    },
-    {
-      institution: "Sri Chaitanya Junior College",
-      degree: "Intermediate",
-      field: "MPC",
-      period: "2017-2019"
+      field: "Computer Science and Engineering (CSE)",
+      period: "2023-2027"
     }
   ];
 
   const achievements = [
-    "Winner – IWD Hackathon by Google Developer Group Hyderabad",
-    "4* Coder on CodeChef, solved 600+ DSA problems across platforms like LeetCode, CodeChef, and CSES",
-    "CodeChef Student Chapter & GDG CP Lead – Led competitive programming events and workshops",
-    "National Handball Goalkeeper – Kendriya Vidyalaya",
-    "2019 National & Indian National Mathematics Olympiad (INMO) Regionalist",
-    "Participated in Hackathon conducted by VIIT ACM Chapter"
+    "Won First Prize for developing an innovative AI-powered application that solves real-world problems using computer vision.",
+    "Successfully built and deployed multiple full-stack web applications using the MERN stack and Next.js.",
+    "Demonstrated expertise in integrating Machine Learning models with web interfaces for seamless user experiences.",
+    "Active participant in hackathons and coding competitions, consistently delivering high-quality solutions under time constraints."
   ];
 
   const containerVariants = {

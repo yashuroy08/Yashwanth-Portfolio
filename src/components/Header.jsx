@@ -50,7 +50,7 @@ const Header = () => {
           className="flex items-center"
         >
           <div className="w-[2px] h-6 bg-light mr-2"></div>
-          <span className="font-mono text-lg tracking-wider">NM</span>
+          <span className="font-mono text-lg tracking-wider">YP</span>
         </motion.div>
 
         {/* Desktop Navigation */}

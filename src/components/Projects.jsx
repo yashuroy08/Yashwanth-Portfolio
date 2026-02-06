@@ -6,72 +6,46 @@ const Projects = () => {
 
   const projects = [
     {
-      title: "FitBill - Gym Management System",
-      description: "A comprehensive cross-platform solution designed for modern gym businesses that streamlines membership management, attendance tracking, and financial operations. The system automatically sends timely membership renewal notifications, monitors daily facility usage patterns, and provides insightful financial analytics through intuitive dashboards, enabling gym owners to make data-driven decisions and optimize operational efficiency.",
-      tech: ["React Native", "Express.js", "Prisma", "SQL", "AWS Lambda"],
-      image: "/images/fitbill-preview.png",
-      liveLink: "http://youtube.com/watch?v=Dbkf_2kh1ho",
-      highlights: [
-        "Automated membership renewal alerts",
-        "Daily check-in/check-out tracking",
-        "Financial dashboards",
-        "Supports hundreds of daily active users"
-      ]
-    },
-    {
-      title: "Student Attendance Tracking System",
-      description: "An innovative serverless attendance solution leveraging AWS Lambda and Python to deliver cost-effective, real-time attendance tracking for educational institutions. The system employs sophisticated HTML parsing techniques with BeautifulSoup to extract attendance data from various sources, processes it through a highly optimized pipeline, and delivers accurate, instantaneous results to thousands of users daily without incurring operational costs, making it an ideal solution for resource-constrained educational environments.",
-      tech: ["AWS Lambda", "Python", "WebSocket", "DynamoDB", "BeautifulSoup"],
-      image: "/images/attendance-preview.png",
-      liveLink: "https://github.com/sri-ganeshk/Attendance_tracker",
-      highlights: [
-        "Handles ~3,000 unique daily users",
-        "10,000+ requests/day at zero cost",
-        "Avg response time of 1.5-2 seconds",
-        "Real-time HTML parsing"
-      ]
-    },
-    {
-      title: "StudySphere – Curated Learning Platform",
-      description: "An advanced educational platform that revolutionizes self-paced learning through AI-powered content organization and generation. StudySphere allows users to curate and structure courses on any topic with intelligent assistance, automatically generating customized flashcards, comprehensive notes, and interactive quizzes tailored to individual learning preferences. The integration with Google Gemini API enables sophisticated content summarization and knowledge extraction, creating a personalized learning experience that adapts to users' comprehension levels and learning styles.",
-      tech: ["Next.js", "Prisma", "Google Gemini API", "TailwindCSS", "PostgreSQL"],
-      image: "/images/studysphere-preview.png",
-      liveLink: "https://hackthon-six.vercel.app/",
-      highlights: [
-        "Automatic flashcards & notes generation",
-        "On-the-fly quizzes",
-        "AI-powered content summarization",
-        "Self-paced, structured learning"
-      ]
-    },
-    {
-      title: "Movie Review Platform",
-      description: "A modern, fully responsive web application designed for movie enthusiasts to discover, review, and engage with film content. The platform leverages The Movie Database API to provide users with real-time access to a vast library of films, complete with detailed information and high-quality imagery. With a robust user authentication system using JWT tokens, the application delivers personalized experiences allowing users to create accounts, save favorites, and contribute their own reviews to the community. The intuitive interface, built with React and styled with Tailwind CSS, ensures a seamless viewing experience across all devices.",
-      tech: ["React", "Tailwind CSS", "TMDB API", "MongoDB", "JWT", "Responsive Design"],
-      image: "/images/movie-review-preview.png",
-      liveLink: "https://movie-review-omega-seven.vercel.app/",
-      highlights: [
-        "Real-time movie data integration with TMDB API",
-        "Secure JWT-based user authentication",
-        "Intuitive and fully responsive design",
-        "Personalized user experiences with saved preferences"
-      ]
-    },
-    {
-      title: "Pressure Cooker Whistle Counter",
-      description: "An innovative Android application born from everyday necessity, designed to automate the mundane task of counting pressure cooker whistles during cooking. This offline-first app utilizes sophisticated audio processing algorithms to detect and count whistles in real-time using the device's microphone, without requiring an internet connection. With a focus on privacy, the application processes all audio data locally and on-the-fly without storing any recordings. The implementation includes custom sound analysis using Fast Fourier Transform (FFT) and Tarsos DSP library to accurately identify the distinctive whistle frequency pattern amid background noise, making cooking precision effortless for users.",
-      tech: ["Java", "Kotlin", "FFT", "Tarsos DSP", "Spectrograms", "Android Media"],
-      image: "/images/whistle-counter-preview.png",
+      title: "Full-Stack E-commerce Platform",
+      description: "A robust online shopping platform featuring a seamless shopping experience. Users can browse products, manage their cart, and securely check out. The admin dashboard provides comprehensive controls for product management, order tracking, and inventory updates, ensuring efficient business operations. Built with modern web technologies to ensure performance and scalability.",
+      tech: ["React", "Node.js", "Express.js", "MongoDB", "Paypal"],
+      image: "",
       liveLink: "",
       highlights: [
-        "Offline operation for areas with limited connectivity",
-        "Privacy-focused with no data storage",
-        "Real-time audio processing and frequency analysis",
-        "Future ML integration for multi-cooker scenarios"
+        "Secure user authentication and authorization",
+        "Dynamic product catalog with search and filter",
+        "Integrated payment gateway",
+        "Admin dashboard for order management"
+      ]
+    },
+    {
+      title: "URL Shortener Service",
+      description: "A high-performance URL shortening service that transforms long URLs into manageable links. It features analytics tracking to monitor click-through rates and geographical data of users. Built with scalability in mind, it handles concurrent requests efficiently while providing a clean user interface for generating and managing links.",
+      tech: ["Node.js", "Express.js", "MongoDB", "Redis", "React"],
+      image: "",
+      liveLink: "",
+      highlights: [
+        "Fast redirection with caching mechanisms",
+        "Detailed link analytics and tracking",
+        "Custom alias support for branded links",
+        "QR code generation for links"
+      ]
+    },
+    {
+      title: "Weather Forecast App",
+      description: "A cross-platform mobile application built with Flutter and Dart that delivers real-time weather updates. It features a beautiful, responsive UI that adapts to current weather conditions, offering hourly and weekly forecasts, humidity levels, and wind speed details for any location worldwide. The app leverages device sensors for location access and provides accurate data visualization.",
+      tech: ["Flutter", "Dart", "OpenWeather API", "Geolocator", "Bloc Pattern"],
+      image: "",
+      liveLink: "",
+      highlights: [
+        "Real-time weather data integration",
+        "Automatic user location detection",
+        "Dynamic background animations based on weather",
+        "7-day forecast visualization"
       ]
     }
   ];
-  
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -90,7 +64,7 @@ const Projects = () => {
   return (
     <section id="projects" className="section-padding bg-primary">
       <div className="container-custom">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -104,7 +78,7 @@ const Projects = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8">
           {/* Project selector - mobile version */}
-          <motion.div 
+          <motion.div
             className="md:hidden w-full mb-4"
             variants={containerVariants}
             initial="hidden"
@@ -120,17 +94,15 @@ const Projects = () => {
                 <motion.div
                   key={index}
                   variants={itemVariants}
-                  className={`snap-start flex-shrink-0 w-[75%] mr-3 p-4 cursor-pointer transition-all duration-300 ${
-                    activeProject === index 
-                      ? "bg-secondary bg-opacity-50 border border-light border-opacity-20" 
-                      : "bg-secondary bg-opacity-10 border border-muted border-opacity-10"
-                  }`}
+                  className={`snap-start flex-shrink-0 w-[75%] mr-3 p-4 cursor-pointer transition-all duration-300 ${activeProject === index
+                    ? "bg-secondary bg-opacity-50 border border-light border-opacity-20"
+                    : "bg-secondary bg-opacity-10 border border-muted border-opacity-10"
+                    }`}
                   onClick={() => setActiveProject(index)}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <h3 className={`font-medium text-sm mb-1 ${
-                    activeProject === index ? "text-light" : "text-muted"
-                  }`}>
+                  <h3 className={`font-medium text-sm mb-1 ${activeProject === index ? "text-light" : "text-muted"
+                    }`}>
                     {project.title.split(" - ")[0]}
                   </h3>
                   <p className="text-xs text-muted line-clamp-1">
@@ -142,8 +114,8 @@ const Projects = () => {
           </motion.div>
 
           {/* Project selector - desktop version */}
-          <motion.div 
-            className="hidden md:block md:col-span-4" 
+          <motion.div
+            className="hidden md:block md:col-span-4"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -153,20 +125,17 @@ const Projects = () => {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className={`border-l border-muted ${
-                  activeProject === index ? "border-opacity-100" : "border-opacity-20"
-                } p-4 cursor-pointer transition-all duration-300 ${
-                  activeProject === index ? "bg-secondary bg-opacity-30" : ""
-                }`}
+                className={`border-l border-muted ${activeProject === index ? "border-opacity-100" : "border-opacity-20"
+                  } p-4 cursor-pointer transition-all duration-300 ${activeProject === index ? "bg-secondary bg-opacity-30" : ""
+                  }`}
                 onClick={() => setActiveProject(index)}
                 whileHover={{
                   backgroundColor: "rgba(26, 26, 26, 0.3)",
                   transition: { duration: 0.2 }
                 }}
               >
-                <h3 className={`font-medium text-sm mb-1 ${
-                  activeProject === index ? "text-light" : "text-muted"
-                }`}>
+                <h3 className={`font-medium text-sm mb-1 ${activeProject === index ? "text-light" : "text-muted"
+                  }`}>
                   {project.title.split(" - ")[0]}
                 </h3>
                 <p className="text-xs text-muted line-clamp-1">
@@ -177,14 +146,14 @@ const Projects = () => {
           </motion.div>
 
           {/* Project details */}
-          <motion.div 
+          <motion.div
             className="col-span-1 md:col-span-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             key={activeProject}
             transition={{ duration: 0.5 }}
           >
-            <motion.div 
+            <motion.div
               className="bg-secondary bg-opacity-20 p-4 md:p-6 border border-muted border-opacity-10"
               initial={{ y: 20 }}
               animate={{ y: 0 }}
@@ -194,7 +163,7 @@ const Projects = () => {
               <p className="text-sm md:text-base text-muted mb-4 md:mb-6 leading-relaxed">
                 {projects[activeProject].description}
               </p>
-              
+
               <div className="mb-4 md:mb-6">
                 <h4 className="text-xs md:text-sm font-mono text-light mb-2 md:mb-3">KEY HIGHLIGHTS</h4>
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -206,13 +175,13 @@ const Projects = () => {
                   ))}
                 </ul>
               </div>
-              
+
               <div>
                 <h4 className="text-xs md:text-sm font-mono text-light mb-2 md:mb-3">TECHNOLOGIES</h4>
                 <div className="flex flex-wrap gap-2">
                   {projects[activeProject].tech.map((tech, i) => (
-                    <span 
-                      key={i} 
+                    <span
+                      key={i}
                       className="text-xs py-1 px-2 md:px-3 bg-primary border border-muted border-opacity-20 rounded-sm"
                     >
                       {tech}
@@ -223,10 +192,10 @@ const Projects = () => {
 
               {projects[activeProject].liveLink && (
                 <div className="mt-6 md:mt-8 flex justify-center md:justify-end">
-                  <a 
+                  <a
                     href={projects[activeProject].liveLink}
-                    target="_blank" 
-                    rel="noopener noreferrer" 
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="font-mono text-xs inline-flex items-center px-5 py-2 md:px-6 md:py-2 border border-light hover:bg-light hover:bg-opacity-5 transition-all duration-300 group"
                   >
                     VIEW PROJECT

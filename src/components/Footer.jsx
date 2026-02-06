@@ -16,7 +16,7 @@ const Footer = () => {
           >
             <div className="flex items-center mb-2">
               <div className="w-[2px] h-6 bg-light mr-2"></div>
-              <span className="font-mono text-lg tracking-wider">NITHIN MANDA</span>
+              <span className="font-mono text-lg tracking-wider">YASHWANTH</span>
             </div>
             <p className="text-muted text-sm">
               Tech enthusiast building innovative solutions
@@ -45,7 +45,7 @@ const Footer = () => {
             transition={{ duration: 0.5 }}
             className="text-sm text-muted mb-4 md:mb-0"
           >
-            © {currentYear} Nithin Manda. All rights reserved.
+            © {currentYear} Yashwanth Patam. All rights reserved.
           </motion.p>
 
 

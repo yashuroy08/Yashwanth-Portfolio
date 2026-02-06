@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export default function ResumeRedirect() {
   useEffect(() => {
-    const resumeUrl = import.meta.env.VITE_RESUME_URL
+    const resumeUrl = import.meta.env.VITE_RESUME_URL || "/Yashwanth Patam Resume.pdf";
     window.location.href = resumeUrl;
   }, []);
 
