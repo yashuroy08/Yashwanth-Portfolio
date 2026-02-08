@@ -20,6 +20,20 @@ const Projects = () => {
       ]
     },
     {
+      title: "Smart Energy Meter",
+      description: "IoT-based system monitoring real-time energy consumption. Integrates hardware sensors with a web dashboard for data visualization and bill estimation, helping users track and reduce their energy footprint.",
+      tech: ["C++", "Arduino", "NodeMCU", "Firebase", "React"],
+      color: "from-green-500/20 to-emerald-500/20",
+      liveLink: "#",
+      githubLink: "#",
+      highlights: [
+        "Real-time voltage & current monitoring",
+        "WiFi-enabled data transmission using NodeMCU",
+        "Live usage dashboard with bill estimation",
+        "Alert system for high consumption"
+      ]
+    },
+    {
       title: "URL Shortener Service",
       description: "A high-performance URL shortening service that transforms long URLs into manageable links. It features analytics tracking to monitor click-through rates and geographical data of users. Built with scalability in mind, it handles concurrent requests efficiently while providing a clean user interface for generating and managing links.",
       tech: ["Node.js", "Express.js", "MongoDB", "Redis", "React"],
@@ -59,6 +73,13 @@ const Projects = () => {
       'Redis': 'text-red-400 border-red-400/30 bg-red-400/5',
       'Dart': 'text-cyan-400 border-cyan-400/30 bg-cyan-400/5',
       'Paypal': 'text-indigo-400 border-indigo-400/30 bg-indigo-400/5',
+      'OpenWeather API': 'text-orange-400 border-orange-400/30 bg-orange-400/5',
+      'Geolocator': 'text-teal-400 border-teal-400/30 bg-teal-400/5',
+      'Bloc Pattern': 'text-purple-400 border-purple-400/30 bg-purple-400/5',
+      'C++': 'text-blue-600 border-blue-600/30 bg-blue-600/5',
+      'Arduino': 'text-teal-500 border-teal-500/30 bg-teal-500/5',
+      'NodeMCU': 'text-slate-400 border-slate-400/30 bg-slate-400/5',
+      'Firebase': 'text-amber-400 border-amber-400/30 bg-amber-400/5',
     };
     return colors[tech] || 'text-muted border-muted/30 bg-primary';
   };
@@ -193,7 +214,7 @@ const Projects = () => {
                   </div>
 
                   <div className="pt-6 border-t border-muted/10 flex flex-wrap gap-4">
-                    {projects[activeProject].liveLink && (
+                    {projects[activeProject].liveLink && projects[activeProject].liveLink !== '#' && (
                       <a
                         href={projects[activeProject].liveLink}
                         target="_blank"
@@ -207,7 +228,7 @@ const Projects = () => {
                       </a>
                     )}
 
-                    {projects[activeProject].githubLink && (
+                    {projects[activeProject].githubLink && projects[activeProject].githubLink !== '#' && (
                       <a
                         href={projects[activeProject].githubLink}
                         target="_blank"

@@ -6,6 +6,7 @@ import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
 import Projects from './components/Projects.jsx';
 import Skills from './components/Skills.jsx';
+
 import Education from './components/Education.jsx';
 import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
@@ -13,19 +14,17 @@ import Loader from './components/Loader.jsx';
 import BackToTop from './components/BackToTop.jsx';
 import AnimatedBackground from './components/AnimatedBackground.jsx';
 
+import SoundEffects from './components/SoundEffects.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
 
 function App() {
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Simulate loading time
-    const timer = setTimeout(() => setLoading(false), 2000);
-    return () => clearTimeout(timer);
-  }, []);
+
 
   return (
     <ThemeProvider>
+      <SoundEffects />
       <Router>
         <Routes>
           <Route path="/resume" element={<ResumeRedirect />} />
@@ -34,7 +33,7 @@ function App() {
             element={
               <AnimatePresence>
                 {loading ? (
-                  <Loader key="loader" />
+                  <Loader key="loader" onComplete={() => setLoading(false)} />
                 ) : (
                   <motion.div
                     key="app"

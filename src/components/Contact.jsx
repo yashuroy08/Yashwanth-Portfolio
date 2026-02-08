@@ -19,6 +19,14 @@ const Contact = () => {
     error: null
   });
 
+  const [copied, setCopied] = useState(false);
+
+  const copyEmail = () => {
+    navigator.clipboard.writeText('yashwanthp2335.sse@saveetha.com');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   const handleChange = (e) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
@@ -141,9 +149,27 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-medium text-sm mb-1">Email</h4>
-                  <a href="yashwanthp2335.sse@saveetha.com" className="text-muted hover:text-light transition-colors">
-                    yashwanthp2335.sse@saveetha.com
-                  </a>
+                  <div className="flex items-center gap-3">
+                    <a href="mailto:yashwanthp2335.sse@saveetha.com" className="text-muted hover:text-light transition-colors break-all">
+                      yashwanthp2335.sse@saveetha.com
+                    </a>
+                    <button
+                      onClick={copyEmail}
+                      className="p-1.5 rounded-md hover:bg-secondary/40 text-muted hover:text-light transition-all flex-shrink-0"
+                      title="Copy email address"
+                    >
+                      {copied ? (
+                        <svg className="w-4 h-4 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      ) : (
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                      )}
+                    </button>
+                  </div>
                 </div>
               </motion.div>
 
