@@ -10,7 +10,8 @@ const Projects = () => {
       description: "A robust online shopping platform featuring a seamless shopping experience. Users can browse products, manage their cart, and securely check out. The admin dashboard provides comprehensive controls for product management, order tracking, and inventory updates, ensuring efficient business operations. Built with modern web technologies to ensure performance and scalability.",
       tech: ["React", "Node.js", "Express.js", "MongoDB"],
       color: "from-blue-500/20 to-purple-500/20",
-      liveLink: "",
+      liveLink: "https://threads-fashion.vercel.app/",
+      githubLink: "https://github.com/yashuroy08/Threads-Fashion",
       highlights: [
         "Secure user authentication and authorization",
         "Dynamic product catalog with search and filter",
@@ -23,7 +24,8 @@ const Projects = () => {
       description: "A high-performance URL shortening service that transforms long URLs into manageable links. It features analytics tracking to monitor click-through rates and geographical data of users. Built with scalability in mind, it handles concurrent requests efficiently while providing a clean user interface for generating and managing links.",
       tech: ["Node.js", "Express.js", "MongoDB", "Redis", "React"],
       color: "from-green-500/20 to-teal-500/20",
-      liveLink: "",
+      liveLink: "#",
+      githubLink: "#",
       highlights: [
         "Fast redirection with caching mechanisms",
         "Detailed link analytics and tracking",
@@ -36,7 +38,8 @@ const Projects = () => {
       description: "A cross-platform mobile application built with Flutter and Dart that delivers real-time weather updates. It features a beautiful, responsive UI that adapts to current weather conditions, offering hourly and weekly forecasts, humidity levels, and wind speed details for any location worldwide. The app leverages device sensors for location access and provides accurate data visualization.",
       tech: ["Flutter", "Dart", "OpenWeather API", "Geolocator", "Bloc Pattern"],
       color: "from-orange-500/20 to-red-500/20",
-      liveLink: "",
+      liveLink: "#",
+      githubLink: "#",
       highlights: [
         "Real-time weather data integration",
         "Automatic user location detection",
@@ -189,8 +192,8 @@ const Projects = () => {
                     </div>
                   </div>
 
-                  {projects[activeProject].liveLink && (
-                    <div className="pt-6 border-t border-muted/10">
+                  <div className="pt-6 border-t border-muted/10 flex flex-wrap gap-4">
+                    {projects[activeProject].liveLink && (
                       <a
                         href={projects[activeProject].liveLink}
                         target="_blank"
@@ -202,8 +205,22 @@ const Projects = () => {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                         </svg>
                       </a>
-                    </div>
-                  )}
+                    )}
+
+                    {projects[activeProject].githubLink && (
+                      <a
+                        href={projects[activeProject].githubLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="nothing-btn group"
+                      >
+                        GITHUB REPO
+                        <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.477 2 2 6.477 2 12C2 16.418 4.865 20.166 8.84 21.49C9.34 21.581 9.522 21.276 9.522 21.008C9.522 20.766 9.513 20.011 9.508 19.172C6.726 19.791 6.143 17.898 6.143 17.898C5.699 16.754 5.064 16.451 5.064 16.451C4.187 15.818 5.131 15.829 5.131 15.829C6.104 15.898 6.626 16.868 6.626 16.868C7.498 18.412 8.974 17.945 9.541 17.687C9.63 17.058 9.888 16.592 10.175 16.32C7.956 16.046 5.62 15.233 5.62 11.477C5.62 10.386 6.01 9.491 6.646 8.787C6.546 8.531 6.202 7.57 6.747 6.181C6.747 6.181 7.563 5.908 9.497 7.211C10.29 7.002 11.151 6.898 12.001 6.894C12.849 6.899 13.71 7.002 14.505 7.211C16.437 5.908 17.252 6.181 17.252 6.181C17.798 7.57 17.454 8.531 17.354 8.787C17.991 9.491 18.379 10.386 18.379 11.477C18.379 15.246 16.038 16.044 13.813 16.313C14.172 16.647 14.492 17.308 14.492 18.313C14.492 19.754 14.479 20.674 14.479 21.007C14.479 21.278 14.659 21.586 15.167 21.49C19.137 20.162 22 16.418 22 12C22 6.477 17.523 2 12 2Z" />
+                        </svg>
+                      </a>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             </AnimatePresence>
