@@ -34,17 +34,17 @@ const Projects = () => {
       ]
     },
     {
-      title: "URL Shortener Service",
-      description: "A high-performance URL shortening service that transforms long URLs into manageable links. It features analytics tracking to monitor click-through rates and geographical data of users. Built with scalability in mind, it handles concurrent requests efficiently while providing a clean user interface for generating and managing links.",
-      tech: ["Node.js", "Express.js", "MongoDB", "Redis", "React"],
-      color: "from-green-500/20 to-teal-500/20",
+      title: "Advanced RBAC System",
+      description: "A sophisticated Role-Based Access Control (RBAC) system featuring granular permission management and dynamic role assignment. The system handles secure user authentication, complex authorization hierarchies, and real-time security monitoring. It was designed to provide a modular security layer that can be seamlessly integrated into any enterprise-grade application.",
+      tech: ["Spring Boot", "Spring Security", "JWT", "MySQL", "JPA"],
+      color: "from-indigo-500/20 to-blue-500/20",
       liveLink: "#",
-      githubLink: "#",
+      githubLink: "https://github.com/yashuroy08/RBAC",
       highlights: [
-        "Fast redirection with caching mechanisms",
-        "Detailed link analytics and tracking",
-        "Custom alias support for branded links",
-        "QR code generation for links"
+        "Granular permission-based access control",
+        "Secure user authentication with JWT",
+        "Automated risk evaluation & session management",
+        "Instant session invalidation for high-risk activities"
       ]
     },
     {
@@ -80,6 +80,11 @@ const Projects = () => {
       'Arduino': 'text-teal-500 border-teal-500/30 bg-teal-500/5',
       'NodeMCU': 'text-slate-400 border-slate-400/30 bg-slate-400/5',
       'Firebase': 'text-amber-400 border-amber-400/30 bg-amber-400/5',
+      'Spring Boot': 'text-green-500 border-green-500/30 bg-green-500/5',
+      'Spring Security': 'text-emerald-500 border-emerald-500/30 bg-emerald-500/5',
+      'JWT': 'text-purple-500 border-purple-500/30 bg-purple-500/5',
+      'MySQL': 'text-blue-500 border-blue-500/30 bg-blue-500/5',
+      'JPA': 'text-orange-500 border-orange-500/30 bg-orange-500/5',
     };
     return colors[tech] || 'text-muted border-muted/30 bg-primary';
   };
