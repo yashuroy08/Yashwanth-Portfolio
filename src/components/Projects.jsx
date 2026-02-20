@@ -24,8 +24,8 @@ const Projects = () => {
       description: "IoT-based system monitoring real-time energy consumption. Integrates hardware sensors with a web dashboard for data visualization and bill estimation, helping users track and reduce their energy footprint.",
       tech: ["C++", "Arduino", "NodeMCU", "Firebase", "React"],
       color: "from-green-500/20 to-emerald-500/20",
-      liveLink: "#",
-      githubLink: "#",
+      liveLink: "https://youtu.be/2p0IYR5LZQY?si=B-mUne3wt7dyw4SU",
+      githubLink: "https://github.com/yashuroy08/SmartMeter-",
       highlights: [
         "Real-time voltage & current monitoring",
         "WiFi-enabled data transmission using NodeMCU",
