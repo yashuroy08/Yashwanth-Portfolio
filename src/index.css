@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,26 +6,59 @@
 
 :root {
   --scrollbar-thumb: #3a3a3a;
-  --scrollbar-track: #101010;
+  --scrollbar-track: #1d1d1f;
 
-  /* Dark Theme (Default) */
-  --color-primary: #101010;
-  --color-secondary: #1a1a1a;
-  --color-accent: #f5f5f5;
-  --color-muted: #717171;
-  --color-light: #e0e0e0;
+  /* Dark Theme — Brutalist Dark */
+  --color-primary: #0a0a0a;
+  --color-secondary: #000000;
+  --color-surface: #111111;
+  --color-accent: #ffffff;
+  --color-muted: #888888;
+  --color-light: #dddddd;
+  --color-red: #ff3333;
+
+  /* Border */
+  --color-border: rgba(255, 255, 255, 0.25);
+  --color-border-strong: rgba(255, 255, 255, 0.4);
+  --color-border-subtle: rgba(255, 255, 255, 0.1);
+
+  /* Header Theme */
+  --header-bg: rgba(10, 10, 10, 0.95);
+  --header-nav-bg: rgba(255, 255, 255, 0.05);
+  --header-nav-active: rgba(255, 255, 255, 0.15);
+
+  /* Brutalist Shadows & Corners */
+  --shadow-card: 6px 6px 0px rgba(255, 255, 255, 0.25);
+  --shadow-sm: 4px 4px 0px rgba(255, 255, 255, 0.25);
+  --radius-card: 0px;
+  --radius-sm: 0px;
 }
 
 .light {
-  --scrollbar-thumb: #d1d1d1;
-  --scrollbar-track: #f5f5f5;
+  --scrollbar-thumb: #c7c7cc;
+  --scrollbar-track: #f5f5f7;
 
-  /* Light Theme */
-  --color-primary: #ffffff;
-  --color-secondary: #f8f8f8;
+  /* Light Theme — Brutalist Light */
+  --color-primary: #f0f0f0;
+  --color-secondary: #ffffff;
+  --color-surface: #e5e5ea;
   --color-accent: #000000;
-  --color-muted: #666666;
-  --color-light: #101010;
+  --color-muted: #555555;
+  --color-light: #222222;
+
+  /* Border */
+  --color-border: rgba(0, 0, 0, 0.8);
+  --color-border-strong: rgba(0, 0, 0, 1);
+  --color-border-subtle: rgba(0, 0, 0, 0.4);
+
+  /* Header Theme */
+  --header-bg: rgba(240, 240, 240, 0.95);
+  --header-nav-bg: rgba(0, 0, 0, 0.05);
+  --header-nav-active: rgba(0, 0, 0, 0.15);
+
+  /* Brutalist Shadows & Corners */
+  --shadow-card: 6px 6px 0px rgba(0, 0, 0, 1);
+  --shadow-sm: 4px 4px 0px rgba(0, 0, 0, 1);
 }
 
 * {
@@ -43,9 +76,46 @@ html {
 body {
   background-color: var(--color-primary);
   color: var(--color-accent);
-  font-family: 'Inter', sans-serif;
+  /* Stark, highly legible font stack */
+  font-family: 'Inter', system-ui, sans-serif;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.3s ease, color 0.3s ease;
+  /* Add a very subtle brutalist grid background */
+  background-image: linear-gradient(var(--color-border-subtle) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-border-subtle) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ─── Brutalist utility classes ─── */
+
+/* Hard solid card — Neo-Brutalism */
+.neo-card {
+  background: var(--color-secondary);
+  border-radius: var(--radius-card);
+  border: 2px solid var(--color-border-strong);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.neo-card:hover {
+  border-color: var(--color-red);
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0px var(--color-red);
+}
+
+/* Hard glass surface (if transparency is strictly needed) */
+.neo-glass {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-border-strong);
+}
+
+.light .neo-glass {
+  background: rgba(255, 255, 255, 0.4);
 }
 
 ::-webkit-scrollbar {
@@ -69,6 +139,67 @@ body {
   border: none !important;
   box-shadow: none;
   /* If the border effect comes from box-shadow */
+}
+
+/* ─── Nothing-inspired tech styles ─── */
+.nothing-card {
+  background: var(--color-secondary);
+  border: 2px solid var(--color-border-strong);
+  border-radius: 0px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.nothing-card:hover {
+  border-color: var(--color-red);
+  transform: translate(-4px, -4px);
+  box-shadow: 8px 8px 0px var(--color-red);
+}
+
+.nothing-card::before,
+.nothing-card::after {
+  content: '+';
+  position: absolute;
+  top: 8px;
+  color: var(--color-muted);
+  opacity: 0.6;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.nothing-card::before {
+  left: 8px;
+}
+
+.nothing-card::after {
+  right: 8px;
+}
+
+/* Bottom crosshairs for Nothing card inner wrap */
+.nothing-corner-bottom::before,
+.nothing-corner-bottom::after {
+  content: '+';
+  position: absolute;
+  bottom: 8px;
+  color: var(--color-muted);
+  opacity: 0.6;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.nothing-corner-bottom::before {
+  left: 8px;
+}
+
+.nothing-corner-bottom::after {
+  right: 8px;
 }
 
 /* Nothing-inspired dotted text */
@@ -132,4 +263,135 @@ body {
   .grain-bg {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   }
+}
+
+/* Custom cursor bubble follows the system cursor */
+
+/* ═══════════════════════════════════════════
+   GLITCH HOVER EFFECT
+   ═══════════════════════════════════════════ */
+.glitch-hover {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-hover::before,
+.glitch-hover::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.glitch-hover::before {
+  color: #ff0040;
+  z-index: -1;
+}
+
+.glitch-hover::after {
+  color: #00f0ff;
+  z-index: -1;
+}
+
+.glitch-hover:hover::before {
+  opacity: 0.8;
+  animation: glitch-1 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+}
+
+.glitch-hover:hover::after {
+  opacity: 0.8;
+  animation: glitch-2 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+}
+
+@keyframes glitch-1 {
+  0% {
+    clip-path: inset(40% 0 61% 0);
+    transform: translate(-2px, -1px);
+  }
+
+  20% {
+    clip-path: inset(92% 0 1% 0);
+    transform: translate(1px, 2px);
+  }
+
+  40% {
+    clip-path: inset(43% 0 1% 0);
+    transform: translate(-1px, -1px);
+  }
+
+  60% {
+    clip-path: inset(25% 0 58% 0);
+    transform: translate(2px, 1px);
+  }
+
+  80% {
+    clip-path: inset(54% 0 7% 0);
+    transform: translate(-1px, 2px);
+  }
+
+  100% {
+    clip-path: inset(58% 0 43% 0);
+    transform: translate(0);
+  }
+}
+
+@keyframes glitch-2 {
+  0% {
+    clip-path: inset(65% 0 8% 0);
+    transform: translate(2px, 1px);
+  }
+
+  20% {
+    clip-path: inset(15% 0 65% 0);
+    transform: translate(-2px, -2px);
+  }
+
+  40% {
+    clip-path: inset(72% 0 9% 0);
+    transform: translate(1px, 2px);
+  }
+
+  60% {
+    clip-path: inset(5% 0 78% 0);
+    transform: translate(-1px, -1px);
+  }
+
+  80% {
+    clip-path: inset(31% 0 49% 0);
+    transform: translate(2px, -2px);
+  }
+
+  100% {
+    clip-path: inset(12% 0 69% 0);
+    transform: translate(0);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   SMOOTH SECTION REVEAL
+   ═══════════════════════════════════════════ */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal-up.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════
+   MAGNETIC BUTTON HOVER
+   ═══════════════════════════════════════════ */
+.magnetic-btn {
+  transition: transform 0.3s ease;
+}
+
+.magnetic-btn:hover {
+  transform: scale(1.05);
 }

@@ -16,7 +16,8 @@ const ThemeToggle = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={cycleTheme}
-            className="p-2 border border-muted/20 hover:border-light/50 transition-colors flex items-center justify-center bg-secondary/30"
+            className="p-2 transition-colors flex items-center justify-center bg-secondary/30"
+            style={{ border: '1px solid var(--color-border)' }}
             title={`Current theme: ${theme}`}
         >
             {theme === 'light' && (

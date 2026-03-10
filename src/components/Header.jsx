@@ -7,7 +7,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
-  const navItems = ['Home', 'Projects', 'Skills', 'Education', 'Contact'];
+  const navItems = ['Home', 'Skills', 'Projects', 'Education', 'Contact'];
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -30,7 +30,7 @@ const Header = () => {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          if (rect.top <= 100) {
+          if (rect.top <= 150) {
             setActiveSection(section);
             break;
           }
@@ -60,63 +60,72 @@ const Header = () => {
   return (
     <>
       <motion.header
-        className={`fixed top-0 left-0 right-0 transition-all duration-500 ${mobileMenuOpen ? 'z-[100] bg-primary' : 'z-50'
-          } ${scrolled ? 'glassmorphism-no-border py-2' : 'bg-transparent py-4'
+        className={`fixed top-0 left-0 right-0 transition-all duration-500 ${mobileMenuOpen ? 'z-[100]' : 'z-50'
+          } ${scrolled
+            ? 'py-2'
+            : 'bg-transparent py-4'
           }`}
+        style={scrolled ? {
+          backgroundColor: 'var(--color-primary)',
+          borderBottom: '2px solid var(--color-border-strong)',
+        } : {}}
         variants={headerVariants}
         initial="initial"
         animate="animate"
       >
         <div className="w-full px-4 md:px-10 flex items-center justify-between h-16 relative">
+          {/* Logo */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="flex items-center gap-4 group cursor-pointer"
+            className="flex items-center gap-4 cursor-pointer"
           >
-            <div className="flex items-center justify-center w-10 h-10 border-2 border-accent/90">
-              <span className="font-mono text-base font-black tracking-tighter text-accent">YP</span>
+            <div
+              className="flex items-center justify-center w-10 h-10 border-2"
+              style={{
+                background: 'var(--color-red)',
+                borderColor: 'var(--color-border-strong)',
+                borderRadius: '0px',
+                boxShadow: '4px 4px 0px var(--color-border-strong)',
+                transform: 'translate(-2px, -2px)',
+              }}
+            >
+              <span className="text-sm font-black tracking-tight text-white font-mono">YP</span>
             </div>
             <div className="hidden lg:block">
-              <span className="font-mono text-[10px] tracking-[0.5em] text-accent/50 uppercase whitespace-nowrap">
-                Developer Portfolio
+              <span className="font-mono text-[10px] tracking-[0.5em] text-accent uppercase font-bold">
+                DEVELOPER PORTFOLIO
               </span>
             </div>
           </motion.div>
 
-          {/* Desktop Navigation & Toggle */}
-          <div className="hidden md:flex items-center gap-10 ml-auto">
-            <nav>
-              <ul className="flex items-center space-x-10">
-                {navItems.map((item, i) => {
-                  const isActive = activeSection === item.toLowerCase();
-                  return (
-                    <motion.li
-                      key={item}
-                      custom={i}
-                      variants={navItemVariants}
-                      initial="hidden"
-                      animate="visible"
-                      className="relative"
-                    >
-                      <a
-                        href={`#${item.toLowerCase()}`}
-                        className={`text-[10px] font-mono tracking-[0.4em] transition-all duration-300 uppercase relative pb-1 ${isActive ? 'text-accent' : 'text-muted hover:text-accent'
-                          }`}
-                      >
-                        {item}
-                        {isActive && (
-                          <motion.div
-                            layoutId="underline"
-                            className="absolute bottom-0 left-0 right-0 h-[1px] bg-accent opacity-80"
-                            transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                          />
-                        )}
-                      </a>
-                    </motion.li>
-                  );
-                })}
-              </ul>
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8 ml-auto">
+            {/* Brutalist nav container */}
+            <nav className="flex items-center gap-2">
+              {navItems.map((item, i) => {
+                const isActive = activeSection === item.toLowerCase();
+                return (
+                  <motion.a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    custom={i}
+                    variants={navItemVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="relative px-4 py-2 text-[11px] font-mono tracking-widest transition-all duration-200 uppercase border-2"
+                    style={{
+                      borderRadius: '0px',
+                      color: isActive ? 'var(--color-primary)' : 'var(--color-accent)',
+                      background: isActive ? 'var(--color-accent)' : 'transparent',
+                      borderColor: isActive ? 'var(--color-accent)' : 'transparent',
+                    }}
+                  >
+                    {item}
+                  </motion.a>
+                );
+              })}
             </nav>
             <ThemeToggle />
           </div>

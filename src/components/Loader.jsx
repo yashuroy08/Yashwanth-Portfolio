@@ -1,150 +1,174 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, useMotionValue } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const STATUS_MESSAGES = [
+  'INITIALIZING...',
+  'FETCHING ASSETS...',
+  'COMPILING...',
+  'SYSTEM READY',
+];
 
 const Loader = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
-  const [text, setText] = useState("Analyz..");
-  const finalName = "YASHWANTH";
-  const [displayName, setDisplayName] = useState("");
+  const [isExiting, setIsExiting] = useState(false);
+  const [statusIndex, setStatusIndex] = useState(0);
+  const [rotation, setRotation] = useState(0);
 
-  // Character scrambling effect
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
-
+  // Cycle status messages
   useEffect(() => {
-    // Progress counter
-    const timer = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(timer);
-          if (onComplete) onComplete();
-          return 100;
-        }
-        // Randomly jump amounts to look like real loading
-        const jump = Math.floor(Math.random() * 3) + 1; // Smaller increments for smoother/slower feel
-        return Math.min(prev + jump, 100);
+    const msgInterval = setInterval(() => {
+      setStatusIndex((prev) => {
+        if (prev < STATUS_MESSAGES.length - 1) return prev + 1;
+        return prev;
       });
-    }, 120); // Much slower interval (was 40)
-
-    return () => clearInterval(timer);
+    }, 600);
+    return () => clearInterval(msgInterval);
   }, []);
 
-  const decryptionStarted = useRef(false);
-
+  // Snap Rotation every 500ms
   useEffect(() => {
-    // Status text updates based on progress
-    if (progress < 30) setText("Initializing...");
-    else if (progress < 60) setText("Loading Assets...");
-    else if (progress < 90) setText("Compiling Data...");
-    else setText("System Ready");
-  }, [progress]);
-
-  useEffect(() => {
-    // Name decryption effect logic - trigger once
-    if (progress > 50 && !decryptionStarted.current) {
-      decryptionStarted.current = true;
-      let iteration = 0;
-      const interval = setInterval(() => {
-        setDisplayName(
-          finalName
-            .split("")
-            .map((letter, index) => {
-              if (index < iteration) {
-                return finalName[index];
-              }
-              return characters[Math.floor(Math.random() * characters.length)];
-            })
-            .join("")
-        );
-
-        if (iteration >= finalName.length) {
-          clearInterval(interval);
-        }
-
-        iteration += 1 / 4;
-      }, 50);
-
-      // We do NOT return a cleanup function here because we want this interval 
-      // to persist until it clears itself, regardless of further progress updates.
-    }
-  }, [progress]);
-
-  // Cleanup on unmount only
-  useEffect(() => {
-    return () => {
-      // ensure all intervals clear if component unmounts - simplistic approach
-    }
+    const rotInterval = setInterval(() => {
+      setRotation(prev => prev + 45);
+    }, 500);
+    return () => clearInterval(rotInterval);
   }, []);
 
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
+  // Progression
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 40; // Increased movement range to 40px
-      const y = (e.clientY / window.innerHeight - 0.5) * 40;
-      mouseX.set(x);
-      mouseY.set(y);
-    };
+    let cur = 0;
+    const interval = setInterval(() => {
+      // jump by chunks to simulate "filling up"
+      cur += Math.random() * 8 + 2;
+      if (cur >= 100) {
+        cur = 100;
+        setProgress(100);
+        clearInterval(interval);
+        setTimeout(() => {
+          setIsExiting(true);
+          setTimeout(() => {
+            if (onComplete) onComplete();
+          }, 800);
+        }, 500);
+      } else {
+        setProgress(cur);
+      }
+    }, 150);
+    return () => clearInterval(interval);
+  }, [onComplete]);
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [mouseX, mouseY]);
+  // A perfect octagon path for a 100x100 viewBox
+  // Points: (30,0) (70,0) (100,30) (100,70) (70,100) (30,100) (0,70) (0,30)
+  const octagonPath = "M 30,0 L 70,0 L 100,30 L 100,70 L 70,100 L 30,100 L 0,70 L 0,30 Z";
+
+  // CSS clip-path representing the same octagon (percentages)
+  const clipPathStr = "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)";
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center bg-primary z-50 overflow-hidden">
-      <div className="w-80 relative z-10">
-        <div className="flex justify-between items-end mb-2">
-          <motion.div
-            className="text-muted text-xs font-mono tracking-widest uppercase"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            {text}
-          </motion.div>
-          <motion.div
-            className="text-2xl font-bold font-mono text-light"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            {progress}%
-          </motion.div>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="w-full h-[2px] bg-secondary/30 relative overflow-hidden mb-6">
-          <motion.div
-            className="absolute top-0 left-0 h-full bg-light"
-            initial={{ width: "0%" }}
-            animate={{ width: `${progress}%` }}
-            transition={{ ease: "linear" }}
+    <AnimatePresence>
+      {!isExiting && (
+        <motion.div
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden font-mono bg-[#0a0a0a] selection:bg-[#ff3333] selection:text-white"
+          exit={{
+            y: '-100%',
+            transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] },
+          }}
+        >
+          {/* Subtle Grid Pattern for texture */}
+          <div
+            className="absolute inset-0 opacity-10 pointer-events-none"
+            style={{
+              backgroundImage: 'radial-gradient(rgba(255,255,255,0.2) 1px, transparent 1px)',
+              backgroundSize: '30px 30px'
+            }}
           />
-        </div>
 
-        {/* Decrypting Name */}
-        <div className="h-8 flex justify-center">
-          {progress > 20 && (
-            <motion.h1
-              className="font-mono text-xl tracking-[0.5em] text-accent font-bold text-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              {displayName || (progress > 50 ? "" : "Wait...")}
-            </motion.h1>
-          )}
-        </div>
-      </div>
+          {/* Main Loader Container */}
+          <div className="relative flex flex-col items-center w-full px-6">
 
-      {/* Background visual noise/dots with Parallax */}
-      <motion.div
-        className="absolute inset-[-100px] pointer-events-none opacity-20"
-        style={{
-          x: mouseX,
-          y: mouseY,
-          backgroundImage: 'radial-gradient(circle, #333 1px, transparent 1px)',
-          backgroundSize: '30px 30px'
-        }}
-      />
-    </div>
+            {/* The Rigid Octagon Graphic */}
+            <div className="relative w-32 h-32 md:w-48 md:h-48 mb-12">
+              {/* 1. The Fill Mask Container */}
+              {/* This sits exactly behind the border, uses clip-path to perfectly mask the rising red block */}
+              <motion.div
+                className="absolute inset-0 w-full h-full bg-[#111]"
+                style={{ clipPath: clipPathStr }}
+                animate={{ rotate: rotation }}
+                transition={{ duration: 0, ease: "linear" }} // 0 duration = immediate snap
+              >
+                {/* The rising red fill */}
+                <div
+                  className="absolute bottom-0 left-0 w-full bg-[#ff3333] transition-all duration-150 ease-linear"
+                  style={{ height: `${progress}%` }}
+                ></div>
+              </motion.div>
+
+              {/* 2. The Thick White Border (SVG overlay) */}
+              {/* Sits on top of the mask so the red never bleeds out of the outline */}
+              <motion.svg
+                className="absolute inset-0 w-full h-full pointer-events-none"
+                viewBox="0 0 100 100"
+                fill="none"
+                animate={{ rotate: rotation }}
+                transition={{ duration: 0, ease: "linear" }}
+                style={{ overflow: 'visible' }} // Allow harsh shadows if needed
+              >
+                <path
+                  d={octagonPath}
+                  stroke="#ffffff"
+                  strokeWidth="6"
+                  strokeLinejoin="miter"
+                />
+                {/* Crosshairs inside graphic */}
+                <line x1="50" y1="20" x2="50" y2="80" stroke="#ffffff" strokeWidth="2" />
+                <line x1="20" y1="50" x2="80" y2="50" stroke="#ffffff" strokeWidth="2" />
+              </motion.svg>
+            </div>
+
+            {/* Typography Section */}
+            <div className="flex flex-col items-center justify-center relative w-full max-w-sm">
+
+              {/* Status message */}
+              <div className="absolute -top-6 text-[#ff3333] font-bold text-xs tracking-widest uppercase">
+                {STATUS_MESSAGES[statusIndex]}
+              </div>
+
+              {/* Progress Number Base Container */}
+              <div
+                className="w-full bg-[#111] border-4 border-white p-4 text-center relative"
+                style={{ boxShadow: '8px 8px 0px 0px #ff3333' }}
+              >
+                <div className="text-4xl md:text-6xl font-black text-white tabular-nums tracking-tighter">
+                  {Math.floor(progress).toString().padStart(3, '0')}%
+                </div>
+              </div>
+
+              {/* Decorative barcode/blocks */}
+              <div className="w-full flex justify-between mt-6 px-1">
+                <div className="flex gap-1.5 h-4">
+                  {[...Array(8)].map((_, i) => (
+                    <div key={i} className="w-2 h-full bg-white/30" style={{ opacity: Math.random() }}></div>
+                  ))}
+                </div>
+                <div className="text-white/50 text-[10px] font-bold tracking-[0.2em]">SYS.MEM.OK</div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Corner Decals */}
+          <div className="absolute top-6 left-6 flex items-center gap-4">
+            <div className="w-4 h-4 bg-[#ff3333]" style={{ border: '2px solid white' }} />
+            <div className="text-[10px] md:text-xs font-bold tracking-[0.2em] text-white">V_3.0</div>
+          </div>
+
+          <div className="absolute bottom-6 right-6 text-[10px] md:text-xs font-bold tracking-[0.2em] text-white text-right">
+            <span className="text-[#ff3333] mr-2">■</span>
+            ESTABLISHING
+          </div>
+
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

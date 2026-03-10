@@ -13,6 +13,7 @@ export default {
         accent: "var(--color-accent)",
         muted: "var(--color-muted)",
         light: "var(--color-light)",
+        red: "var(--color-red)",
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

@@ -13,8 +13,11 @@ import Footer from './components/Footer.jsx';
 import Loader from './components/Loader.jsx';
 import BackToTop from './components/BackToTop.jsx';
 import AnimatedBackground from './components/AnimatedBackground.jsx';
+import TerminalFeature from './components/TerminalFeature.jsx';
 
 import SoundEffects from './components/SoundEffects.jsx';
+import CursorBubble from './components/CursorBubble.jsx';
+import ScrollProgress from './components/ScrollProgress.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
 
 function App() {
@@ -24,6 +27,7 @@ function App() {
 
   return (
     <ThemeProvider>
+      <CursorBubble />
       <SoundEffects />
       <Router>
         <Routes>
@@ -44,16 +48,18 @@ function App() {
                     className="bg-primary text-accent min-h-screen relative z-0"
                   >
                     <AnimatedBackground />
+                    <ScrollProgress />
                     <Header />
                     <main>
                       <Hero />
-                      <Projects />
                       <Skills />
+                      <Projects />
                       <Education />
                       <Contact />
                     </main>
                     <Footer />
                     <BackToTop />
+                    <TerminalFeature />
                   </motion.div>
                 )}
               </AnimatePresence>

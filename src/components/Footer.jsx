@@ -4,7 +4,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-primary py-12 border-t border-muted border-opacity-20">
+    <footer className="bg-primary py-12" style={{ borderTop: '1px solid var(--color-border-strong)' }}>
       <div className="container-custom">
         <div className="flex flex-col md:flex-row items-center justify-between mb-8">
           <motion.div
@@ -14,14 +14,21 @@ const Footer = () => {
             transition={{ duration: 0.5 }}
             className="mb-6 md:mb-0"
           >
-            <div className="flex items-center mb-4">
-              <div className="flex items-center justify-center w-8 h-8 border border-light/50 mr-4">
-                <span className="font-mono text-xs font-black tracking-tighter text-light">YP</span>
+            <div className="flex items-center mb-4 gap-3">
+              <div
+                className="flex items-center justify-center w-10 h-10 border-2"
+                style={{
+                  background: 'var(--color-red)',
+                  borderColor: 'var(--color-border-strong)',
+                  boxShadow: '4px 4px 0px var(--color-border-strong)',
+                }}
+              >
+                <span className="text-sm font-black tracking-tight text-white font-mono">YP</span>
               </div>
-              <span className="font-mono text-lg tracking-[0.2em] text-light">YASHWANTH</span>
+              <span className="font-mono text-[10px] tracking-[0.5em] text-accent uppercase font-bold">DEVELOPER PORTFOLIO</span>
             </div>
-            <p className="text-muted text-xs font-mono uppercase tracking-widest">
-              Full-Stack Developer & AI/ML Researcher
+            <p className="text-muted text-[10px] font-mono uppercase tracking-widest border-2 w-fit px-2 py-1 border-border-strong">
+              Backend Engineer
             </p>
           </motion.div>
 
@@ -39,13 +46,13 @@ const Footer = () => {
           </motion.div>
         </div>
 
-        <div className="border-t border-muted border-opacity-10 pt-8 flex flex-col md:flex-row items-center justify-between">
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between" style={{ borderTop: '2px solid var(--color-border-strong)' }}>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-sm text-muted mb-4 md:mb-0"
+            className="text-sm font-mono tracking-widest uppercase text-muted mb-4 md:mb-0"
           >
             © {currentYear} Yashwanth Patam. All rights reserved.
           </motion.p>

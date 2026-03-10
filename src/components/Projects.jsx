@@ -1,38 +1,54 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ScrollReveal from './ScrollReveal';
 
 const Projects = () => {
   const [activeProject, setActiveProject] = useState(0);
+  const cardRef = useRef(null);
+
+  // 3-D tilt state
+  const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
+
+  const handleMouseMove = (e) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const { left, top, width, height } = card.getBoundingClientRect();
+    const x = (e.clientX - left) / width - 0.5;   // -0.5 → 0.5
+    const y = (e.clientY - top) / height - 0.5;
+    setTilt({ rotateX: -y * 10, rotateY: x * 10 }); // max ±5°
+  };
+
+  const resetTilt = () => setTilt({ rotateX: 0, rotateY: 0 });
 
   const projects = [
     {
-      title: "Full-Stack E-commerce Platform",
-      description: "A robust online shopping platform featuring a seamless shopping experience. Users can browse products, manage their cart, and securely check out. The admin dashboard provides comprehensive controls for product management, order tracking, and inventory updates, ensuring efficient business operations. Built with modern web technologies to ensure performance and scalability.",
-      tech: ["React", "Node.js", "Express.js", "MongoDB"],
+      title: "E-commerce Backend Service",
+      description: "A high-performance backend architecture for a modern e-commerce ecosystem. Developed using Spring Boot and PostgreSQL, this service handles complex business logic, concurrent order processing, and secure financial transactions through a multi-layered microservices-ready approach.",
+      tech: ["Java", "Spring Boot", "PostgreSQL", "Docker"],
       color: "from-blue-500/20 to-purple-500/20",
       liveLink: "https://threads-fashion.vercel.app/",
       githubLink: "https://github.com/yashuroy08/Threads-Fashion",
       highlights: [
-        "Secure user authentication and authorization",
-        "Dynamic product catalog with search and filter",
-        "Integrated payment gateway",
-        "Admin dashboard for order management"
+        "Architected scalable RESTful APIs with Spring Boot",
+        "Implemented secure JWT-based authentication & RBAC",
+        "Optimized database schema and queries in PostgreSQL",
+        "Containerized application for consistent deployment via Docker"
       ]
     },
-    {
-      title: "Smart Energy Meter",
-      description: "IoT-based system monitoring real-time energy consumption. Integrates hardware sensors with a web dashboard for data visualization and bill estimation, helping users track and reduce their energy footprint.",
-      tech: ["C++", "Arduino", "NodeMCU", "Firebase", "React"],
-      color: "from-green-500/20 to-emerald-500/20",
-      liveLink: "https://youtu.be/2p0IYR5LZQY?si=B-mUne3wt7dyw4SU",
-      githubLink: "https://github.com/yashuroy08/SmartMeter-",
-      highlights: [
-        "Real-time voltage & current monitoring",
-        "WiFi-enabled data transmission using NodeMCU",
-        "Live usage dashboard with bill estimation",
-        "Alert system for high consumption"
-      ]
-    },
+    // {
+    //   title: "Smart Energy Meter",
+    //   description: "IoT-based system monitoring real-time energy consumption. Integrates hardware sensors with a web dashboard for data visualization and bill estimation, helping users track and reduce their energy footprint.",
+    //   tech: ["C++", "Arduino", "NodeMCU", "Firebase", "React"],
+    //   color: "from-green-500/20 to-emerald-500/20",
+    //   liveLink: "https://youtu.be/2p0IYR5LZQY?si=B-mUne3wt7dyw4SU",
+    //   githubLink: "https://github.com/yashuroy08/SmartMeter-",
+    //   highlights: [
+    //     "Real-time voltage & current monitoring",
+    //     "WiFi-enabled data transmission using NodeMCU",
+    //     "Live usage dashboard with bill estimation",
+    //     "Alert system for high consumption"
+    //   ]
+    // },
     {
       title: "Advanced RBAC System",
       description: "A sophisticated Role-Based Access Control (RBAC) system featuring granular permission management and dynamic role assignment. The system handles secure user authentication, complex authorization hierarchies, and real-time security monitoring. It was designed to provide a modular security layer that can be seamlessly integrated into any enterprise-grade application.",
@@ -82,9 +98,13 @@ const Projects = () => {
       'Firebase': 'text-amber-400 border-amber-400/30 bg-amber-400/5',
       'Spring Boot': 'text-green-500 border-green-500/30 bg-green-500/5',
       'Spring Security': 'text-emerald-500 border-emerald-500/30 bg-emerald-500/5',
-      'JWT': 'text-purple-500 border-purple-500/30 bg-purple-500/5',
+      'JWT': 'text-fuchsia-500 border-fuchsia-500/30 bg-fuchsia-500/5',
       'MySQL': 'text-blue-500 border-blue-500/30 bg-blue-500/5',
       'JPA': 'text-orange-500 border-orange-500/30 bg-orange-500/5',
+      'Java': 'text-red-500 border-red-500/30 bg-red-500/5',
+      'Docker': 'text-sky-500 border-sky-500/30 bg-sky-500/5',
+      'SQL': 'text-blue-300 border-blue-300/30 bg-blue-300/5',
+      'PostgreSQL': 'text-indigo-500 border-indigo-500/30 bg-indigo-500/5',
     };
     return colors[tech] || 'text-muted border-muted/30 bg-primary';
   };
@@ -114,14 +134,16 @@ const Projects = () => {
           transition={{ duration: 0.6 }}
           className="mb-12 md:mb-16"
         >
-          <div className="flex items-center gap-4 mb-2">
-            <div className="w-8 h-[1px] bg-light opacity-50"></div>
-            <h4 className="font-mono text-sm text-muted tracking-widest uppercase">PORTFOLIO</h4>
-          </div>
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">Featured Projects</h2>
-          <p className="text-muted max-w-2xl text-lg">
-            A selection of my recent works, ranging from complex full-stack applications to cross-platform mobile experiences.
-          </p>
+          <ScrollReveal delay={0}>
+            <div className="flex items-center gap-4 mb-2">
+              <div className="w-8 h-[1px]" style={{ backgroundColor: 'var(--color-red)', opacity: 0.7 }}></div>
+              <h4 className="font-mono text-sm text-muted tracking-widest uppercase"><span className="text-red">// 02</span> &mdash; PORTFOLIO</h4>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6"><span className="glitch-hover" data-text="Featured Projects">Featured Projects</span></h2>
+            <p className="text-muted max-w-2xl text-lg">
+              A selection of my recent works, focusing on robust backend architectures, enterprise solutions, and secure applications.
+            </p>
+          </ScrollReveal>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
@@ -137,18 +159,21 @@ const Projects = () => {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className={`group relative p-5 cursor-pointer transition-all duration-500 overflow-hidden ${activeProject === index
-                  ? "bg-secondary bg-opacity-40"
-                  : "hover:bg-secondary hover:bg-opacity-20"
+                className={`group relative p-5 cursor-pointer transition-all duration-300 ${activeProject === index
+                  ? "nothing-card"
+                  : "hover:bg-secondary/20 border border-transparent rounded-sm"
                   }`}
                 onClick={() => setActiveProject(index)}
               >
+                {activeProject === index && <div className="nothing-corner-bottom pointer-events-none absolute inset-0 z-0"></div>}
+
                 {/* Selection indicator line */}
                 <motion.div
-                  className="absolute left-0 top-0 bottom-0 w-[2px] bg-light"
+                  className="absolute left-0 top-0 bottom-0 w-[2px]"
+                  style={{ backgroundColor: 'var(--color-red)' }}
                   initial={false}
                   animate={{
-                    opacity: activeProject === index ? 0.8 : 0,
+                    opacity: activeProject === index ? 0.9 : 0,
                     height: activeProject === index ? '100%' : '0%'
                   }}
                 />
@@ -173,15 +198,24 @@ const Projects = () => {
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeProject}
+                ref={cardRef}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
-                className="bg-secondary/10 border border-muted/10 rounded-sm overflow-hidden"
+                transition={{ duration: 0.4, ease: 'easeOut' }}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={resetTilt}
+                className="nothing-card overflow-hidden cursor-default"
+                style={{
+                  transform: `perspective(800px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)`,
+                  transition: 'transform 0.15s ease-out',
+                  willChange: 'transform',
+                }}
               >
+                {/* Bottom crosshairs for Nothing style */}
+                <div className="nothing-corner-bottom pointer-events-none absolute inset-0 z-0"></div>
 
-
-                <div className="p-6 md:p-8">
+                <div className="p-6 md:p-8 relative z-10">
                   <div className="flex justify-between items-start mb-6">
                     <h3 className="text-2xl md:text-3xl font-bold">{projects[activeProject].title}</h3>
                   </div>
@@ -192,11 +226,11 @@ const Projects = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                     <div>
-                      <h4 className="text-xs font-mono text-light uppercase tracking-widest mb-4 opacity-50">Key Features</h4>
+                      <h4 className="text-xs font-mono text-light uppercase tracking-widest mb-4 opacity-70">[_FEATURES]</h4>
                       <ul className="space-y-3">
                         {projects[activeProject].highlights.map((highlight, i) => (
                           <li key={i} className="flex items-start gap-3">
-                            <span className="text-light text-xs mt-1">●</span>
+                            <span className="text-xs mt-1" style={{ color: 'var(--color-red)' }}>●</span>
                             <span className="text-sm text-muted">{highlight}</span>
                           </li>
                         ))}
@@ -204,12 +238,13 @@ const Projects = () => {
                     </div>
 
                     <div>
-                      <h4 className="text-xs font-mono text-light uppercase tracking-widest mb-4 opacity-50">Stack</h4>
+                      <h4 className="text-xs font-mono text-light uppercase tracking-widest mb-4 opacity-70">[_STACK]</h4>
                       <div className="flex flex-wrap gap-2">
                         {projects[activeProject].tech.map((tech, i) => (
                           <span
                             key={i}
-                            className={`text-[10px] py-1.5 px-3 border border-opacity-20 font-mono uppercase tracking-[0.1em] transition-colors ${getTechColor(tech)}`}
+                            className={`text-[10px] py-1 px-2 border-2 font-mono uppercase font-bold tracking-[0.1em] text-accent border-border-strong bg-primary`}
+                            style={{ boxShadow: '2px 2px 0px var(--color-border-strong)' }}
                           >
                             {tech}
                           </span>
@@ -218,17 +253,25 @@ const Projects = () => {
                     </div>
                   </div>
 
-                  <div className="pt-6 border-t border-muted/10 flex flex-wrap gap-4">
+                  <div className="pt-8 flex flex-wrap gap-4" style={{ borderTop: '2px solid var(--color-border-strong)' }}>
                     {projects[activeProject].liveLink && projects[activeProject].liveLink !== '#' && (
                       <a
                         href={projects[activeProject].liveLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="nothing-btn group"
+                        className="group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-white bg-red border-2 border-accent"
+                        style={{
+                          backgroundColor: 'var(--color-red)',
+                          padding: '0.75rem 1.5rem',
+                          boxShadow: '4px 4px 0px var(--color-accent)',
+                          transform: 'translate(-2px, -2px)'
+                        }}
+                        onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '0px 0px 0px var(--color-accent)'; }}
+                        onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(-2px, -2px)'; e.currentTarget.style.boxShadow = '4px 4px 0px var(--color-accent)'; }}
                       >
-                        EXPLORE LIVE PROJECT
-                        <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        [EXECUTE] LIVE_PROJECT
+                        <svg className="ml-2 w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                         </svg>
                       </a>
                     )}
@@ -238,10 +281,17 @@ const Projects = () => {
                         href={projects[activeProject].githubLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="nothing-btn group"
+                        className="group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-light bg-primary border-2 border-border-strong"
+                        style={{
+                          padding: '0.75rem 1.5rem',
+                          boxShadow: '4px 4px 0px var(--color-border-strong)',
+                          transform: 'translate(-2px, -2px)'
+                        }}
+                        onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '0px 0px 0px var(--color-border-strong)'; }}
+                        onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(-2px, -2px)'; e.currentTarget.style.boxShadow = '4px 4px 0px var(--color-border-strong)'; }}
                       >
-                        GITHUB REPO
-                        <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                        [VIEW] SOURCE_CODE
+                        <svg className="ml-2 w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path d="M12 2C6.477 2 2 6.477 2 12C2 16.418 4.865 20.166 8.84 21.49C9.34 21.581 9.522 21.276 9.522 21.008C9.522 20.766 9.513 20.011 9.508 19.172C6.726 19.791 6.143 17.898 6.143 17.898C5.699 16.754 5.064 16.451 5.064 16.451C4.187 15.818 5.131 15.829 5.131 15.829C6.104 15.898 6.626 16.868 6.626 16.868C7.498 18.412 8.974 17.945 9.541 17.687C9.63 17.058 9.888 16.592 10.175 16.32C7.956 16.046 5.62 15.233 5.62 11.477C5.62 10.386 6.01 9.491 6.646 8.787C6.546 8.531 6.202 7.57 6.747 6.181C6.747 6.181 7.563 5.908 9.497 7.211C10.29 7.002 11.151 6.898 12.001 6.894C12.849 6.899 13.71 7.002 14.505 7.211C16.437 5.908 17.252 6.181 17.252 6.181C17.798 7.57 17.454 8.531 17.354 8.787C17.991 9.491 18.379 10.386 18.379 11.477C18.379 15.246 16.038 16.044 13.813 16.313C14.172 16.647 14.492 17.308 14.492 18.313C14.492 19.754 14.479 20.674 14.479 21.007C14.479 21.278 14.659 21.586 15.167 21.49C19.137 20.162 22 16.418 22 12C22 6.477 17.523 2 12 2Z" />
                         </svg>
                       </a>

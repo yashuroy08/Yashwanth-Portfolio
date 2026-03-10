@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import emailjs from '@emailjs/browser';
+import ScrollReveal from './ScrollReveal';
 
 const Contact = () => {
   const ref = useRef(null);
@@ -108,9 +109,11 @@ const Contact = () => {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <h4 className="font-mono text-sm text-muted mb-2">GET IN TOUCH</h4>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Contact Me</h2>
-          <div className="w-16 h-[2px] bg-light opacity-50"></div>
+          <ScrollReveal delay={0}>
+            <h4 className="font-mono text-sm text-muted mb-2"><span className="text-red">// 04</span> &mdash; GET IN TOUCH</h4>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4"><span className="glitch-hover" data-text="Contact Me">Contact Me</span></h2>
+            <div className="w-16 h-[2px]" style={{ backgroundColor: 'var(--color-red)', opacity: 0.6 }}></div>
+          </ScrollReveal>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -142,7 +145,7 @@ const Contact = () => {
                 variants={itemVariants}
                 className="flex items-start"
               >
-                <div className="mr-4 p-2 border border-muted border-opacity-30">
+                <div className="mr-5 p-3 bg-primary" style={{ border: '2px solid var(--color-border-strong)', boxShadow: '4px 4px 0px var(--color-border-strong)' }}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-accent">
                     <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -177,7 +180,7 @@ const Contact = () => {
                 variants={itemVariants}
                 className="flex items-start"
               >
-                <div className="mr-4 p-2 border border-muted border-opacity-30">
+                <div className="mr-5 p-3 bg-primary" style={{ border: '2px solid var(--color-border-strong)', boxShadow: '4px 4px 0px var(--color-border-strong)' }}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-accent">
                     <path d="M5 4H9L11 9L8.5 10.5C9.57 12.6715 11.3285 14.43 13.5 15.5L15 13L20 15V19C20 19.5304 19.7893 20.0391 19.4142 20.4142C19.0391 20.7893 18.5304 21 18 21C14.0993 20.763 10.4202 19.1065 7.65683 16.3432C4.8935 13.5798 3.23705 9.90074 3 6C3 5.46957 3.21071 4.96086 3.58579 4.58579C3.96086 4.21071 4.46957 4 5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -194,7 +197,7 @@ const Contact = () => {
                 variants={itemVariants}
                 className="flex items-start"
               >
-                <div className="mr-4 p-2 border border-muted border-opacity-30">
+                <div className="mr-5 p-3 bg-primary" style={{ border: '2px solid var(--color-border-strong)', boxShadow: '4px 4px 0px var(--color-border-strong)' }}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-accent">
                     <path d="M9 19C9 20.1046 7.65685 21 6 21C4.34315 21 3 20.1046 3 19C3 17.8954 4.34315 17 6 17C7.65685 17 9 17.8954 9 19ZM9 19V5C9 3.89543 9.89543 3 11 3H21C22.1046 3 23 3.89543 23 5V19C23 20.1046 22.1046 21 21 21M21 21C19.3431 21 18 20.1046 18 19C18 17.8954 19.3431 17 21 17C22.6569 17 24 17.8954 24 19C24 20.1046 22.6569 21 21 21ZM15 19C15 20.1046 13.6569 21 12 21C10.3431 21 9 20.1046 9 19C9 17.8954 10.3431 17 12 17C13.6569 17 15 17.8954 15 19Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -236,52 +239,70 @@ const Contact = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <form ref={formRef} onSubmit={handleSubmit} className="bg-secondary/40 border border-muted/20 p-6">
+            <form ref={formRef} onSubmit={handleSubmit} className="neo-card p-6 md:p-8">
               <h3 className="text-xl font-medium mb-6">Send a Message</h3>
 
               <div className="mb-4">
-                <label htmlFor="name" className="block text-sm font-medium mb-2">Name</label>
+                <label htmlFor="name" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-red)', opacity: 0.9 }}>Name</label>
                 <input
                   type="text"
                   id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full bg-secondary bg-opacity-40 border border-muted border-opacity-30 p-3 text-light focus:outline-none focus:border-light"
+                  className="w-full bg-primary p-3 text-light focus:outline-none transition-all duration-200"
+                  style={{ border: '2px solid var(--color-border-strong)', borderRadius: '0px' }}
+                  onFocus={e => { e.target.style.borderColor = 'var(--color-red)'; e.target.style.boxShadow = '4px 4px 0px var(--color-red)'; }}
+                  onBlur={e => { e.target.style.borderColor = 'var(--color-border-strong)'; e.target.style.boxShadow = 'none'; }}
                   required
                 />
               </div>
 
               <div className="mb-4">
-                <label htmlFor="email" className="block text-sm font-medium mb-2">Email</label>
+                <label htmlFor="email" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-red)', opacity: 0.9 }}>Email</label>
                 <input
                   type="email"
                   id="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full bg-secondary bg-opacity-40 border border-muted border-opacity-30 p-3 text-light focus:outline-none focus:border-light"
+                  className="w-full bg-primary p-3 text-light focus:outline-none transition-all duration-200"
+                  style={{ border: '2px solid var(--color-border-strong)', borderRadius: '0px' }}
+                  onFocus={e => { e.target.style.borderColor = 'var(--color-red)'; e.target.style.boxShadow = '4px 4px 0px var(--color-red)'; }}
+                  onBlur={e => { e.target.style.borderColor = 'var(--color-border-strong)'; e.target.style.boxShadow = 'none'; }}
                   required
                 />
               </div>
 
               <div className="mb-6">
-                <label htmlFor="message" className="block text-sm font-medium mb-2">Message</label>
+                <label htmlFor="message" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-red)', opacity: 0.9 }}>Message</label>
                 <textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   rows="5"
-                  className="w-full bg-secondary bg-opacity-40 border border-muted border-opacity-30 p-3 text-light focus:outline-none focus:border-light"
+                  className="w-full bg-primary p-3 text-light focus:outline-none transition-all duration-200"
+                  style={{ border: '2px solid var(--color-border-strong)', borderRadius: '0px' }}
+                  onFocus={e => { e.target.style.borderColor = 'var(--color-red)'; e.target.style.boxShadow = '4px 4px 0px var(--color-red)'; }}
+                  onBlur={e => { e.target.style.borderColor = 'var(--color-border-strong)'; e.target.style.boxShadow = 'none'; }}
                   required
-                ></textarea>
+                >
+                </textarea>
               </div>
 
               <button
                 type="submit"
-                className={`btn btn-primary w-full ${status.submitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                className={`w-full py-3 font-bold text-sm tracking-wide uppercase transition-all duration-200 text-white ${status.submitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                style={{
+                  backgroundColor: 'var(--color-red)',
+                  border: '2px solid var(--color-accent)',
+                  boxShadow: status.submitting ? '0px 0px 0px var(--color-accent)' : '6px 6px 0px var(--color-accent)',
+                  transform: status.submitting ? 'translate(0px, 0px)' : 'translate(-3px, -3px)'
+                }}
                 disabled={status.submitting}
+                onMouseOver={(e) => { if (!status.submitting) { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '0px 0px 0px var(--color-accent)'; } }}
+                onMouseOut={(e) => { if (!status.submitting) { e.currentTarget.style.transform = 'translate(-3px, -3px)'; e.currentTarget.style.boxShadow = '6px 6px 0px var(--color-accent)'; } }}
               >
                 {status.submitting ? 'Sending...' : 'Send Message'}
               </button>
