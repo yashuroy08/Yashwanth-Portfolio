@@ -23,16 +23,16 @@ const Projects = () => {
   const projects = [
     {
       title: "E-commerce Backend Service",
-      description: "A high-performance backend architecture for a modern e-commerce ecosystem. Developed using Spring Boot and PostgreSQL, this service handles complex business logic, concurrent order processing, and secure financial transactions through a multi-layered microservices-ready approach.",
-      tech: ["Java", "Spring Boot", "PostgreSQL", "Docker"],
+      description: "A high-performance backend architecture for a modern e-commerce ecosystem. Developed using Spring Boot and MongoDB, this service handles complex business logic, concurrent order processing, and secure financial transactions through a multi-layered microservices-ready approach.",
+      tech: ["Java", "Spring Boot", "MongoDB", "Render", "Vercel"],
       color: "from-blue-500/20 to-purple-500/20",
       liveLink: "https://threads-fashion.vercel.app/",
       githubLink: "https://github.com/yashuroy08/Threads-Fashion",
       highlights: [
         "Architected scalable RESTful APIs with Spring Boot",
         "Implemented secure JWT-based authentication & RBAC",
-        "Optimized database schema and queries in PostgreSQL",
-        "Containerized application for consistent deployment via Docker"
+        "Optimized database schema and queries in MongoDB",
+        "Deployed backend to Render and frontend to Vercel"
       ]
     },
     // {
@@ -102,9 +102,10 @@ const Projects = () => {
       'MySQL': 'text-blue-500 border-blue-500/30 bg-blue-500/5',
       'JPA': 'text-orange-500 border-orange-500/30 bg-orange-500/5',
       'Java': 'text-red-500 border-red-500/30 bg-red-500/5',
-      'Docker': 'text-sky-500 border-sky-500/30 bg-sky-500/5',
+      'Vercel': 'text-white border-white/30 bg-white/5',
+      'Render': 'text-purple-400 border-purple-400/30 bg-purple-400/5',
       'SQL': 'text-blue-300 border-blue-300/30 bg-blue-300/5',
-      'PostgreSQL': 'text-indigo-500 border-indigo-500/30 bg-indigo-500/5',
+
     };
     return colors[tech] || 'text-muted border-muted/30 bg-primary';
   };

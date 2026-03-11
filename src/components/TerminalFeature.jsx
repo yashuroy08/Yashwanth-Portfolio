@@ -12,8 +12,8 @@ const TerminalFeature = () => {
     const commands = {
         help: 'Available commands: about, skills, contact, clear, exit',
         about: 'Yashwanth Patam - Java Developer specializing in Spring Boot and Backend Architectures.',
-        skills: 'Java, Spring Boot, PostgreSQL, Docker, React, Tailwind CSS.',
-        contact: 'Email: yashwanthp2335.sse@saveetha.com | GitHub: https://gitihub.com/yashuroy08',
+        skills: 'Java, Spring Boot, MongoDB, Vercel, Render, React, Tailwind CSS.',
+        contact: 'Email: yashwanthp2335.sse@saveetha.com | GitHub: https://github.com/yashuroy08',
         clear: 'clear',
         exit: 'exit'
     };

@@ -122,7 +122,7 @@ const Skills = () => {
             <div>
               <h3 className="text-xs uppercase tracking-[0.3em] text-muted mb-2">L DATA_LAYER</h3>
               <div className="text-2xl md:text-3xl font-bold uppercase tracking-widest mt-4" style={{ color: 'var(--color-accent)' }}>
-                POSTGRESQL // MYSQL
+                MONGODB // MYSQL
               </div>
             </div>
             {/* Minimalist wireframe DB icon */}
@@ -146,12 +146,15 @@ const Skills = () => {
             onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(3px, 3px)'; e.currentTarget.style.boxShadow = '3px 3px 0px var(--color-red)'; }}
             onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '6px 6px 0px var(--color-red)'; }}
           >
-            <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-red opacity-80 absolute top-4 left-4">L DEVOPS</h3>
-            {/* Wireframe Box Icon */}
-            <svg className="w-12 h-12 mb-4 mt-6" style={{ color: 'var(--color-accent)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-              <path strokeLinecap="square" strokeLinejoin="miter" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-            </svg>
-            <span className="font-bold text-xl uppercase tracking-widest" style={{ color: 'var(--color-accent)' }}>DOCKER</span>
+            <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-red opacity-80 absolute top-4 left-4">L DEPLOYMENT</h3>
+            <div className="flex gap-4 mb-4 mt-6">
+              <svg viewBox="0 0 256 222" className="w-8 h-8 object-contain" fill="currentColor"><path d="m128 0 128 221.705H0z"/></svg>
+              <img src="/render.svg" alt="Render" className="w-8 h-8 object-contain" />
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="font-bold text-sm uppercase tracking-widest text-light">VERCEL</span>
+              <span className="font-bold text-sm uppercase tracking-widest text-red">RENDER</span>
+            </div>
           </motion.div>
 
           {/* Card 5: Small Square Version Control */}

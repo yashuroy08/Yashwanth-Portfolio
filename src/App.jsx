@@ -9,6 +9,7 @@ import Skills from './components/Skills.jsx';
 import GithubStats from './components/GithubStats.jsx';
 import Education from './components/Education.jsx';
 import Blogs from './components/Blogs.jsx';
+import BlogPost from './components/BlogPost.jsx';
 import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
 import SystemHUD from './components/SystemHUD.jsx';
@@ -32,6 +33,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/resume" element={<ResumeRedirect />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
           <Route
             path="/*"
             element={
