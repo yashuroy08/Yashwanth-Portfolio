@@ -15,7 +15,7 @@ const SystemHUD = () => {
         }, 1000);
 
         const handleScroll = () => {
-            const sections = ['hero', 'skills', 'projects', 'activity', 'education', 'contact'];
+            const sections = ['hero', 'skills', 'projects', 'activity', 'education', 'blogs', 'contact'];
             const current = sections.find(id => {
                 const el = document.getElementById(id);
                 if (el) {

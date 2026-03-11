@@ -7,7 +7,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
-  const navItems = ['HOME', 'SKILLS', 'PROJECTS', 'ACTIVITY', 'EDUCATION', 'CONTACT'];
+  const navItems = ['HOME', 'SKILLS', 'PROJECTS', 'ACTIVITY', 'EDUCATION', 'BLOGS', 'CONTACT'];
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -101,9 +101,9 @@ const Header = () => {
           </motion.div>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-8 ml-auto">
+          <div className="hidden md:flex items-center gap-4 lg:gap-8 ml-auto">
             {/* Brutalist nav container */}
-            <nav className="flex items-center gap-2">
+            <nav className="flex items-center gap-1 xl:gap-2">
               {navItems.map((item, i) => {
                 const isActive = activeSection === item.toLowerCase();
                 return (
@@ -114,7 +114,7 @@ const Header = () => {
                     variants={navItemVariants}
                     initial="hidden"
                     animate="visible"
-                    className="relative px-4 py-2 text-[11px] font-mono tracking-widest transition-all duration-200 uppercase border-2"
+                    className="relative px-2 lg:px-3 xl:px-4 py-1.5 xl:py-2 text-[9px] lg:text-[10px] xl:text-[11px] font-mono tracking-widest transition-all duration-200 uppercase border-2"
                     style={{
                       borderRadius: '0px',
                       color: isActive ? 'var(--color-primary)' : 'var(--color-accent)',

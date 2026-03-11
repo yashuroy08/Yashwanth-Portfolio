@@ -8,6 +8,7 @@ import Projects from './components/Projects.jsx';
 import Skills from './components/Skills.jsx';
 import GithubStats from './components/GithubStats.jsx';
 import Education from './components/Education.jsx';
+import Blogs from './components/Blogs.jsx';
 import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
 import SystemHUD from './components/SystemHUD.jsx';
@@ -57,6 +58,7 @@ function App() {
                       <GithubStats />
                       {/* <Memories /> */}
                       <Education />
+                      <Blogs />
                       <Contact />
                     </main>
                     <Footer />

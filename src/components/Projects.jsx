@@ -139,7 +139,8 @@ const Projects = () => {
               <div className="w-8 h-[1px]" style={{ backgroundColor: 'var(--color-red)', opacity: 0.7 }}></div>
               <h4 className="font-mono text-sm text-muted tracking-widest uppercase"><span className="text-red">// 02</span> &mdash; PORTFOLIO</h4>
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-accent"><span className="glitch-hover" data-text="FEATURED PROJECTS">FEATURED PROJECTS</span></h2>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-accent"><span className="glitch-hover" data-text="FEATURED PROJECTS">FEATURED PROJECTS</span></h2>
+            <div className="w-16 h-[4px] mb-6" style={{ backgroundColor: 'var(--color-red)' }} />
             <p className="text-muted max-w-2xl text-lg">
               A selection of my recent works, focusing on robust backend architectures, enterprise solutions, and secure applications.
             </p>
@@ -188,6 +189,20 @@ const Projects = () => {
                       {t}
                     </span>
                   ))}
+                </div>
+
+                {/* Blueprint Overlay (Appears on Hover) */}
+                <div className="absolute inset-0 border-2 border-red opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20" style={{ mixBlendMode: 'difference' }}>
+                  {/* Spec Labels */}
+                  <div className="absolute top-2 right-2 font-mono text-[8px] bg-red text-white px-1 tracking-widest uppercase shadow-[2px_2px_0px_#000]">
+                    [SYS.ID: {index + 1}00]
+                  </div>
+                  <div className="absolute bottom-2 right-2 font-mono text-[8px] text-red border border-red px-1 bg-black/50">
+                    TARGET: ACQUIRED
+                  </div>
+                  {/* Crosshairs */}
+                  <div className="absolute top-1/2 left-2 w-2 h-px bg-red"></div>
+                  <div className="absolute top-2 left-1/2 w-px h-2 bg-red"></div>
                 </div>
               </motion.div>
             ))}
