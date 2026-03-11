@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ResumeRedirect from './components/ResumeRedirect.jsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
 import Projects from './components/Projects.jsx';
+import TerminalFeature from './components/TerminalFeature.jsx';
 import Skills from './components/Skills.jsx';
 import GithubStats from './components/GithubStats.jsx';
 import Education from './components/Education.jsx';
@@ -65,7 +66,7 @@ function App() {
                     </main>
                     <Footer />
                     <BackToTop />
-
+                    <TerminalFeature />
                   </motion.div>
                 )}
               </AnimatePresence>

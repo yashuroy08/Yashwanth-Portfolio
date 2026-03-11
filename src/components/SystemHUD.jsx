@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useIdle from '../hooks/useIdle';
 
 const SystemHUD = () => {
     const [uptime, setUptime] = useState(0);
     const [localTime, setLocalTime] = useState(new Date().toLocaleTimeString());
     const [activeSection, setActiveSection] = useState('HOME');
     const [isCollapsed, setIsCollapsed] = useState(true);
+    const isIdle = useIdle(3000);
 
     useEffect(() => {
         const startTime = Date.now();
@@ -45,9 +47,13 @@ const SystemHUD = () => {
         <div className="fixed bottom-6 left-6 z-[100] hidden md:block">
             <motion.div
                 initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                className={`nothing-card cursor-pointer bg-primary transition-all duration-300 ${isCollapsed ? 'p-3' : 'p-4 min-w-[220px]'}`}
-                onMouseEnter={() => setIsCollapsed(false)}
+                    animate={{ 
+                        opacity: isIdle ? 0 : 1, 
+                        x: isIdle ? -10 : 0 
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className={`nothing-card cursor-pointer bg-primary transition-all duration-300 ${isCollapsed ? 'p-3' : 'p-4 min-w-[220px]'} ${isIdle ? 'pointer-events-none' : ''}`}
+                    onMouseEnter={() => setIsCollapsed(false)}
                 onMouseLeave={() => setIsCollapsed(true)}
                 onClick={() => setIsCollapsed(true)}
             >

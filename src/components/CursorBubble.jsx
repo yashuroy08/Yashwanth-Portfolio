@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 /**
@@ -10,7 +10,7 @@ const CursorBubble = () => {
     const [isHovering, setIsHovering] = useState(false);
     const [isClicking, setIsClicking] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
-    const trailRef = useRef([]);
+
 
     useEffect(() => {
         // Don't show on touch devices

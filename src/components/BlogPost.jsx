@@ -57,7 +57,7 @@ const blogPosts = [
             <ol>
                 <li>Disable CSRF for stateless REST APIs.</li>
                 <li>Define <code>.requestMatchers()</code> rules per role.</li>
-                <li>Plug in your custom <code>JwtAuthenticationFilter</code> before <code>UsernamePasswordAuthenticationFilter</code>.</li>
+                <li>Plug in your custom <code>JwtAuthenticationFilter</code> before <code>UsernamePasswordAuthentication</code>.</li>
             </ol>
 
             <h4>Step 3: Method-Level Security</h4>

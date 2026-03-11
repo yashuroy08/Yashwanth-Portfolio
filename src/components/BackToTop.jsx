@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useIdle from '../hooks/useIdle';
 
 const BackToTop = () => {
     const [isVisible, setIsVisible] = useState(false);
+    const isIdle = useIdle(3000); // 3 seconds timeout
 
     useEffect(() => {
         const toggleVisibility = () => {
@@ -29,10 +31,15 @@ const BackToTop = () => {
             {isVisible && (
                 <motion.button
                     initial={{ opacity: 0, scale: 0.5, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    animate={{ 
+                        opacity: isIdle ? 0 : 1, 
+                        scale: isIdle ? 0.9 : 1, 
+                        y: isIdle ? 10 : 0 
+                    }}
                     exit={{ opacity: 0, scale: 0.5, y: 20 }}
+                    transition={{ duration: 0.3 }}
                     onClick={scrollToTop}
-                    className="fixed bottom-8 right-8 z-50 p-3 w-12 h-12 flex items-center justify-center bg-primary border-2 border-border-strong text-accent transition-all duration-300 hover:border-red hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0px_var(--color-red)] rounded-none group"
+                    className={`fixed bottom-8 right-8 z-50 p-3 w-12 h-12 flex items-center justify-center bg-primary border-2 border-border-strong text-accent transition-all duration-300 hover:border-red hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0px_var(--color-red)] rounded-none group ${isIdle ? 'pointer-events-none' : ''}`}
                     aria-label="Back to top"
                 >
                     <svg

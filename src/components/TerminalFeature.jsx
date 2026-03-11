@@ -1,16 +1,137 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useIdle from '../hooks/useIdle';
+import { useTheme } from '../context/ThemeContext';
+
+const GitHubStats = () => {
+    const [stats, setStats] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    const [queryTime, setQueryTime] = useState(0);
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            const start = performance.now();
+            try {
+                const [userRes, reposRes] = await Promise.all([
+                    fetch('https://api.github.com/users/yashuroy08'),
+                    fetch('https://api.github.com/users/yashuroy08/repos?per_page=100')
+                ]);
+
+                if (!userRes.ok || !reposRes.ok) throw new Error('API Error');
+
+                const user = await userRes.json();
+                const repos = await reposRes.json();
+
+                const stars = repos.reduce((acc, repo) => acc + repo.stargazers_count, 0);
+                const forks = repos.reduce((acc, repo) => acc + repo.forks_count, 0);
+
+                setStats({
+                    repos: user.public_repos,
+                    followers: user.followers,
+                    stars,
+                    forks
+                });
+            } catch {
+                setError(true);
+            } finally {
+                setQueryTime(Math.round(performance.now() - start));
+                setLoading(false);
+            }
+        };
+
+        fetchStats();
+    }, []);
+
+    if (loading) return <div className="mt-4 mb-4 text-accent text-sm animate-pulse font-mono">[sys] querying github api...</div>;
+    if (error) return <div className="mt-4 mb-4 text-red text-sm font-mono">[err] failed to fetch data. rate limit possibly exceeded.</div>;
+
+    return (
+        <div className="mt-4 mb-4 relative max-w-[400px]">
+            {/* Terminal Prompt Header */}
+            <div className="mb-3 flex flex-col gap-1">
+                <div className="flex items-center gap-2 text-xs font-mono">
+                    <span className="text-red">yash@portfolio</span>
+                    <span className="text-muted">:</span>
+                    <span className="text-accent">~/stats</span>
+                    <span className="text-muted">$</span>
+                    <span className="text-accent">fetch --profile-summary</span>
+                </div>
+                <div className="h-0.5 w-12 bg-accent opacity-50 mt-1"></div>
+            </div>
+
+            {/* Stats Card (Split Pane) */}
+            <div className="bg-[#0a0a0a] border border-border-strong rounded-sm overflow-hidden relative group">
+                <div className="absolute inset-0 pointer-events-none opacity-20 bg-[linear-gradient(rgba(255,255,255,0)_50%,rgba(255,255,255,0.05)_50%)] bg-[length:100%_4px] mix-blend-overlay z-10"></div>
+
+                <div className="bg-[#111] px-3 py-1.5 border-b border-border-strong flex justify-between items-center relative z-20">
+                    <span className="text-[9px] font-mono uppercase tracking-widest text-muted">System.GitHub_Records</span>
+                    <div className="flex gap-1.5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-border-strong animate-pulse"></div>
+                    </div>
+                </div>
+
+                <div className="flex divide-x divide-border-strong relative z-20">
+                    <div className="flex flex-col items-center justify-around py-4 px-3 bg-[#111]/50 w-12">
+                        <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
+                        <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                        <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+                        <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    </div>
+
+                    <div className="flex-1 p-4 grid grid-cols-1 gap-4">
+                        <div className="flex justify-between items-center group-hover:pl-1 transition-all">
+                            <span className="text-xs text-muted uppercase tracking-wider">Public Repos</span>
+                            <span className="font-bold text-green-500 text-sm">{stats.repos}</span>
+                        </div>
+                        <div className="flex justify-between items-center group-hover:pl-1 transition-all">
+                            <span className="text-xs text-muted uppercase tracking-wider">Total Stars</span>
+                            <span className="font-bold text-green-500 text-sm">{stats.stars}</span>
+                        </div>
+                        <div className="flex justify-between items-center group-hover:pl-1 transition-all">
+                            <span className="text-xs text-muted uppercase tracking-wider">Forks</span>
+                            <span className="font-bold text-accent text-sm">{stats.forks}</span>
+                        </div>
+                        <div className="flex justify-between items-center group-hover:pl-1 transition-all">
+                            <span className="text-xs text-muted uppercase tracking-wider">Followers</span>
+                            <span className="font-bold text-accent text-sm">{stats.followers}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-[#111] px-3 py-1.5 border-t border-border-strong flex justify-between items-center z-20 relative">
+                    <span className="text-[9px] font-mono text-muted">query.time: {queryTime}ms</span>
+                    <span className="text-[9px] font-mono text-green-500">[LIVE]</span>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 const TerminalFeature = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const isIdle = useIdle(3000); // 3 seconds timeout
+    const { accentColor, setAccentColor } = useTheme();
     const [input, setInput] = useState('');
     const [history, setHistory] = useState([
         { type: 'output', content: 'Welcome to Yashwanth\'s Portfolio Terminal v1.0.0' },
         { type: 'output', content: 'Type "help" to see available commands.' }
     ]);
 
+    const handleKeyDown = useCallback((e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            setIsOpen((prev) => !prev);
+        }
+    }, []);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+        return () => document.removeEventListener('keydown', handleKeyDown);
+    }, [handleKeyDown]);
+
     const commands = {
-        help: 'Available commands: about, skills, contact, clear, exit',
+        help: 'Available commands: about, skills, contact, resume, theme, fetch-stats, clear, exit',
         about: 'Yashwanth Patam - Java Developer specializing in Spring Boot and Backend Architectures.',
         skills: 'Java, Spring Boot, MongoDB, Vercel, Render, React, Tailwind CSS.',
         contact: 'Email: yashwanthp2335.sse@saveetha.com | GitHub: https://github.com/yashuroy08',
@@ -27,6 +148,21 @@ const TerminalFeature = () => {
                 setHistory([]);
             } else if (trimmedInput === 'exit') {
                 setIsOpen(false);
+            } else if (trimmedInput === 'resume') {
+                const link = document.createElement('a');
+                link.href = '/resume.pdf';
+                link.download = 'Yashwanth_Resume.pdf';
+                link.click();
+                newHistory.push({ type: 'output', content: 'Downloading resume.pdf...' });
+                setHistory(newHistory);
+            } else if (trimmedInput === 'theme') {
+                const nextAccent = accentColor === 'red' ? 'green' : 'red';
+                setAccentColor(nextAccent);
+                newHistory.push({ type: 'output', content: `Accent theme switched to ${nextAccent.toUpperCase()}` });
+                setHistory(newHistory);
+            } else if (trimmedInput === 'fetch-stats') {
+                newHistory.push({ type: 'component', component: 'github-stats' });
+                setHistory(newHistory);
             } else if (commands[trimmedInput]) {
                 newHistory.push({ type: 'output', content: commands[trimmedInput] });
                 setHistory(newHistory);
@@ -41,18 +177,28 @@ const TerminalFeature = () => {
 
     return (
         <>
-            {/* Terminal Trigger Button */}
-            <motion.button
-                onClick={() => setIsOpen(true)}
-                className="fixed bottom-8 left-8 z-50 p-4 bg-primary border border-accent/30 rounded-full shadow-[0_0_20px_rgba(var(--color-accent),0.2)] hover:border-accent transition-all group"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent group-hover:rotate-12 transition-transform">
-                    <polyline points="4 17 10 11 4 5"></polyline>
-                    <line x1="12" y1="19" x2="20" y2="19"></line>
-                </svg>
-            </motion.button>
+            {/* Terminal Shortcut Hint Button */}
+            <AnimatePresence>
+                {!isOpen && (
+                    <motion.button
+                        onClick={() => setIsOpen(true)}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: isIdle ? 0 : 1, x: isIdle ? -10 : 0 }}
+                        exit={{ opacity: 0, x: -10 }}
+                        className={`fixed bottom-[100px] left-6 z-40 bg-primary/80 backdrop-blur-sm border border-border-strong px-2 py-1.5 rounded-sm shadow-sm flex items-center gap-2 hover:border-accent hover:bg-white/5 transition-all outline-none ${isIdle ? 'pointer-events-none' : ''}`}
+                        title="Open Terminal (Ctrl+K)"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent">
+                            <polyline points="4 17 10 11 4 5"></polyline>
+                            <line x1="12" y1="19" x2="20" y2="19"></line>
+                        </svg>
+                        <span className="text-[10px] text-muted font-mono tracking-wider"></span>
+                        <div className="hidden md:flex gap-1 ml-1 opacity-60">
+                            <kbd className="bg-secondary px-1 py-0.5 rounded text-[9px] font-mono border border-border-strong text-accent">Ctrl+K</kbd>
+                        </div>
+                    </motion.button>
+                )}
+            </AnimatePresence>
 
             {/* Terminal Window */}
             <AnimatePresence>
@@ -80,9 +226,11 @@ const TerminalFeature = () => {
                                 <div key={i} className="mb-2">
                                     {line.type === 'input' ? (
                                         <div className="flex">
-                                            <span className="text-green-500 mr-2">yash@portfolio:~$</span>
-                                            <span>{line.content}</span>
+                                            <span className={`${accentColor === 'green' ? 'text-green-500' : 'text-red'} mr-2`}>yash@portfolio:~$</span>
+                                            <span className="text-white">{line.content}</span>
                                         </div>
+                                    ) : line.type === 'component' && line.component === 'github-stats' ? (
+                                        <GitHubStats />
                                     ) : (
                                         <div className="text-muted leading-relaxed whitespace-pre-wrap">{line.content}</div>
                                     )}
@@ -90,10 +238,10 @@ const TerminalFeature = () => {
                             ))}
 
                             <div className="flex items-center">
-                                <span className="text-green-400 mr-2">yash@portfolio:~$</span>
+                                <span className={`${accentColor === 'green' ? 'text-green-500' : 'text-red'} mr-2`}>yash@portfolio:~$</span>
                                 <input
                                     autoFocus
-                                    className="bg-transparent border-none outline-none flex-1 text-accent caret-accent"
+                                    className="bg-transparent border-none outline-none flex-1 text-white caret-white"
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
                                     onKeyDown={handleCommand}

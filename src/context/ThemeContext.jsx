@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const ThemeContext = createContext();
@@ -6,6 +7,11 @@ export const ThemeProvider = ({ children }) => {
     const [theme, setTheme] = useState(() => {
         const savedTheme = localStorage.getItem('theme');
         return savedTheme || 'system';
+    });
+    
+    // Default to 'red' accent, support 'green'
+    const [accentColor, setAccentColor] = useState(() => {
+        return localStorage.getItem('accentColor') || 'red';
     });
 
     useEffect(() => {
@@ -28,7 +34,11 @@ export const ThemeProvider = ({ children }) => {
         applyTheme(theme);
         localStorage.setItem('theme', theme);
 
-        const listener = (e) => {
+        // Apply Accent Color
+        root.setAttribute('data-accent', accentColor);
+        localStorage.setItem('accentColor', accentColor);
+
+        const listener = () => {
             if (theme === 'system') {
                 applyTheme('system');
             }
@@ -36,10 +46,10 @@ export const ThemeProvider = ({ children }) => {
 
         mediaQuery.addEventListener('change', listener);
         return () => mediaQuery.removeEventListener('change', listener);
-    }, [theme]);
+    }, [theme, accentColor]);
 
     return (
-        <ThemeContext.Provider value={{ theme, setTheme }}>
+        <ThemeContext.Provider value={{ theme, setTheme, accentColor, setAccentColor }}>
             {children}
         </ThemeContext.Provider>
     );

@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ThemeToggle from './ThemeToggle.jsx';
 
+const navItems = ['HOME', 'SKILLS', 'PROJECTS', 'ACTIVITY', 'EDUCATION', 'BLOGS', 'CONTACT'];
+
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-
-  const navItems = ['HOME', 'SKILLS', 'PROJECTS', 'ACTIVITY', 'EDUCATION', 'BLOGS', 'CONTACT'];
 
   useEffect(() => {
     if (mobileMenuOpen) {

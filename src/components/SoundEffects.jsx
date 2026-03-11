@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import useIdle from '../hooks/useIdle';
 
 const SoundEffects = () => {
     const audioContextRef = useRef(null);
+    const isIdle = useIdle(3000); // 3 seconds timeout
 
     const [isMuted, setIsMuted] = useState(() => {
         const saved = localStorage.getItem('soundMuted');
@@ -67,9 +69,14 @@ const SoundEffects = () => {
     return (
         <motion.button
             onClick={() => setIsMuted(!isMuted)}
-            className="fixed bottom-24 right-8 z-[100] p-3 w-12 h-12 flex items-center justify-center bg-primary border-2 border-border-strong text-accent transition-all duration-300 hover:border-red hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0px_var(--color-red)] rounded-none group"
+            className={`fixed bottom-24 right-8 z-[100] p-3 w-12 h-12 flex items-center justify-center bg-primary border-2 border-border-strong text-accent transition-all duration-300 hover:border-red hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0px_var(--color-red)] rounded-none group ${isIdle ? 'pointer-events-none' : ''}`}
             initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
+            animate={{ 
+                opacity: isIdle ? 0 : 1, 
+                x: isIdle ? 10 : 0,
+                scale: isIdle ? 0.9 : 1
+            }}
+            transition={{ duration: 0.3 }}
             aria-label={isMuted ? "Unmute sounds" : "Mute sounds"}
         >
             <AnimatePresence mode="wait">

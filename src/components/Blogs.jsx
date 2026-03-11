@@ -286,7 +286,7 @@ const Blogs = () => {
                             {blogPosts.map((_, i) => (
                                 <button
                                     key={i}
-                                    onClick={() => setPage(([prev]) => [i, i > current ? 1 : -1])}
+                                    onClick={() => setPage(() => [i, i > current ? 1 : -1])}
                                     className="transition-all duration-200"
                                     aria-label={`Go to slide ${i + 1}`}
                                 >

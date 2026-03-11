@@ -49,10 +49,6 @@ const Contact = () => {
     e.preventDefault();
     setStatus({ submitting: true, submitted: false, error: null });
 
-    // Format the current date and time in UTC as YYYY-MM-DD HH:MM:SS
-    const now = new Date();
-    const formattedDate = now.toISOString().replace('T', ' ').substring(0, 19);
-
     // EmailJS configuration
     const serviceId = import.meta.env.VITE_SERVICE_ID;
     const templateId = import.meta.env.VITE_TEMPLATE_ID;

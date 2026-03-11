@@ -79,36 +79,7 @@ const Projects = () => {
     }
   ];
 
-  const getTechColor = (tech) => {
-    const colors = {
-      'React': 'text-blue-400 border-blue-400/30 bg-blue-400/5',
-      'Node.js': 'text-green-400 border-green-400/30 bg-green-400/5',
-      'MongoDB': 'text-emerald-400 border-emerald-400/30 bg-emerald-400/5',
-      'Flutter': 'text-sky-400 border-sky-400/30 bg-sky-400/5',
-      'Express.js': 'text-gray-400 border-gray-400/30 bg-gray-400/5',
-      'Redis': 'text-red-400 border-red-400/30 bg-red-400/5',
-      'Dart': 'text-cyan-400 border-cyan-400/30 bg-cyan-400/5',
-      'Paypal': 'text-indigo-400 border-indigo-400/30 bg-indigo-400/5',
-      'OpenWeather API': 'text-orange-400 border-orange-400/30 bg-orange-400/5',
-      'Geolocator': 'text-teal-400 border-teal-400/30 bg-teal-400/5',
-      'Bloc Pattern': 'text-purple-400 border-purple-400/30 bg-purple-400/5',
-      'C++': 'text-blue-600 border-blue-600/30 bg-blue-600/5',
-      'Arduino': 'text-teal-500 border-teal-500/30 bg-teal-500/5',
-      'NodeMCU': 'text-slate-400 border-slate-400/30 bg-slate-400/5',
-      'Firebase': 'text-amber-400 border-amber-400/30 bg-amber-400/5',
-      'Spring Boot': 'text-green-500 border-green-500/30 bg-green-500/5',
-      'Spring Security': 'text-emerald-500 border-emerald-500/30 bg-emerald-500/5',
-      'JWT': 'text-fuchsia-500 border-fuchsia-500/30 bg-fuchsia-500/5',
-      'MySQL': 'text-blue-500 border-blue-500/30 bg-blue-500/5',
-      'JPA': 'text-orange-500 border-orange-500/30 bg-orange-500/5',
-      'Java': 'text-red-500 border-red-500/30 bg-red-500/5',
-      'Vercel': 'text-white border-white/30 bg-white/5',
-      'Render': 'text-purple-400 border-purple-400/30 bg-purple-400/5',
-      'SQL': 'text-blue-300 border-blue-300/30 bg-blue-300/5',
 
-    };
-    return colors[tech] || 'text-muted border-muted/30 bg-primary';
-  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
