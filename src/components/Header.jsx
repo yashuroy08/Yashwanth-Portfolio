@@ -7,7 +7,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
-  const navItems = ['Home', 'Skills', 'Projects', 'Education', 'Contact'];
+  const navItems = ['HOME', 'SKILLS', 'PROJECTS', 'ACTIVITY', 'EDUCATION', 'CONTACT'];
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -30,7 +30,7 @@ const Header = () => {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          if (rect.top <= 150) {
+          if (rect.top <= window.innerHeight / 2) {
             setActiveSection(section);
             break;
           }

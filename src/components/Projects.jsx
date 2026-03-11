@@ -139,7 +139,7 @@ const Projects = () => {
               <div className="w-8 h-[1px]" style={{ backgroundColor: 'var(--color-red)', opacity: 0.7 }}></div>
               <h4 className="font-mono text-sm text-muted tracking-widest uppercase"><span className="text-red">// 02</span> &mdash; PORTFOLIO</h4>
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold mb-6"><span className="glitch-hover" data-text="Featured Projects">Featured Projects</span></h2>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-accent"><span className="glitch-hover" data-text="FEATURED PROJECTS">FEATURED PROJECTS</span></h2>
             <p className="text-muted max-w-2xl text-lg">
               A selection of my recent works, focusing on robust backend architectures, enterprise solutions, and secure applications.
             </p>
@@ -259,7 +259,7 @@ const Projects = () => {
                         href={projects[activeProject].liveLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-white bg-red border-2 border-accent"
+                        className="glitch-click group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-white bg-red border-2 border-accent"
                         style={{
                           backgroundColor: 'var(--color-red)',
                           padding: '0.75rem 1.5rem',
@@ -281,7 +281,7 @@ const Projects = () => {
                         href={projects[activeProject].githubLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-light bg-primary border-2 border-border-strong"
+                        className="glitch-click group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-light bg-primary border-2 border-border-strong"
                         style={{
                           padding: '0.75rem 1.5rem',
                           boxShadow: '4px 4px 0px var(--color-border-strong)',

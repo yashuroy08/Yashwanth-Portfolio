@@ -395,3 +395,90 @@ body {
 .magnetic-btn:hover {
   transform: scale(1.05);
 }
+
+/* ═══════════════════════════════════════════
+   CLICK GLITCH FEEDBACK 
+   ═══════════════════════════════════════════ */
+.glitch-click {
+  position: relative;
+  transition: all 0.1s ease;
+  overflow: hidden;
+}
+
+.glitch-click:active {
+  animation: glitch-anim 0.2s cubic-bezier(.25, .46, .45, .94) both infinite;
+  color: var(--color-red) !important;
+}
+
+.glitch-click:active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -20px;
+  right: -20px;
+  bottom: 0;
+  background: var(--color-red);
+  opacity: 0.3;
+  mix-blend-mode: exclusion;
+  z-index: 10;
+  pointer-events: none;
+  animation: slice-anim 0.2s linear infinite;
+}
+
+@keyframes glitch-anim {
+  0% {
+    transform: translate(0) skew(0deg);
+  }
+
+  25% {
+    transform: translate(-6px, 3px) skew(-12deg);
+    filter: invert(0.3);
+  }
+
+  50% {
+    transform: translate(6px, -3px) skew(12deg);
+    filter: contrast(200%);
+  }
+
+  75% {
+    transform: translate(-3px, 6px) skew(-6deg);
+    filter: hue-rotate(90deg);
+  }
+
+  100% {
+    transform: translate(3px, -6px) skew(6deg);
+  }
+}
+
+@keyframes slice-anim {
+  0% {
+    clip-path: inset(10% 0 80% 0);
+    transform: translateX(-10px);
+  }
+
+  25% {
+    clip-path: inset(60% 0 10% 0);
+    transform: translateX(10px);
+  }
+
+  50% {
+    clip-path: inset(30% 0 50% 0);
+    transform: translateX(-5px);
+  }
+
+  75% {
+    clip-path: inset(80% 0 5% 0);
+    transform: translateX(5px);
+  }
+
+  100% {
+    clip-path: inset(5% 0 70% 0);
+    transform: translateX(0);
+  }
+}
+
+/* Helper to hide shadow during click/submit */
+.hidden-shadow {
+  box-shadow: none !important;
+  transform: translate(0px, 0px) !important;
+}

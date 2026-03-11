@@ -67,9 +67,7 @@ const SoundEffects = () => {
     return (
         <motion.button
             onClick={() => setIsMuted(!isMuted)}
-            className="fixed bottom-24 right-8 z-[100] w-12 h-12 bg-secondary/80 backdrop-blur-md rounded-full flex items-center justify-center border border-muted/30 shadow-lg hover:border-accent/50 text-light transition-all"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            className="fixed bottom-24 right-8 z-[100] p-3 w-12 h-12 flex items-center justify-center bg-primary border-2 border-border-strong text-accent transition-all duration-300 hover:border-red hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0px_var(--color-red)] rounded-none group"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             aria-label={isMuted ? "Unmute sounds" : "Mute sounds"}

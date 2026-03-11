@@ -164,9 +164,10 @@ const Hero = () => {
                   <TypewriterRole />
                 </div>
 
-                <p className="text-muted text-base md:text-lg font-mono tracking-wide max-w-lg mx-auto lg:mx-0 mt-2 mb-8 border-l-4 pl-4" style={{ borderColor: 'var(--color-red)' }}>
-                  Building robust, scalable backend systems.<br />
-                  Architecting solutions that perform under pressure.
+                <p className="text-muted text-sm md:text-base font-mono tracking-wide max-w-lg mx-auto lg:mx-0 mt-4 mb-8 border-l-4 pl-4" style={{ borderColor: 'var(--color-red)' }}>
+                  I am an enthusiastic student currently diving deep into the world of backend development.<br /><br />
+                  Passionate about learning Java, mastering Spring Boot, and understanding database optimization. I'm constantly building projects to improve my skills and explore how scalable systems work.<br /><br />
+                  <span className="text-accent opacity-75">/* Currently focused on expanding my backend knowledge and taking on new challenges. */</span>
                 </p>
                 <div className="inline-flex items-center gap-3 px-4 py-2 border-2 bg-primary" style={{ borderColor: 'var(--color-accent)', boxShadow: '4px 4px 0px var(--color-accent)' }}>
                   <span className="w-3 h-3 animate-pulse" style={{ backgroundColor: 'var(--color-red)' }} />
@@ -210,7 +211,7 @@ const Hero = () => {
                 variants={childVariants}
                 className="flex flex-wrap items-center justify-center lg:justify-start gap-4"
               >
-                <a href="#projects" className="group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-white bg-red border-2 border-accent"
+                <a href="#projects" className="glitch-click group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-white bg-red border-2 border-accent"
                   style={{
                     backgroundColor: 'var(--color-red)',
                     padding: '1rem 2rem',
@@ -222,7 +223,7 @@ const Hero = () => {
                   EXPLORE_PROJECTS
                 </a>
                 <a href={import.meta.env.VITE_RESUME_URL || '/resume.pdf'} target="_blank" rel="noopener noreferrer"
-                  className="group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-light bg-primary border-2 border-border-strong"
+                  className="glitch-click group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-light bg-primary border-2 border-border-strong"
                   style={{
                     padding: '1rem 2rem',
                     boxShadow: '4px 4px 0px var(--color-border-strong)',

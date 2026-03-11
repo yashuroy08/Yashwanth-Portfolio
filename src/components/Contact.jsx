@@ -110,8 +110,8 @@ const Contact = () => {
           className="mb-12"
         >
           <ScrollReveal delay={0}>
-            <h4 className="font-mono text-sm text-muted mb-2"><span className="text-red">// 04</span> &mdash; GET IN TOUCH</h4>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4"><span className="glitch-hover" data-text="Contact Me">Contact Me</span></h2>
+            <h4 className="font-mono text-sm text-muted mb-2"><span className="text-red">// 06</span> &mdash; GET IN TOUCH</h4>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accent"><span className="glitch-hover" data-text="CONTACT ME">CONTACT ME</span></h2>
             <div className="w-16 h-[2px]" style={{ backgroundColor: 'var(--color-red)', opacity: 0.6 }}></div>
           </ScrollReveal>
         </motion.div>
@@ -239,53 +239,61 @@ const Contact = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <form ref={formRef} onSubmit={handleSubmit} className="neo-card p-6 md:p-8">
-              <h3 className="text-xl font-medium mb-6">Send a Message</h3>
+            <form ref={formRef} onSubmit={handleSubmit} className="neo-card p-6 md:p-8 transition-all duration-300" style={{ boxShadow: '8px 8px 0px var(--color-border-strong)', borderColor: 'var(--color-border-strong)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--color-red)'; e.currentTarget.style.boxShadow = '8px 8px 0px var(--color-red)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--color-border-strong)'; e.currentTarget.style.boxShadow = '8px 8px 0px var(--color-border-strong)'; }}>
+              <h3 className="text-xl font-medium mb-6 uppercase tracking-widest border-b-2 border-border-strong pb-2 transition-colors duration-300">Send Message</h3>
 
-              <div className="mb-4">
-                <label htmlFor="name" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-red)', opacity: 0.9 }}>Name</label>
+              <div className="mb-6 flex flex-col items-start w-full relative group">
+                <label htmlFor="name" className="absolute -top-3 left-4 bg-primary px-2 font-mono text-[10px] tracking-widest uppercase transition-colors group-focus-within:text-red group-hover:text-red z-10" style={{ color: 'var(--color-muted)' }}>[ NAME ]</label>
                 <input
                   type="text"
                   id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full bg-primary p-3 text-light focus:outline-none transition-all duration-200"
+                  className="w-full bg-transparent p-4 text-light font-mono focus:outline-none transition-all duration-200 z-0"
                   style={{ border: '2px solid var(--color-border-strong)', borderRadius: '0px' }}
-                  onFocus={e => { e.target.style.borderColor = 'var(--color-red)'; e.target.style.boxShadow = '4px 4px 0px var(--color-red)'; }}
-                  onBlur={e => { e.target.style.borderColor = 'var(--color-border-strong)'; e.target.style.boxShadow = 'none'; }}
+                  onFocus={e => { e.target.style.borderColor = 'var(--color-red)'; e.target.style.boxShadow = '4px 4px 0px var(--color-red)'; e.target.style.transform = 'translate(-2px, -2px)'; e.target.dataset.focused = 'true'; }}
+                  onBlur={e => { e.target.style.borderColor = 'var(--color-border-strong)'; e.target.style.boxShadow = 'none'; e.target.style.transform = 'translate(0px, 0px)'; e.target.dataset.focused = 'false'; }}
+                  onMouseEnter={e => { if (e.target.dataset.focused !== 'true') e.target.style.borderColor = 'var(--color-red)' }}
+                  onMouseLeave={e => { if (e.target.dataset.focused !== 'true') e.target.style.borderColor = 'var(--color-border-strong)' }}
                   required
                 />
               </div>
 
-              <div className="mb-4">
-                <label htmlFor="email" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-red)', opacity: 0.9 }}>Email</label>
+              <div className="mb-6 flex flex-col items-start w-full relative group">
+                <label htmlFor="email" className="absolute -top-3 left-4 bg-primary px-2 font-mono text-[10px] tracking-widest uppercase transition-colors group-focus-within:text-red group-hover:text-red z-10" style={{ color: 'var(--color-muted)' }}>[ EMAIL_ADDRESS ]</label>
                 <input
                   type="email"
                   id="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full bg-primary p-3 text-light focus:outline-none transition-all duration-200"
+                  className="w-full bg-transparent p-4 text-light font-mono focus:outline-none transition-all duration-200 z-0"
                   style={{ border: '2px solid var(--color-border-strong)', borderRadius: '0px' }}
-                  onFocus={e => { e.target.style.borderColor = 'var(--color-red)'; e.target.style.boxShadow = '4px 4px 0px var(--color-red)'; }}
-                  onBlur={e => { e.target.style.borderColor = 'var(--color-border-strong)'; e.target.style.boxShadow = 'none'; }}
+                  onFocus={e => { e.target.style.borderColor = 'var(--color-red)'; e.target.style.boxShadow = '4px 4px 0px var(--color-red)'; e.target.style.transform = 'translate(-2px, -2px)'; e.target.dataset.focused = 'true'; }}
+                  onBlur={e => { e.target.style.borderColor = 'var(--color-border-strong)'; e.target.style.boxShadow = 'none'; e.target.style.transform = 'translate(0px, 0px)'; e.target.dataset.focused = 'false'; }}
+                  onMouseEnter={e => { if (e.target.dataset.focused !== 'true') e.target.style.borderColor = 'var(--color-red)' }}
+                  onMouseLeave={e => { if (e.target.dataset.focused !== 'true') e.target.style.borderColor = 'var(--color-border-strong)' }}
                   required
                 />
               </div>
 
-              <div className="mb-6">
-                <label htmlFor="message" className="block text-sm font-medium mb-2" style={{ color: 'var(--color-red)', opacity: 0.9 }}>Message</label>
+              <div className="mb-8 flex flex-col items-start w-full relative group">
+                <label htmlFor="message" className="absolute -top-3 left-4 bg-primary px-2 font-mono text-[10px] tracking-widest uppercase transition-colors group-focus-within:text-red group-hover:text-red z-10" style={{ color: 'var(--color-muted)' }}>[ DATA_PAYLOAD ]</label>
                 <textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   rows="5"
-                  className="w-full bg-primary p-3 text-light focus:outline-none transition-all duration-200"
+                  className="w-full bg-transparent p-4 text-light font-mono focus:outline-none transition-all duration-200 z-0 resize-none"
                   style={{ border: '2px solid var(--color-border-strong)', borderRadius: '0px' }}
-                  onFocus={e => { e.target.style.borderColor = 'var(--color-red)'; e.target.style.boxShadow = '4px 4px 0px var(--color-red)'; }}
-                  onBlur={e => { e.target.style.borderColor = 'var(--color-border-strong)'; e.target.style.boxShadow = 'none'; }}
+                  onFocus={e => { e.target.style.borderColor = 'var(--color-red)'; e.target.style.boxShadow = '6px 6px 0px var(--color-red)'; e.target.style.transform = 'translate(-3px, -3px)'; e.target.dataset.focused = 'true'; }}
+                  onBlur={e => { e.target.style.borderColor = 'var(--color-border-strong)'; e.target.style.boxShadow = 'none'; e.target.style.transform = 'translate(0px, 0px)'; e.target.dataset.focused = 'false'; }}
+                  onMouseEnter={e => { if (e.target.dataset.focused !== 'true') e.target.style.borderColor = 'var(--color-red)' }}
+                  onMouseLeave={e => { if (e.target.dataset.focused !== 'true') e.target.style.borderColor = 'var(--color-border-strong)' }}
                   required
                 >
                 </textarea>
@@ -293,18 +301,20 @@ const Contact = () => {
 
               <button
                 type="submit"
-                className={`w-full py-3 font-bold text-sm tracking-wide uppercase transition-all duration-200 text-white ${status.submitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`glitch-click w-full py-4 font-mono font-bold text-sm tracking-[0.2em] uppercase transition-all duration-100 flex items-center justify-center gap-3 ${status.submitting ? 'opacity-50 cursor-not-allowed hidden-shadow' : 'hover:bg-accent hover:text-primary cursor-pointer'}`}
                 style={{
-                  backgroundColor: 'var(--color-red)',
+                  backgroundColor: 'var(--color-primary)',
+                  color: 'var(--color-accent)',
                   border: '2px solid var(--color-accent)',
-                  boxShadow: status.submitting ? '0px 0px 0px var(--color-accent)' : '6px 6px 0px var(--color-accent)',
+                  boxShadow: status.submitting ? '0px 0px 0px transparent' : '6px 6px 0px var(--color-accent)',
                   transform: status.submitting ? 'translate(0px, 0px)' : 'translate(-3px, -3px)'
                 }}
                 disabled={status.submitting}
-                onMouseOver={(e) => { if (!status.submitting) { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '0px 0px 0px var(--color-accent)'; } }}
-                onMouseOut={(e) => { if (!status.submitting) { e.currentTarget.style.transform = 'translate(-3px, -3px)'; e.currentTarget.style.boxShadow = '6px 6px 0px var(--color-accent)'; } }}
+                onMouseDown={(e) => { if (!status.submitting) { e.currentTarget.style.transform = 'translate(3px, 3px)'; e.currentTarget.style.boxShadow = '0px 0px 0px var(--color-accent)'; } }}
+                onMouseUp={(e) => { if (!status.submitting) { e.currentTarget.style.transform = 'translate(-3px, -3px)'; e.currentTarget.style.boxShadow = '6px 6px 0px var(--color-accent)'; } }}
+                onMouseLeave={(e) => { if (!status.submitting) { e.currentTarget.style.transform = 'translate(-3px, -3px)'; e.currentTarget.style.boxShadow = '6px 6px 0px var(--color-accent)'; } }}
               >
-                {status.submitting ? 'Sending...' : 'Send Message'}
+                {status.submitting ? '[ SENDING... ]' : '[ SEND MESSAGE]'}
               </button>
 
               {status.submitted && (

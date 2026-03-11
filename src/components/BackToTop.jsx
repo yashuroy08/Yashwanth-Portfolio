@@ -31,10 +31,8 @@ const BackToTop = () => {
                     initial={{ opacity: 0, scale: 0.5, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.5, y: 20 }}
-                    whileHover={{ scale: 1.1, backgroundColor: 'rgba(245, 245, 245, 0.1)' }}
-                    whileTap={{ scale: 0.9 }}
                     onClick={scrollToTop}
-                    className="fixed bottom-8 right-8 z-50 p-3 bg-secondary bg-opacity-40 border border-light border-opacity-20 backdrop-blur-md rounded-full text-light transition-colors group"
+                    className="fixed bottom-8 right-8 z-50 p-3 w-12 h-12 flex items-center justify-center bg-primary border-2 border-border-strong text-accent transition-all duration-300 hover:border-red hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0px_var(--color-red)] rounded-none group"
                     aria-label="Back to top"
                 >
                     <svg

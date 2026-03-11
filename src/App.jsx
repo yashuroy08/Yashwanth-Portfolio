@@ -6,15 +6,14 @@ import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
 import Projects from './components/Projects.jsx';
 import Skills from './components/Skills.jsx';
-
+import GithubStats from './components/GithubStats.jsx';
 import Education from './components/Education.jsx';
 import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
+import SystemHUD from './components/SystemHUD.jsx';
 import Loader from './components/Loader.jsx';
 import BackToTop from './components/BackToTop.jsx';
 import AnimatedBackground from './components/AnimatedBackground.jsx';
-import TerminalFeature from './components/TerminalFeature.jsx';
-
 import SoundEffects from './components/SoundEffects.jsx';
 import CursorBubble from './components/CursorBubble.jsx';
 import ScrollProgress from './components/ScrollProgress.jsx';
@@ -47,6 +46,7 @@ function App() {
                     transition={{ duration: 0.5 }}
                     className="bg-primary text-accent min-h-screen relative z-0"
                   >
+                    <SystemHUD />
                     <AnimatedBackground />
                     <ScrollProgress />
                     <Header />
@@ -54,12 +54,14 @@ function App() {
                       <Hero />
                       <Skills />
                       <Projects />
+                      <GithubStats />
+                      {/* <Memories /> */}
                       <Education />
                       <Contact />
                     </main>
                     <Footer />
                     <BackToTop />
-                    <TerminalFeature />
+
                   </motion.div>
                 )}
               </AnimatePresence>

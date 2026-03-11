@@ -39,10 +39,10 @@ const Footer = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex space-x-6 md:ml-auto"
           >
-            <a href="#home" className="text-muted hover:text-light transition-colors">Home</a>
-            <a href="#projects" className="text-muted hover:text-light transition-colors">Projects</a>
-            <a href="#skills" className="text-muted hover:text-light transition-colors">Skills</a>
-            <a href="#contact" className="text-muted hover:text-light transition-colors">Contact</a>
+            <a href="#home" className="text-muted hover:text-light transition-colors uppercase tracking-widest text-[10px] font-mono">HOME</a>
+            <a href="#projects" className="text-muted hover:text-light transition-colors uppercase tracking-widest text-[10px] font-mono">PROJECTS</a>
+            <a href="#skills" className="text-muted hover:text-light transition-colors uppercase tracking-widest text-[10px] font-mono">SKILLS</a>
+            <a href="#contact" className="text-muted hover:text-light transition-colors uppercase tracking-widest text-[10px] font-mono">CONTACT</a>
           </motion.div>
         </div>
 

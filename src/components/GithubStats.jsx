@@ -1,69 +1,115 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
+
+import { useTheme } from '../context/ThemeContext.jsx';
 
 const GithubStats = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, amount: 0.1 });
-    const username = "yashuroy08"; // confirmed from file path
+    const username = "yashuroy08";
+    const { theme } = useTheme();
+
+    const [contribData, setContribData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch(`https://github-contributions-api.deno.dev/${username}.json`)
+            .then(res => res.json())
+            .then(data => {
+                setContribData(data);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error("Failed to fetch Github stats", err);
+                setLoading(false);
+            });
+    }, [username]);
+
+    const isLight = theme === 'light' || (theme === 'system' && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: light)').matches);
+
+    const getRedThemeColor = (level) => {
+        switch (level) {
+            case 'NONE': return isLight ? '#e0e0e0' : '#1a1a1a';
+            case 'FIRST_QUARTILE': return '#5c1212';
+            case 'SECOND_QUARTILE': return '#991f1f';
+            case 'THIRD_QUARTILE': return '#cc2929';
+            case 'FOURTH_QUARTILE': return '#ff3333';
+            default: return isLight ? '#e0e0e0' : '#1a1a1a';
+        }
+    };
 
     return (
-        <section id="github-stats" className="section-padding bg-transparent relative overflow-hidden">
-            <div className="container-custom" ref={ref}>
+        <section id="activity" className="section-padding bg-transparent relative overflow-hidden min-h-[80vh] flex items-center">
+            <div className="container-custom w-full" ref={ref}>
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
-                    className="mb-12 md:mb-16"
+                    className="mb-12"
                 >
-                    <h4 className="font-mono text-sm text-muted mb-2 tracking-widest uppercase">OPEN SOURCE</h4>
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">GitHub Activity</h2>
-                    <div className="w-16 h-[2px] bg-light opacity-50"></div>
+                    <h4 className="font-mono text-sm text-muted tracking-widest uppercase mb-2"><span className="text-red">// 03</span> &mdash; OPEN SOURCE</h4>
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accent"><span className="glitch-hover" data-text="GITHUB ACTIVITY">GITHUB ACTIVITY</span></h2>
+                    <div className="w-16 h-[2px]" style={{ backgroundColor: 'var(--color-red)', opacity: 0.6 }}></div>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 items-start">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="w-full p-6 md:p-8 bg-primary relative border-2 border-accent"
+                    style={{
+                        boxShadow: '4px 4px 0px var(--color-red)'
+                    }}
+                >
+                    <div className="flex justify-between items-end mb-8 border-b-2 border-accent pb-4">
+                        <h3 className="font-mono text-xs tracking-[0.2em] text-accent uppercase font-bold">STATED.FREQ_ANALYSIS</h3>
+                        <span className="font-mono text-[10px] text-red animate-pulse">LIVE_SYNC</span>
+                    </div>
 
-                    {/* Main Stats Card */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="w-full flex justify-center"
-                    >
-                        <img
-                            src={`https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&theme=transparent&title_color=60a5fa&text_color=a3a3a3&icon_color=4ade80&bg_color=00000000&hide_border=true`}
-                            alt="GitHub Stats"
-                            className="w-full h-auto max-w-md object-contain border border-white/5 rounded-xl bg-secondary/5 hover:bg-secondary/10 transition-colors p-2"
-                        />
-                    </motion.div>
+                    {loading ? (
+                        <div className="flex justify-center items-center h-48">
+                            <div className="w-8 h-8 border-4 border-red border-t-transparent rounded-full animate-spin"></div>
+                        </div>
+                    ) : contribData ? (
+                        <div className="w-full overflow-x-auto pb-4 custom-scrollbar">
+                            <div className="flex gap-1" style={{ minWidth: 'max-content' }}>
+                                {contribData.contributions.map((week, idx) => (
+                                    <div key={idx} className="flex flex-col gap-1">
+                                        {week.map((day, dayIdx) => (
+                                            <div
+                                                key={`${idx}-${dayIdx}`}
+                                                className="w-3 h-3 md:w-4 md:h-4 border border-border-subtle transition-transform hover:scale-125 hover:z-10 group relative"
+                                                style={{ backgroundColor: getRedThemeColor(day.contributionLevel) }}
+                                            >
+                                                {/* Tooltip */}
+                                                <div className="absolute opacity-0 group-hover:opacity-100 bottom-full left-1/2 -translate-x-1/2 mb-2 pointer-events-none z-20 whitespace-nowrap bg-secondary text-accent font-mono text-[10px] px-2 py-1 border border-border-strong uppercase">
+                                                    {day.contributionCount} on {day.date}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="flex justify-between items-center mt-6 text-xs font-mono text-muted">
+                                <div>TOTAL: <span className="text-accent font-bold">{contribData.totalContributions}</span></div>
+                                <div className="flex items-center gap-2">
+                                    <span>LESS</span>
+                                    {['NONE', 'FIRST_QUARTILE', 'SECOND_QUARTILE', 'THIRD_QUARTILE', 'FOURTH_QUARTILE'].map(level => (
+                                        <div key={level} className="w-3 h-3 md:w-4 md:h-4 border border-border-subtle" style={{ backgroundColor: getRedThemeColor(level) }}></div>
+                                    ))}
+                                    <span>MORE</span>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="text-red font-mono text-sm py-10 text-center">ERR: FAILED_TO_FETCH_DATA</div>
+                    )}
 
-                    {/* Top Languages Card */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.5, delay: 0.3 }}
-                        className="w-full flex justify-center"
-                    >
-                        <img
-                            src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&layout=compact&theme=transparent&title_color=60a5fa&text_color=a3a3a3&bg_color=00000000&hide_border=true`}
-                            alt="Top Languages"
-                            className="w-full h-auto max-w-md object-contain border border-white/5 rounded-xl bg-secondary/5 hover:bg-secondary/10 transition-colors p-2"
-                        />
-                    </motion.div>
-
-                    {/* Streak Stats (Full Width on Desktop) */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.5, delay: 0.4 }}
-                        className="w-full flex justify-center md:col-span-2 lg:col-span-2 mt-2"
-                    >
-                        <img
-                            src={`https://github-readme-streak-stats.herokuapp.com/?user=${username}&theme=transparent&background=00000000&ring=60a5fa&currStreakLabel=60a5fa&fire=f59e0b&sideNums=a3a3a3&sideLabels=a3a3a3&dates=a3a3a3&hide_border=true`}
-                            alt="GitHub Streak"
-                            className="w-full h-auto max-w-3xl object-contain border border-white/5 rounded-xl bg-secondary/5 hover:bg-secondary/10 transition-colors p-2"
-                        />
-                    </motion.div>
-                </div>
+                    <div className="absolute top-0 left-0 w-2 h-2 bg-red"></div>
+                    <div className="absolute top-0 right-0 w-2 h-2 bg-red"></div>
+                    <div className="absolute bottom-0 left-0 w-2 h-2 bg-red"></div>
+                    <div className="absolute bottom-0 right-0 w-2 h-2 bg-red"></div>
+                </motion.div>
             </div>
         </section>
     );

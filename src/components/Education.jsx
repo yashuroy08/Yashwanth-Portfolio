@@ -54,8 +54,8 @@ const Education = () => {
           className="mb-12 md:mb-16"
         >
           <ScrollReveal delay={0}>
-            <h4 className="font-mono text-sm text-muted mb-2 tracking-widest uppercase"><span className="text-red">// 03</span> &mdash; EXPERIENCE</h4>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4"><span className="glitch-hover" data-text="My Journey">My Journey</span></h2>
+            <h4 className="font-mono text-sm text-muted mb-2 tracking-widest uppercase"><span className="text-red">// 05</span> &mdash; EXPERIENCE</h4>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accent"><span className="glitch-hover" data-text="MY JOURNEY">MY JOURNEY</span></h2>
             <div className="w-16 h-[2px]" style={{ backgroundColor: 'var(--color-red)', opacity: 0.6 }}></div>
           </ScrollReveal>
         </motion.div>
