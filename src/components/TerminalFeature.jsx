@@ -131,10 +131,10 @@ const TerminalFeature = () => {
     }, [handleKeyDown]);
 
     const commands = {
-        help: 'Available commands: about, skills, contact, resume, theme, fetch-stats, clear, exit',
+        help: `AVAILABLE_COMMANDS:\n\n  - about       : System overview\n  - skills      : Technical stack analysis\n  - projects    : Deployment logs\n  - contact     : Establish uplink\n  - resume      : DOWNLOAD_RESUME.PDF\n  - fetch-stats : Live GitHub telemetry\n  - theme       : Rotate accent sub-routines\n  - date        : System time\n  - status      : Tactical overview\n  - clear       : Wipe terminal buffer`,
         about: 'Yashwanth Patam - Java Developer specializing in Spring Boot and Backend Architectures.',
         skills: 'Java, Spring Boot, MongoDB, Vercel, Render, React, Tailwind CSS.',
-        contact: 'Email: yashwanthp2335.sse@saveetha.com | GitHub: https://github.com/yashuroy08',
+        contact: 'Email: yashwanthp2335.sse@saveetha.com | Linkedin: https://www.linkedin.com/in/yashwanth-patam/',
         clear: 'clear',
         exit: 'exit'
     };
@@ -149,11 +149,13 @@ const TerminalFeature = () => {
             } else if (trimmedInput === 'exit') {
                 setIsOpen(false);
             } else if (trimmedInput === 'resume') {
+                const resumeUrl = '/resume.pdf';
+                window.open(resumeUrl, '_blank');
                 const link = document.createElement('a');
-                link.href = '/resume.pdf';
+                link.href = resumeUrl;
                 link.download = 'Yashwanth_Resume.pdf';
                 link.click();
-                newHistory.push({ type: 'output', content: 'Downloading resume.pdf...' });
+                newHistory.push({ type: 'output', content: 'INITIALIZING_RESUME_UPLINK... [OPEN_IN_NEW_TAB // TRIGGER_DOWNLOAD]' });
                 setHistory(newHistory);
             } else if (trimmedInput === 'theme') {
                 const nextAccent = accentColor === 'red' ? 'green' : 'red';
@@ -162,6 +164,12 @@ const TerminalFeature = () => {
                 setHistory(newHistory);
             } else if (trimmedInput === 'fetch-stats') {
                 newHistory.push({ type: 'component', component: 'github-stats' });
+                setHistory(newHistory);
+            } else if (trimmedInput === 'date') {
+                newHistory.push({ type: 'output', content: `CURRENT_SYSTEM_TIME: ${new Date().toLocaleString()}\nUTC_OFFSET: ${new Date().getTimezoneOffset()}\nSTATUS: TIME_SYNC_SUCCESSFUL` });
+                setHistory(newHistory);
+            } else if (trimmedInput === 'status') {
+                newHistory.push({ type: 'output', content: `[SYSTEM_STATUS_REPORT]\n----------------------\nUPTIME: 12h 43m 12s\nMEMORY: 1.4GB / 4.0GB [|||||-----]\nCPU: 12% LOAD\nCONNECTION: STABLE_SSL\nSESSION: ${Math.random().toString(16).substring(2, 10).toUpperCase()}\n----------------------\nALL SYSTEMS NOMINAL` });
                 setHistory(newHistory);
             } else if (commands[trimmedInput]) {
                 newHistory.push({ type: 'output', content: commands[trimmedInput] });

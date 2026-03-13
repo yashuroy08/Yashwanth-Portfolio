@@ -62,7 +62,15 @@ const Education = () => {
 
         <div className="relative max-w-4xl mx-auto pl-4 md:pl-0">
           {/* Vertical line on the left */}
-          <div className="absolute left-[29px] top-2 bottom-0 w-[1px]" style={{ backgroundColor: 'var(--color-red)', opacity: 0.15 }}></div>
+          <div className="absolute left-[29px] top-2 bottom-0 w-[1px] opacity-20 overflow-hidden">
+            <motion.div 
+              initial={{ y: "-100%" }}
+              animate={{ y: "100%" }}
+              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              className="w-full h-full"
+              style={{ backgroundImage: 'linear-gradient(to bottom, var(--color-red) 50%, transparent 50%)', backgroundSize: '1px 20px' }}
+            />
+          </div>
 
           <div className="space-y-8">
             {timelineData.map((item, i) => (
@@ -73,13 +81,23 @@ const Education = () => {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="relative flex gap-6 md:gap-8 min-h-[80px]"
               >
-                {/* Timeline Square (Brutalist style) */}
+                {/* Tactical Node (Crosshair style) */}
                 <div className="relative z-10 flex-shrink-0 mt-1.5 ml-[21px]">
-                  <div className={`w-4 h-4 bg-primary border-2 ${item.type === 'education' ? 'border-blue-400' :
-                    item.type === 'project' ? 'border-green-400' :
-                      item.type === 'achievement' ? 'border-amber-400' :
-                        item.type === 'certification' ? 'border-red-500' : 'border-purple-400'
-                    }`} style={{ borderRadius: '0px' }}></div>
+                  <div className="relative flex items-center justify-center w-4 h-4">
+                    {/* Crosshair Lines */}
+                    <div className="absolute w-full h-[1px] bg-red/40"></div>
+                    <div className="absolute h-full w-[1px] bg-red/40"></div>
+                    {/* Inner Square */}
+                    <motion.div 
+                      animate={{ scale: [1, 1.2, 1], opacity: [0.6, 1, 0.6] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className={`w-2 h-2 bg-primary border ${item.type === 'education' ? 'border-blue-400' :
+                        item.type === 'project' ? 'border-green-400' :
+                          item.type === 'achievement' ? 'border-amber-400' :
+                            item.type === 'certification' ? 'border-red-500' : 'border-purple-400'
+                        }`} 
+                    />
+                  </div>
                 </div>
 
                 {/* Content Card */}

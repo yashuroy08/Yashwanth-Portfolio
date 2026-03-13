@@ -4,6 +4,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 const AnimatedBackground = () => {
     const bgRef = useRef(null);
     const [ripples, setRipples] = useState([]);
+    const [particles, setParticles] = useState([]);
+
+    useEffect(() => {
+        const generatedParticles = Array.from({ length: 20 }, (_, i) => ({
+            id: i,
+            x: Math.random() * 100,
+            y: Math.random() * 100,
+            size: Math.random() * 1.5 + 1,
+            duration: Math.random() * 30 + 30,
+            delay: -Math.random() * 20
+        }));
+        setParticles(generatedParticles);
+    }, []);
 
     useEffect(() => {
         const handleMouseMove = (e) => {
@@ -78,6 +91,31 @@ const AnimatedBackground = () => {
                     WebkitMaskImage: 'radial-gradient(100px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), black 0%, transparent 100%)'
                 }}
             />
+
+            {/* Floating Particles */}
+            {particles.map((p) => (
+                <motion.div
+                    key={p.id}
+                    className="absolute rounded-full bg-accent/20 pointer-events-none"
+                    style={{
+                        width: p.size,
+                        height: p.size,
+                        left: `${p.x}%`,
+                        top: `${p.y}%`,
+                    }}
+                    animate={{
+                        y: [0, -40, 0],
+                        x: [0, 20, 0],
+                        opacity: [0.2, 0.5, 0.2]
+                    }}
+                    transition={{
+                        duration: p.duration,
+                        repeat: Infinity,
+                        ease: "linear",
+                        delay: p.delay
+                    }}
+                />
+            ))}
 
             {/* Click Ripples */}
             <AnimatePresence>
