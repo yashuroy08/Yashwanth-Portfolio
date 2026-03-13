@@ -170,9 +170,12 @@ const Hero = () => {
                   <span className="text-accent opacity-75">/* Currently focused on expanding my backend knowledge and taking on new challenges. */</span>
                 </p>
                 <div className="inline-flex items-center gap-3 px-4 py-2 border-2 bg-primary" style={{ borderColor: 'var(--color-accent)', boxShadow: '4px 4px 0px var(--color-accent)' }}>
-                  <span className="w-3 h-3 animate-pulse" style={{ backgroundColor: 'var(--color-red)' }} />
+                  <span className="relative flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: 'var(--color-accent)' }} />
+                    <span className="relative inline-flex rounded-full h-3 w-3" style={{ backgroundColor: 'var(--color-accent)' }} />
+                  </span>
                   <span className="font-mono text-xs tracking-widest uppercase font-bold text-accent">
-                    STATUS: AVAILABLE
+                    STATUS: AVAILABLE_FOR_HIRE
                   </span>
                 </div>
               </motion.div>

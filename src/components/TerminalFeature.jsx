@@ -108,15 +108,37 @@ const GitHubStats = () => {
     );
 };
 
+const WELCOME_MESSAGES = [
+    'Welcome to Yashwanth\'s Portfolio Terminal v1.0.0',
+    'Type "help" to see available commands.'
+];
+
+const TypingLine = ({ text, onDone }) => {
+    const [displayed, setDisplayed] = useState('');
+    useEffect(() => {
+        let i = 0;
+        const interval = setInterval(() => {
+            setDisplayed(text.slice(0, i + 1));
+            i++;
+            if (i >= text.length) {
+                clearInterval(interval);
+                onDone?.();
+            }
+        }, 25);
+        return () => clearInterval(interval);
+    }, [text, onDone]);
+    return <div className="text-muted leading-relaxed whitespace-pre-wrap">{displayed}<span className="animate-pulse">▌</span></div>;
+};
+
 const TerminalFeature = () => {
     const [isOpen, setIsOpen] = useState(false);
     const isIdle = useIdle(3000); // 3 seconds timeout
     const { accentColor, setAccentColor } = useTheme();
     const [input, setInput] = useState('');
-    const [history, setHistory] = useState([
-        { type: 'output', content: 'Welcome to Yashwanth\'s Portfolio Terminal v1.0.0' },
-        { type: 'output', content: 'Type "help" to see available commands.' }
-    ]);
+    const [history, setHistory] = useState([]);
+    const [welcomeStep, setWelcomeStep] = useState(0);
+    const [commandHistory, setCommandHistory] = useState([]);
+    const [_historyIndex, setHistoryIndex] = useState(-1);
     const scrollRef = useRef(null);
 
     const scrollToBottom = () => {
@@ -126,6 +148,29 @@ const TerminalFeature = () => {
     useEffect(() => {
         scrollToBottom();
     }, [history]);
+
+    // Trigger welcome typing when terminal opens
+    useEffect(() => {
+        if (isOpen) setWelcomeStep(0);
+    }, [isOpen]);
+
+    const handleArrowKeys = useCallback((e) => {
+        if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            setHistoryIndex((prev) => {
+                const next = Math.min(prev + 1, commandHistory.length - 1);
+                setInput(commandHistory[commandHistory.length - 1 - next] ?? '');
+                return next;
+            });
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            setHistoryIndex((prev) => {
+                const next = Math.max(prev - 1, -1);
+                setInput(next === -1 ? '' : (commandHistory[commandHistory.length - 1 - next] ?? ''));
+                return next;
+            });
+        }
+    }, [commandHistory]);
 
     const handleKeyDown = useCallback((e) => {
         if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -151,6 +196,10 @@ const TerminalFeature = () => {
     const handleCommand = (e) => {
         if (e.key === 'Enter') {
             const trimmedInput = input.trim().toLowerCase();
+            if (trimmedInput !== '') {
+                setCommandHistory((prev) => [...prev, input.trim()]);
+                setHistoryIndex(-1);
+            }
             const newHistory = [...history, { type: 'input', content: input }];
 
             if (trimmedInput === 'clear') {
@@ -239,6 +288,16 @@ const TerminalFeature = () => {
 
                         {/* Content Area */}
                         <div className="flex-1 p-4 overflow-y-auto text-sm text-accent/80 scrollbar-hide">
+                            {/* Animated welcome lines */}
+                            {WELCOME_MESSAGES.slice(0, welcomeStep + 1).map((msg, i) => (
+                                <div key={`welcome-${i}`} className="mb-2">
+                                    {i === welcomeStep && i < WELCOME_MESSAGES.length ? (
+                                        <TypingLine text={msg} onDone={() => setWelcomeStep(s => Math.min(s + 1, WELCOME_MESSAGES.length - 1))} />
+                                    ) : (
+                                        <div className="text-muted leading-relaxed whitespace-pre-wrap">{msg}</div>
+                                    )}
+                                </div>
+                            ))}
                             {history.map((line, i) => (
                                 <div key={i} className="mb-2">
                                     {line.type === 'input' ? (
@@ -261,7 +320,7 @@ const TerminalFeature = () => {
                                     className="bg-transparent border-none outline-none flex-1 text-white caret-white"
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
-                                    onKeyDown={handleCommand}
+                                    onKeyDown={(e) => { handleArrowKeys(e); handleCommand(e); }}
                                 />
                             </div>
                             <div ref={scrollRef} />

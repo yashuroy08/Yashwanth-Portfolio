@@ -100,12 +100,17 @@ const Skills = () => {
               <svg className="w-10 h-10 text-red opacity-80" viewBox="0 0 256 317" fill="none"><path fill="currentColor" d="M158 0 0 158l49 48L255 0zM157 145l-85 85 49 50 49-49 85-86z" /><path fill="white" fillOpacity="0.4" d="m121 280 37 37h97l-85-86z" /><path fill="white" fillOpacity="0.2" d="m72 230 48-48 50 49-49 49z" /></svg>
               {/* Dart */}
               <svg className="w-10 h-10 text-accent opacity-80" viewBox="0 0 256 256" fill="currentColor"><path d="M52.209 203.791 8.413 159.995C3.218 154.67 0 147.141 0 139.782c0-3.407 1.92-8.733 3.369-11.782l40.427-84.204 8.413 159.995Z" /><path d="M202.116 52.209 158.32 8.413C154.5 4.573 146.538 0 139.8 0c-5.796 0-11.48 1.167-15.15 3.369L43.815 43.796l158.301 8.413ZM104.418 256h106.111v-45.471l-79.16-25.276-72.422 25.276z" /><path fill="white" fillOpacity="0.5" d="M43.796 180.209c0 13.513 1.694 16.826 8.413 23.582l6.738 6.738h151.582l-74.097-84.204-92.636-82.53V180.21Z" /><path fill="white" fillOpacity="0.3" d="M178.534 43.777H43.796L210.529 210.51H256V106.093L202.097 52.19c-7.566-7.585-14.285-8.413-23.563-8.413Z" /></svg>
+              {/* Figma */}
+              <img src="/figma-logo-svgrepo-com.svg" alt="Figma" className="w-[1.8rem] h-[1.8rem] object-contain opacity-80 mt-1" />
             </div>
 
             <div className="flex flex-col gap-2">
               <span className="text-3xl md:text-5xl font-black uppercase tracking-tight" style={{ color: 'var(--color-accent)' }}>REACT.JS</span>
               <span className="text-3xl md:text-5xl font-black uppercase tracking-tight text-red">FLUTTER</span>
-              <span className="text-xl md:text-2xl font-bold uppercase tracking-tight text-muted">DART</span>
+              <div className="flex gap-4 items-baseline">
+                <span className="text-xl md:text-2xl font-bold uppercase tracking-tight text-muted">DART</span>
+                <span className="text-[1.2rem] md:text-2xl font-bold uppercase tracking-tight text-light">UI/UX</span>
+              </div>
             </div>
           </motion.div>
 

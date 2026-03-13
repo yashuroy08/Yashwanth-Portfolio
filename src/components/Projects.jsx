@@ -2,6 +2,51 @@ import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ScrollReveal from './ScrollReveal';
 
+const projects = [
+  {
+    title: "E-commerce Backend Service",
+    description: "A high-performance backend architecture for a modern e-commerce ecosystem. Developed using Spring Boot and MongoDB, this service handles complex business logic, concurrent order processing, and secure financial transactions through a multi-layered microservices-ready approach.",
+    tech: ["Java", "Spring Boot", "MongoDB", "Render", "Vercel"],
+    color: "from-blue-500/20 to-purple-500/20",
+    liveLink: "https://threads-fashion.vercel.app/",
+    githubLink: "https://github.com/yashuroy08/Threads-Fashion",
+    highlights: [
+      "Architected scalable RESTful APIs with Spring Boot",
+      "Implemented secure JWT-based authentication & RBAC",
+      "Optimized database schema and queries in MongoDB",
+      "Deployed backend to Render and frontend to Vercel"
+    ]
+  },
+  {
+    title: "Advanced RBAC System",
+    description: "A sophisticated Role-Based Access Control (RBAC) system featuring granular permission management and dynamic role assignment. The system handles secure user authentication, complex authorization hierarchies, and real-time security monitoring. It was designed to provide a modular security layer that can be seamlessly integrated into any enterprise-grade application.",
+    tech: ["Spring Boot", "Spring Security", "JWT", "MySQL", "JPA"],
+    color: "from-indigo-500/20 to-blue-500/20",
+    liveLink: "#",
+    githubLink: "https://github.com/yashuroy08/RBAC",
+    highlights: [
+      "Granular permission-based access control",
+      "Secure user authentication with JWT",
+      "Automated risk evaluation & session management",
+      "Instant session invalidation for high-risk activities"
+    ]
+  },
+  {
+    title: "Weather Forecast App",
+    description: "A cross-platform mobile application built with Flutter and Dart that delivers real-time weather updates. It features a beautiful, responsive UI that adapts to current weather conditions, offering hourly and weekly forecasts, humidity levels, and wind speed details for any location worldwide. The app leverages device sensors for location access and provides accurate data visualization.",
+    tech: ["Flutter", "Dart", "OpenWeather API", "Geolocator", "Bloc Pattern"],
+    color: "from-orange-500/20 to-red-500/20",
+    liveLink: "#",
+    githubLink: "#",
+    highlights: [
+      "Real-time weather data integration",
+      "Automatic user location detection",
+      "Dynamic background animations based on weather",
+      "7-day forecast visualization"
+    ]
+  }
+];
+
 const Projects = () => {
   const [activeProject, setActiveProject] = useState(0);
   const cardRef = useRef(null);
@@ -17,69 +62,7 @@ const Projects = () => {
     const y = (e.clientY - top) / height - 0.5;
     setTilt({ rotateX: -y * 10, rotateY: x * 10 }); // max ±5°
   };
-
   const resetTilt = () => setTilt({ rotateX: 0, rotateY: 0 });
-
-  const projects = [
-    {
-      title: "E-commerce Backend Service",
-      description: "A high-performance backend architecture for a modern e-commerce ecosystem. Developed using Spring Boot and MongoDB, this service handles complex business logic, concurrent order processing, and secure financial transactions through a multi-layered microservices-ready approach.",
-      tech: ["Java", "Spring Boot", "MongoDB", "Render", "Vercel"],
-      color: "from-blue-500/20 to-purple-500/20",
-      liveLink: "https://threads-fashion.vercel.app/",
-      githubLink: "https://github.com/yashuroy08/Threads-Fashion",
-      highlights: [
-        "Architected scalable RESTful APIs with Spring Boot",
-        "Implemented secure JWT-based authentication & RBAC",
-        "Optimized database schema and queries in MongoDB",
-        "Deployed backend to Render and frontend to Vercel"
-      ]
-    },
-    // {
-    //   title: "Smart Energy Meter",
-    //   description: "IoT-based system monitoring real-time energy consumption. Integrates hardware sensors with a web dashboard for data visualization and bill estimation, helping users track and reduce their energy footprint.",
-    //   tech: ["C++", "Arduino", "NodeMCU", "Firebase", "React"],
-    //   color: "from-green-500/20 to-emerald-500/20",
-    //   liveLink: "https://youtu.be/2p0IYR5LZQY?si=B-mUne3wt7dyw4SU",
-    //   githubLink: "https://github.com/yashuroy08/SmartMeter-",
-    //   highlights: [
-    //     "Real-time voltage & current monitoring",
-    //     "WiFi-enabled data transmission using NodeMCU",
-    //     "Live usage dashboard with bill estimation",
-    //     "Alert system for high consumption"
-    //   ]
-    // },
-    {
-      title: "Advanced RBAC System",
-      description: "A sophisticated Role-Based Access Control (RBAC) system featuring granular permission management and dynamic role assignment. The system handles secure user authentication, complex authorization hierarchies, and real-time security monitoring. It was designed to provide a modular security layer that can be seamlessly integrated into any enterprise-grade application.",
-      tech: ["Spring Boot", "Spring Security", "JWT", "MySQL", "JPA"],
-      color: "from-indigo-500/20 to-blue-500/20",
-      liveLink: "#",
-      githubLink: "https://github.com/yashuroy08/RBAC",
-      highlights: [
-        "Granular permission-based access control",
-        "Secure user authentication with JWT",
-        "Automated risk evaluation & session management",
-        "Instant session invalidation for high-risk activities"
-      ]
-    },
-    {
-      title: "Weather Forecast App",
-      description: "A cross-platform mobile application built with Flutter and Dart that delivers real-time weather updates. It features a beautiful, responsive UI that adapts to current weather conditions, offering hourly and weekly forecasts, humidity levels, and wind speed details for any location worldwide. The app leverages device sensors for location access and provides accurate data visualization.",
-      tech: ["Flutter", "Dart", "OpenWeather API", "Geolocator", "Bloc Pattern"],
-      color: "from-orange-500/20 to-red-500/20",
-      liveLink: "#",
-      githubLink: "#",
-      highlights: [
-        "Real-time weather data integration",
-        "Automatic user location detection",
-        "Dynamic background animations based on weather",
-        "7-day forecast visualization"
-      ]
-    }
-  ];
-
-
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -154,7 +137,7 @@ const Projects = () => {
                 <h3 className={`font-semibold text-lg mb-1 transition-colors duration-300 ${activeProject === index ? "text-light" : "text-muted group-hover:text-light/80"
                   }`}>
                   {project.title}
-                </h3>
+</h3>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {project.tech.slice(0, 3).map((t, i) => (
                     <span key={i} className="text-[10px] uppercase tracking-tighter text-muted/60 font-mono">
@@ -204,18 +187,18 @@ const Projects = () => {
 
                 <div className="p-6 md:p-8 relative z-10">
                   <div className="flex justify-between items-start mb-6">
-                    <h3 className="text-2xl md:text-3xl font-bold">{projects[activeProject].title}</h3>
+                    <h3 className="text-2xl md:text-3xl font-bold">{projects[activeProject]?.title}</h3>
                   </div>
 
                   <p className="text-muted mb-8 leading-relaxed text-lg">
-                    {projects[activeProject].description}
+                    {projects[activeProject]?.description}
                   </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                     <div>
                       <h4 className="text-xs font-mono text-light uppercase tracking-widest mb-4 opacity-70">[_FEATURES]</h4>
                       <ul className="space-y-3">
-                        {projects[activeProject].highlights.map((highlight, i) => (
+                        {projects[activeProject]?.highlights.map((highlight, i) => (
                           <li key={i} className="flex items-start gap-3">
                             <span className="text-xs mt-1" style={{ color: 'var(--color-red)' }}>●</span>
                             <span className="text-sm text-muted">{highlight}</span>
@@ -227,7 +210,7 @@ const Projects = () => {
                     <div>
                       <h4 className="text-xs font-mono text-light uppercase tracking-widest mb-4 opacity-70">[_STACK]</h4>
                       <div className="flex flex-wrap gap-2">
-                        {projects[activeProject].tech.map((tech, i) => (
+                        {projects[activeProject]?.tech.map((tech, i) => (
                           <span
                             key={i}
                             className={`text-[10px] py-1 px-2 border-2 font-mono uppercase font-bold tracking-[0.1em] text-accent border-border-strong bg-primary`}
@@ -241,9 +224,9 @@ const Projects = () => {
                   </div>
 
                   <div className="pt-8 flex flex-wrap gap-4" style={{ borderTop: '2px solid var(--color-border-strong)' }}>
-                    {projects[activeProject].liveLink && projects[activeProject].liveLink !== '#' && (
+                    {projects[activeProject]?.liveLink && projects[activeProject].liveLink !== '#' && (
                       <a
-                        href={projects[activeProject].liveLink}
+                        href={projects[activeProject]?.liveLink}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="glitch-click group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-white bg-red border-2 border-accent"
@@ -263,9 +246,9 @@ const Projects = () => {
                       </a>
                     )}
 
-                    {projects[activeProject].githubLink && projects[activeProject].githubLink !== '#' && (
+                    {projects[activeProject]?.githubLink && projects[activeProject].githubLink !== '#' && (
                       <a
-                        href={projects[activeProject].githubLink}
+                        href={projects[activeProject]?.githubLink}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="glitch-click group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-light bg-primary border-2 border-border-strong"

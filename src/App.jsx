@@ -21,6 +21,7 @@ import SoundEffects from './components/SoundEffects.jsx';
 import CursorBubble from './components/CursorBubble.jsx';
 import ScrollProgress from './components/ScrollProgress.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
+import NotFound from './components/NotFound.jsx';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -35,6 +36,7 @@ function App() {
         <Routes>
           <Route path="/resume" element={<ResumeRedirect />} />
           <Route path="/blog/:id" element={<BlogPost />} />
+          <Route path="/404" element={<NotFound />} />
           <Route
             path="/*"
             element={

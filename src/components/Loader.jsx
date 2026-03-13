@@ -6,11 +6,10 @@ const GRID_SIZE = 7;
 const TOTAL_DOTS = GRID_SIZE * GRID_SIZE;
 
 // Build a clockwise spiral order of indices for a 7x7 grid
-// Spiral from outside-in, lighting dots one by one in that order
 function buildClockwiseSpiral(size) {
     const order = [];
     const visited = Array.from({ length: size }, () => Array(size).fill(false));
-    const dirs = [[0, 1], [1, 0], [0, -1], [-1, 0]]; // right, down, left, up
+    const dirs = [[0, 1], [1, 0], [0, -1], [-1, 0]];
     let r = 0, c = 0, dir = 0;
     for (let i = 0; i < size * size; i++) {
         order.push(r * size + c);
@@ -44,17 +43,16 @@ const Loader = ({ onComplete }) => {
     const [progress, setProgress] = useState(0);
     const [logs, setLogs] = useState([]);
     const [isExiting, setIsExiting] = useState(false);
-    const [activeDotIndex, setActiveDotIndex] = useState(0); // Which dot in spiral is the "head"
-    const [trail, setTrail] = useState(new Set()); // Indices of dots currently lit
+    const [activeDotIndex, setActiveDotIndex] = useState(0);
+    const [trail, setTrail] = useState(new Set());
 
     const TRAIL_LENGTH = 5;
 
-    // Dot-matrix snake animation — independent of progress
+    // Dot-matrix snake animation
     useEffect(() => {
         let step = 0;
         const dotInterval = setInterval(() => {
             step = (step + 1) % TOTAL_DOTS;
-            // Build the trail: current step and N previous steps in spiral order
             const newTrail = new Set();
             for (let i = 0; i < TRAIL_LENGTH; i++) {
                 const idx = (step - i + TOTAL_DOTS) % TOTAL_DOTS;
@@ -62,7 +60,7 @@ const Loader = ({ onComplete }) => {
             }
             setActiveDotIndex(SPIRAL_ORDER[step]);
             setTrail(newTrail);
-        }, 50); // 50ms per step = smooth snake motion
+        }, 50);
         return () => clearInterval(dotInterval);
     }, []);
 
@@ -112,16 +110,15 @@ const Loader = ({ onComplete }) => {
                         }}
                     />
 
-                    {/* ── CORNER LABELS ── */}
-                    {/* Top-left */}
+                    {/* Corner Labels */}
                     <div className="absolute top-6 left-6 text-[10px] tracking-[0.3em] text-[#ff3333] font-mono">
                         [SYS.LOAD]
                     </div>
-                    {/* Top-right */}
                     <div className="absolute top-6 right-6 text-[10px] tracking-[0.3em] text-[#555555] font-mono text-right">
                         INIT.SEQUENCE
                     </div>
-                    {/* Bottom-left: System logs */}
+
+                    {/* System logs (bottom-left) */}
                     <div className="absolute bottom-20 left-6 flex flex-col gap-1 text-[9px] md:text-[10px] text-[#444444] max-w-xs">
                         {logs.map((log, i) => (
                             <motion.div
@@ -134,7 +131,8 @@ const Loader = ({ onComplete }) => {
                             </motion.div>
                         ))}
                     </div>
-                    {/* Bottom-right: Coordinates */}
+
+                    {/* Coordinates (bottom-right) */}
                     <div className="absolute bottom-20 right-6 text-right text-[9px] md:text-[10px] text-[#333333] font-mono leading-relaxed">
                         <div>X: {String(progress * 23 % 999).padStart(3, '0')}</div>
                         <div>Y: {String(progress * 17 % 999).padStart(3, '0')}</div>
@@ -146,10 +144,8 @@ const Loader = ({ onComplete }) => {
                     <div className="absolute bottom-5 left-5 w-5 h-5 border-b-2 border-l-2 border-[#222222]" />
                     <div className="absolute bottom-5 right-5 w-5 h-5 border-b-2 border-r-2 border-[#222222]" />
 
-                    {/* ── MAIN CONTENT ── */}
+                    {/* Main Content */}
                     <div className="flex flex-col items-center gap-8 z-10">
-
-                        {/* Title */}
                         <div className="text-[10px] tracking-[0.5em] text-[#333333] uppercase">
                             PORTFOLIO_DEPLOYMENT
                         </div>
@@ -162,10 +158,7 @@ const Loader = ({ onComplete }) => {
                             {Array.from({ length: TOTAL_DOTS }, (_, dotIndex) => {
                                 const isHead = dotIndex === activeDotIndex;
                                 const isTrail = trail.has(dotIndex);
-                                const trailPos = isTrail
-                                    ? [...trail].indexOf(dotIndex)
-                                    : -1;
-                                // Head = full red, trail fades out, rest = dark
+                                const trailPos = isTrail ? [...trail].indexOf(dotIndex) : -1;
                                 let bg = '#1a1a1a';
                                 let shadow = 'none';
                                 if (isHead) {

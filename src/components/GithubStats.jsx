@@ -67,8 +67,25 @@ const GithubStats = () => {
                     </div>
 
                     {loading ? (
-                        <div className="flex justify-center items-center h-48">
-                            <div className="w-8 h-8 border-4 border-red border-t-transparent rounded-full animate-spin"></div>
+                        <div className="w-full animate-pulse">
+                            {/* Skeleton contribution grid */}
+                            <div className="flex gap-1 overflow-hidden">
+                                {Array.from({ length: 52 }).map((_, weekIdx) => (
+                                    <div key={weekIdx} className="flex flex-col gap-1">
+                                        {Array.from({ length: 7 }).map((_, dayIdx) => (
+                                            <div
+                                                key={dayIdx}
+                                                className="w-3 h-3 md:w-4 md:h-4 rounded-sm bg-secondary"
+                                                style={{ opacity: Math.random() > 0.6 ? 0.5 : 0.15 }}
+                                            />
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="flex justify-between items-center mt-6">
+                                <div className="h-3 w-28 bg-secondary rounded" />
+                                <div className="h-3 w-36 bg-secondary rounded" />
+                            </div>
                         </div>
                     ) : contribData ? (
                         <div className="w-full overflow-x-auto pb-4 custom-scrollbar">
