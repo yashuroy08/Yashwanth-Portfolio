@@ -2,7 +2,7 @@
 
 A premium, high-performance developer portfolio inspired by the **Nothing OS** and **Brutalist** aesthetic. This project showcases my expertise in Java, Spring Boot, and Cross-Platform Development through a minimalist, technical, and immersive user experience.
 
-![Portfolio Screenshot](public/screenshot-preview.png)
+![Portfolio Screenshot](public/screenshot-preview.png)..
 
 ## ✨ key features
 
