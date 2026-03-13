@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useIdle from '../hooks/useIdle';
 import { useTheme } from '../context/ThemeContext';
@@ -117,6 +117,15 @@ const TerminalFeature = () => {
         { type: 'output', content: 'Welcome to Yashwanth\'s Portfolio Terminal v1.0.0' },
         { type: 'output', content: 'Type "help" to see available commands.' }
     ]);
+    const scrollRef = useRef(null);
+
+    const scrollToBottom = () => {
+        scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [history]);
 
     const handleKeyDown = useCallback((e) => {
         if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -255,6 +264,7 @@ const TerminalFeature = () => {
                                     onKeyDown={handleCommand}
                                 />
                             </div>
+                            <div ref={scrollRef} />
                         </div>
                     </motion.div>
                 )}
