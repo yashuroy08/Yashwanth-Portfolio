@@ -207,7 +207,7 @@ const TerminalFeature = () => {
             } else if (trimmedInput === 'exit') {
                 setIsOpen(false);
             } else if (trimmedInput === 'resume') {
-                const resumeUrl = '/Yashwant Royal Resume.pdf';
+                const resumeUrl = '/resume.pdf';
                 window.open(resumeUrl, '_blank');
                 const link = document.createElement('a');
                 link.href = resumeUrl;

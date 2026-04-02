@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ThemeToggle from './ThemeToggle.jsx';
 
-const navItems = ['HOME', 'SKILLS', 'PROJECTS', 'EDUCATION', 'CASE STUDIES', 'CONTACT'];
+const navItems = ['HOME', 'SKILLS', 'PROJECTS', 'ACTIVITY', 'EDUCATION', 'BLOGS', 'CONTACT'];
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -82,12 +82,16 @@ const Header = () => {
             className="flex items-center gap-4 cursor-pointer"
           >
             <div
-              className="flex items-center justify-center w-10 h-10 rounded-lg bg-red text-white font-bold transition-transform duration-300 hover:scale-105"
+              className="flex items-center justify-center w-10 h-10 border-2"
               style={{
-                boxShadow: '0 4px 14px 0 rgba(226, 54, 54, 0.39)',
+                background: 'var(--color-red)',
+                borderColor: 'var(--color-border-strong)',
+                borderRadius: '0px',
+                boxShadow: '4px 4px 0px var(--color-border-strong)',
+                transform: 'translate(-2px, -2px)',
               }}
             >
-              <span className="text-sm font-black tracking-tight font-mono">YP</span>
+              <span className="text-sm font-black tracking-tight text-white font-mono">YP</span>
             </div>
             <div className="hidden lg:block">
               <span className="font-mono text-[10px] tracking-[0.5em] text-accent uppercase font-bold">
@@ -101,20 +105,21 @@ const Header = () => {
             {/* Brutalist nav container */}
             <nav className="flex items-center gap-1 xl:gap-2">
               {navItems.map((item, i) => {
-                const sectionId = item.toLowerCase().replace(' ', '-');
-                const isActive = activeSection === sectionId;
+                const isActive = activeSection === item.toLowerCase();
                 return (
                   <motion.a
                     key={item}
-                    href={`#${sectionId}`}
+                    href={`#${item.toLowerCase()}`}
                     custom={i}
                     variants={navItemVariants}
                     initial="hidden"
                     animate="visible"
-                    className="relative px-4 py-2 text-[10px] xl:text-[11px] font-mono tracking-widest transition-all duration-300 uppercase rounded-md hover:bg-accent/10 hover:text-accent"
+                    className="relative px-2 lg:px-3 xl:px-4 py-1.5 xl:py-2 text-[9px] lg:text-[10px] xl:text-[11px] font-mono tracking-widest transition-all duration-200 uppercase border-2"
                     style={{
+                      borderRadius: '0px',
                       color: isActive ? 'var(--color-primary)' : 'var(--color-accent)',
                       background: isActive ? 'var(--color-accent)' : 'transparent',
+                      borderColor: isActive ? 'var(--color-accent)' : 'transparent',
                     }}
                   >
                     {item}
@@ -122,20 +127,7 @@ const Header = () => {
                 );
               })}
             </nav>
-            <div className="flex items-center gap-4 ml-4 pl-4 border-l-2 border-[var(--color-border-strong)]">
-              <a href="mailto:yashwanthp2335.sse@saveetha.com" className="hidden lg:flex items-center justify-center p-2 rounded-md hover:bg-[var(--color-secondary)] text-[var(--color-muted)] hover:text-[var(--color-red)] transition-colors opacity-70 hover:opacity-100" aria-label="Send Email">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-              </a>
-               <a href={import.meta.env.VITE_RESUME_URL || '/Yashwant Royal Resume.pdf'} target="_blank" rel="noopener noreferrer" 
-                 className="btn btn-primary px-4 py-2 text-[10px] font-mono font-bold tracking-widest uppercase rounded-md magnetic-float"
-               >
-                RESUME
-              </a>
-              <ThemeToggle />
-            </div>
+            <ThemeToggle />
           </div>
 
           <div className="flex items-center gap-4">
@@ -197,8 +189,7 @@ const Header = () => {
 
             <ul className="flex flex-col space-y-6 px-4">
               {navItems.map((item, i) => {
-                const sectionId = item.toLowerCase().replace(' ', '-');
-                const isActive = activeSection === sectionId;
+                const isActive = activeSection === item.toLowerCase();
                 return (
                   <motion.li
                     key={item}
@@ -207,7 +198,7 @@ const Header = () => {
                     transition={{ delay: i * 0.05 + 0.1 }}
                   >
                     <a
-                      href={`#${sectionId}`}
+                      href={`#${item.toLowerCase()}`}
                       className={`text-3xl font-mono tracking-[0.1em] transition-all duration-300 uppercase flex items-baseline ${isActive ? 'text-accent' : 'text-muted hover:text-accent'
                         }`}
                       onClick={() => setMobileMenuOpen(false)}
@@ -218,21 +209,6 @@ const Header = () => {
                   </motion.li>
                 );
               })}
-              {/* Resume for Mobile */}
-              <motion.li
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navItems.length * 0.05 + 0.1 }}
-                className="mt-4"
-              >
-                <a
-                  href={import.meta.env.VITE_RESUME_URL || '/Yashwant Royal Resume.pdf'} target="_blank" rel="noopener noreferrer"
-                  className="text-2xl font-mono tracking-[0.1em] transition-all duration-300 uppercase flex items-baseline text-primary bg-accent px-4 py-3 inline-flex w-max"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  DOWNLOAD_RESUME
-                </a>
-              </motion.li>
             </ul>
 
             <div className="mt-auto px-4 pb-12">

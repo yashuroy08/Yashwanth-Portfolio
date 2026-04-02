@@ -45,7 +45,6 @@ const Loader = ({ onComplete }) => {
     const [isExiting, setIsExiting] = useState(false);
     const [activeDotIndex, setActiveDotIndex] = useState(0);
     const [trail, setTrail] = useState(new Set());
-    const [skipping, setSkipping] = useState(false);
 
     const TRAIL_LENGTH = 5;
 
@@ -69,30 +68,21 @@ const Loader = ({ onComplete }) => {
     useEffect(() => {
         let currentProgress = 0;
         const progressInterval = setInterval(() => {
-            if (skipping) return;
-            currentProgress += Math.floor(Math.random() * 8) + 3; // Faster progress
+            currentProgress += Math.floor(Math.random() * 4) + 1;
             if (currentProgress >= 100) {
                 currentProgress = 100;
                 clearInterval(progressInterval);
                 setTimeout(() => {
                     setIsExiting(true);
-                    setTimeout(onComplete, 300); // Shorter exit animation
-                }, 200); // Shorter pause at 100%
+                    setTimeout(onComplete, 700);
+                }, 500);
             }
             setProgress(currentProgress);
             const logIndex = Math.floor((currentProgress / 100) * systemLogs.length);
             setLogs(systemLogs.slice(0, logIndex + 1));
-        }, 30); // Faster tick interval
+        }, 35);
         return () => clearInterval(progressInterval);
-    }, [onComplete, skipping]);
-
-    const handleSkip = () => {
-        setSkipping(true);
-        setProgress(100);
-        setLogs(systemLogs);
-        setIsExiting(true);
-        setTimeout(onComplete, 200);
-    };
+    }, [onComplete]);
 
     const renderProgressBar = () => {
         const totalBlocks = 20;
@@ -208,25 +198,13 @@ const Loader = ({ onComplete }) => {
                         </div>
 
                         {/* Status blink */}
-                        <div className="flex flex-col items-center gap-4">
-                            <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] text-[#333333]">
-                                <span>STATUS: {progress === 100 ? 'INITIALIZED' : 'INITIALIZING'}</span>
-                                <motion.span
-                                    animate={{ opacity: [1, 0] }}
-                                    transition={{ repeat: Infinity, duration: 0.7 }}
-                                    style={{ width: 6, height: 14, backgroundColor: '#ff3333', display: 'inline-block' }}
-                                />
-                            </div>
-                            
-                            {/* Skip Button */}
-                            {progress < 100 && (
-                                <button 
-                                    onClick={handleSkip} 
-                                    className="mt-4 text-[10px] tracking-[0.2em] text-[#ff3333] border border-[#ff3333] px-4 py-2 hover:bg-[#ff3333] hover:text-[#000000] transition-colors"
-                                >
-                                    [ SKIP_SEQUENCE ]
-                                </button>
-                            )}
+                        <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] text-[#333333]">
+                            <span>STATUS: {progress === 100 ? 'INITIALIZED' : 'INITIALIZING'}</span>
+                            <motion.span
+                                animate={{ opacity: [1, 0] }}
+                                transition={{ repeat: Infinity, duration: 0.7 }}
+                                style={{ width: 6, height: 14, backgroundColor: '#ff3333', display: 'inline-block' }}
+                            />
                         </div>
                     </div>
                 </motion.div>

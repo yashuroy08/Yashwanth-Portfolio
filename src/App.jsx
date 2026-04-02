@@ -24,7 +24,7 @@ import { ThemeProvider } from './context/ThemeContext.jsx';
 import NotFound from './components/NotFound.jsx';
 
 function App() {
-  const [loading, setLoading] = useState(() => !sessionStorage.getItem('introSkipped'));
+  const [loading, setLoading] = useState(true);
 
 
 
@@ -42,7 +42,7 @@ function App() {
             element={
               <AnimatePresence>
                 {loading ? (
-                  <Loader key="loader" onComplete={() => { sessionStorage.setItem('introSkipped', 'true'); setLoading(false); }} />
+                  <Loader key="loader" onComplete={() => setLoading(false)} />
                 ) : (
                   <motion.div
                     key="app"
@@ -60,7 +60,7 @@ function App() {
                       <Hero />
                       <Skills />
                       <Projects />
-                      {/* <GithubStats /> Temporarily removed based on audit feedback */}
+                      <GithubStats />
                       {/* <Memories /> */}
                       <Education />
                       <Blogs />

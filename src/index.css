@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -76,8 +76,8 @@ html {
 body {
   background-color: var(--color-primary);
   color: var(--color-accent);
-  /* Stark, highly legible premium font stack */
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  /* Stark, highly legible font stack */
+  font-family: 'Inter', system-ui, sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -285,57 +285,220 @@ body {
   }
 }
 
-/* ═══════════════════════════════════════════
-   DESIGN SPELLS: PREMIUM MICRO-INTERACTIONS
-   ═══════════════════════════════════════════ */
+/* Custom cursor bubble follows the system cursor */
 
-/* Spell 1: Magic Subtle Glow on Hover */
-.magic-glow {
+/* ═══════════════════════════════════════════
+   GLITCH HOVER EFFECT
+   ═══════════════════════════════════════════ */
+.glitch-hover {
   position: relative;
-  transition: all 0.3s ease;
+  display: inline-block;
 }
 
-.magic-glow::before {
+.glitch-hover::before,
+.glitch-hover::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.glitch-hover::before {
+  color: #ff0040;
+  z-index: -1;
+}
+
+.glitch-hover::after {
+  color: #00f0ff;
+  z-index: -1;
+}
+
+.glitch-hover:hover::before {
+  opacity: 0.8;
+  animation: glitch-1 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+}
+
+.glitch-hover:hover::after {
+  opacity: 0.8;
+  animation: glitch-2 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+}
+
+@keyframes glitch-1 {
+  0% {
+    clip-path: inset(40% 0 61% 0);
+    transform: translate(-2px, -1px);
+  }
+
+  20% {
+    clip-path: inset(92% 0 1% 0);
+    transform: translate(1px, 2px);
+  }
+
+  40% {
+    clip-path: inset(43% 0 1% 0);
+    transform: translate(-1px, -1px);
+  }
+
+  60% {
+    clip-path: inset(25% 0 58% 0);
+    transform: translate(2px, 1px);
+  }
+
+  80% {
+    clip-path: inset(54% 0 7% 0);
+    transform: translate(-1px, 2px);
+  }
+
+  100% {
+    clip-path: inset(58% 0 43% 0);
+    transform: translate(0);
+  }
+}
+
+@keyframes glitch-2 {
+  0% {
+    clip-path: inset(65% 0 8% 0);
+    transform: translate(2px, 1px);
+  }
+
+  20% {
+    clip-path: inset(15% 0 65% 0);
+    transform: translate(-2px, -2px);
+  }
+
+  40% {
+    clip-path: inset(72% 0 9% 0);
+    transform: translate(1px, 2px);
+  }
+
+  60% {
+    clip-path: inset(5% 0 78% 0);
+    transform: translate(-1px, -1px);
+  }
+
+  80% {
+    clip-path: inset(31% 0 49% 0);
+    transform: translate(2px, -2px);
+  }
+
+  100% {
+    clip-path: inset(12% 0 69% 0);
+    transform: translate(0);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   SMOOTH SECTION REVEAL
+   ═══════════════════════════════════════════ */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal-up.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════
+   MAGNETIC BUTTON HOVER
+   ═══════════════════════════════════════════ */
+.magnetic-btn {
+  transition: transform 0.3s ease;
+}
+
+.magnetic-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ═══════════════════════════════════════════
+   CLICK GLITCH FEEDBACK 
+   ═══════════════════════════════════════════ */
+.glitch-click {
+  position: relative;
+  transition: all 0.1s ease;
+  overflow: hidden;
+}
+
+.glitch-click:active {
+  animation: glitch-anim 0.2s cubic-bezier(.25, .46, .45, .94) both infinite;
+  color: var(--color-red) !important;
+}
+
+.glitch-click:active::before {
   content: '';
   position: absolute;
-  inset: -1px;
-  background: linear-gradient(to right, rgba(255,255,255,0.1), rgba(255,255,255,0.3), rgba(255,255,255,0.1));
-  border-radius: inherit;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  filter: blur(8px);
+  top: 0;
+  left: -20px;
+  right: -20px;
+  bottom: 0;
+  background: var(--color-red);
+  opacity: 0.3;
+  mix-blend-mode: exclusion;
+  z-index: 10;
+  pointer-events: none;
+  animation: slice-anim 0.2s linear infinite;
 }
 
-.magic-glow:hover::before {
-  opacity: 1;
+@keyframes glitch-anim {
+  0% {
+    transform: translate(0) skew(0deg);
+  }
+
+  25% {
+    transform: translate(-6px, 3px) skew(-12deg);
+    filter: invert(0.3);
+  }
+
+  50% {
+    transform: translate(6px, -3px) skew(12deg);
+    filter: contrast(200%);
+  }
+
+  75% {
+    transform: translate(-3px, 6px) skew(-6deg);
+    filter: hue-rotate(90deg);
+  }
+
+  100% {
+    transform: translate(3px, -6px) skew(6deg);
+  }
 }
 
-/* Light mode specific glow */
-.light .magic-glow::before {
-  background: linear-gradient(to right, rgba(0,0,0,0.05), rgba(0,0,0,0.1), rgba(0,0,0,0.05));
+@keyframes slice-anim {
+  0% {
+    clip-path: inset(10% 0 80% 0);
+    transform: translateX(-10px);
+  }
+
+  25% {
+    clip-path: inset(60% 0 10% 0);
+    transform: translateX(10px);
+  }
+
+  50% {
+    clip-path: inset(30% 0 50% 0);
+    transform: translateX(-5px);
+  }
+
+  75% {
+    clip-path: inset(80% 0 5% 0);
+    transform: translateX(5px);
+  }
+
+  100% {
+    clip-path: inset(5% 0 70% 0);
+    transform: translateX(0);
+  }
 }
 
-/* Spell 2: Magnetic Float (Silky Smooth) */
-.magnetic-float {
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
-}
-
-.magnetic-float:hover {
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 12px 24px -10px var(--color-border-strong);
-}
-
-/* Spell 3: Fluid Text Reveal (For headings) */
-.text-reveal-mask {
-  background: linear-gradient(to right, var(--color-accent) 50%, var(--color-muted) 50%);
-  background-size: 200% 100%;
-  background-position: 100% 0;
-  -webkit-background-clip: text;
-  color: transparent;
-  transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.text-reveal-mask:hover {
-  background-position: 0 0;
+/* Helper to hide shadow during click/submit */
+.hidden-shadow {
+  box-shadow: none !important;
+  transform: translate(0px, 0px) !important;
 }
