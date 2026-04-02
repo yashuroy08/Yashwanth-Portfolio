@@ -94,7 +94,9 @@ const Projects = () => {
               <div className="w-8 h-[1px]" style={{ backgroundColor: 'var(--color-red)', opacity: 0.7 }}></div>
               <h4 className="font-mono text-sm text-muted tracking-widest uppercase"><span className="text-red">// 02</span> &mdash; PORTFOLIO</h4>
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-accent"><span className="glitch-hover" data-text="FEATURED PROJECTS">FEATURED PROJECTS</span></h2>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-accent tracking-tighter">
+              <span className="text-reveal-mask">FEATURED PROJECTS</span>
+            </h2>
             <div className="w-16 h-[4px] mb-6" style={{ backgroundColor: 'var(--color-red)' }} />
             <p className="text-muted max-w-2xl text-lg">
               A selection of my recent works, focusing on robust backend architectures, enterprise solutions, and secure applications.
@@ -137,7 +139,7 @@ const Projects = () => {
                 <h3 className={`font-semibold text-lg mb-1 transition-colors duration-300 ${activeProject === index ? "text-light" : "text-muted group-hover:text-light/80"
                   }`}>
                   {project.title}
-</h3>
+                </h3>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {project.tech.slice(0, 3).map((t, i) => (
                     <span key={i} className="text-[10px] uppercase tracking-tighter text-muted/60 font-mono">
@@ -175,7 +177,7 @@ const Projects = () => {
                 transition={{ duration: 0.4, ease: 'easeOut' }}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={resetTilt}
-                className="nothing-card overflow-hidden cursor-default"
+                className="nothing-card overflow-hidden cursor-default magic-glow"
                 style={{
                   transform: `perspective(800px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)`,
                   transition: 'transform 0.15s ease-out',
@@ -229,7 +231,7 @@ const Projects = () => {
                         href={projects[activeProject]?.liveLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="glitch-click group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-white bg-red border-2 border-accent"
+                        className="btn btn-primary magnetic-float flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-white bg-red border-2 border-accent"
                         style={{
                           backgroundColor: 'var(--color-red)',
                           padding: '0.75rem 1.5rem',

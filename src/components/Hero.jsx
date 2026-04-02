@@ -63,23 +63,8 @@ const TypewriterRole = () => {
 const Hero = () => {
   const sectionRef = useRef(null);
 
-  const [locData, setLocData] = useState({ city: 'HYD', countryCode: 'IND', lat: 17.3850, lon: 78.4867 });
+  const [locData, setLocData] = useState({ city: 'CHE', countryCode: 'IND', lat: 13.0827, lon: 80.2707 });
 
-  useEffect(() => {
-    fetch('https://ipapi.co/json/')
-      .then(res => res.json())
-      .then(data => {
-        if (data.city && data.country_code && data.latitude !== undefined) {
-          setLocData({
-            city: data.city.toUpperCase().substring(0, 3),
-            countryCode: data.country_code,
-            lat: data.latitude,
-            lon: data.longitude
-          });
-        }
-      })
-      .catch(err => console.error("Location fetch failed", err));
-  }, []);
 
   // Scroll progress tied to the hero section
   const { scrollYProgress } = useScroll({
@@ -156,7 +141,7 @@ const Hero = () => {
 
                 {/* Name */}
                 <h1 className="font-mono tracking-tighter text-5xl md:text-7xl lg:text-8xl font-bold mb-3 leading-none">
-                  <span className="glitch-hover" data-text="YASHWANTH">YASHWANTH</span>
+                  <span className="glitch-hover text-reveal-mask" data-text="YASHWANTH">YASHWANTH</span>
                 </h1>
 
                 {/* Typewriter cycling role */}
@@ -165,8 +150,8 @@ const Hero = () => {
                 </div>
 
                 <p className="text-muted text-sm md:text-base font-mono tracking-wide max-w-lg mx-auto lg:mx-0 mt-4 mb-8 border-l-4 pl-4" style={{ borderColor: 'var(--color-red)' }}>
-                  I am an enthusiastic student currently diving deep into the world of backend development.<br /><br />
-                  Passionate about learning Java, mastering Spring Boot, and understanding database optimization. I'm constantly building projects to improve my skills and explore how scalable systems work.<br /><br />
+                  Backend developer with Oracle DB certification & hackathon-winning AI project.<br /><br />
+                  Building production-grade Java/Spring Boot APIs. Passionate about mastering database optimization and exploring how scalable systems work.<br /><br />
                   <span className="text-accent opacity-75">/* Currently focused on expanding my backend knowledge and taking on new challenges. */</span>
                 </p>
                 <div className="inline-flex items-center gap-3 px-4 py-2 border-2 bg-primary" style={{ borderColor: 'var(--color-accent)', boxShadow: '4px 4px 0px var(--color-accent)' }}>
@@ -224,25 +209,6 @@ const Hero = () => {
                   onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '0px 0px 0px var(--color-accent)'; }}
                   onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(-2px, -2px)'; e.currentTarget.style.boxShadow = '4px 4px 0px var(--color-accent)'; }}>
                   EXPLORE_PROJECTS
-                </a>
-                <a href={import.meta.env.VITE_RESUME_URL || '/resume.pdf'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => {
-                    const link = document.createElement('a');
-                    link.href = import.meta.env.VITE_RESUME_URL || '/resume.pdf';
-                    link.download = 'Yashwanth_Resume.pdf';
-                    link.click();
-                  }}
-                  className="glitch-click group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-light bg-primary border-2 border-border-strong"
-                  style={{
-                    padding: '1rem 2rem',
-                    boxShadow: '4px 4px 0px var(--color-border-strong)',
-                    transform: 'translate(-2px, -2px)'
-                  }}
-                  onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '0px 0px 0px var(--color-border-strong)'; }}
-                  onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(-2px, -2px)'; e.currentTarget.style.boxShadow = '4px 4px 0px var(--color-border-strong)'; }}>
-                  VIEW_RESUME
                 </a>
               </motion.div>
 

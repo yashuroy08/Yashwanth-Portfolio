@@ -19,7 +19,7 @@ const DocIcon = () => (
     </svg>
 );
 const VercelIcon = () => (
-    <svg viewBox="0 0 256 222" className="w-4 h-4 shrink-0" fill="currentColor"><path d="m128 0 128 221.705H0z"/></svg>
+    <svg viewBox="0 0 256 222" className="w-4 h-4 shrink-0" fill="currentColor"><path d="m128 0 128 221.705H0z" /></svg>
 );
 const RenderIcon = () => (
     <img src="/render.svg" alt="Render" className="w-4 h-4 shrink-0 object-contain" />
@@ -144,7 +144,7 @@ const Blogs = () => {
     const post = blogPosts[current];
 
     return (
-        <section id="blogs" className="py-20 px-4 md:px-10 relative overflow-hidden bg-primary">
+        <section id="case-studies" className="py-20 px-4 md:px-10 relative overflow-hidden bg-primary">
             <div className="absolute top-0 right-0 w-64 h-64 border-r-2 border-t-2 border-border-strong opacity-10 pointer-events-none" />
 
             <div className="container-custom mx-auto relative z-10">
@@ -157,15 +157,15 @@ const Blogs = () => {
                     className="mb-12 md:mb-16"
                 >
                     <div className="flex items-center gap-4 mb-2">
-                        <div className="w-8 h-[1px]" style={{ backgroundColor: 'var(--color-red)', opacity: 0.7 }} />
+                        <div className="w-8 h-[1px] bg-red/70" />
                         <h4 className="font-mono text-sm text-muted tracking-widest uppercase">
                             <span className="text-red">// 05</span> &mdash; LOGS
                         </h4>
                     </div>
-                    <h2 className="text-3xl md:text-5xl font-bold mb-4 text-accent">
-                        <span className="glitch-hover" data-text="PERSONAL BLOGS">PERSONAL BLOGS</span>
+                    <h2 className="text-3xl md:text-5xl font-bold mb-4 text-accent tracking-tighter">
+                        <span className="text-reveal-mask">CASE STUDIES</span>
                     </h2>
-                    <div className="w-16 h-[4px] mb-6" style={{ backgroundColor: 'var(--color-red)' }} />
+                    <div className="w-16 h-[4px] mb-6 bg-red" />
                     <p className="text-muted max-w-2xl text-lg">
                         Deep dives, learning logs, and how-to guides from my actual project experience.
                     </p>
@@ -193,7 +193,7 @@ const Blogs = () => {
                                 transition={{ duration: 0.35, ease: 'easeInOut' }}
                             >
                                 <div
-                                    className="neo-card p-6 md:p-10 bg-primary border-2 border-border-strong relative overflow-hidden"
+                                    className="neo-card p-6 md:p-10 bg-primary border-2 border-border-strong relative overflow-hidden magic-glow"
                                     style={{ boxShadow: '6px 6px 0px var(--color-border-strong)', borderRadius: 0 }}
                                 >
                                     {/* Corner accents */}

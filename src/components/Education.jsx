@@ -55,7 +55,9 @@ const Education = () => {
         >
           <ScrollReveal delay={0}>
             <h4 className="font-mono text-sm text-muted mb-2 tracking-widest uppercase"><span className="text-red">// 05</span> &mdash; EXPERIENCE</h4>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accent"><span className="glitch-hover" data-text="MY JOURNEY">MY JOURNEY</span></h2>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-accent tracking-tighter">
+              <span className="text-reveal-mask">MY JOURNEY</span>
+            </h2>
             <div className="w-16 h-[2px]" style={{ backgroundColor: 'var(--color-red)', opacity: 0.6 }}></div>
           </ScrollReveal>
         </motion.div>
@@ -104,11 +106,11 @@ const Education = () => {
                 <div className="flex-grow pt-0 pb-6 relative" style={{ borderBottom: '2px solid var(--color-border-strong)' }}>
                   <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2 mb-3">
                     <h3 className="text-lg md:text-xl font-bold text-light uppercase tracking-tight">{item.title}</h3>
-                    <span className={`inline-block px-2 py-1 text-[10px] font-mono border-2 font-bold uppercase w-fit whitespace-nowrap ${item.type === 'education' ? 'text-blue-400 border-blue-400 bg-blue-400/5' :
+                    <span className={`inline-block px-3 py-1 text-[10px] font-mono border-2 font-bold uppercase w-fit whitespace-nowrap rounded-md ${item.type === 'education' ? 'text-blue-400 border-blue-400 bg-blue-400/5' :
                       item.type === 'project' ? 'text-green-400 border-green-400 bg-green-400/5' :
                         item.type === 'achievement' ? 'text-amber-400 border-amber-400 bg-amber-400/5' :
                           item.type === 'certification' ? 'text-red-500 border-red-500 bg-red-500/5' : 'text-purple-400 border-purple-400 bg-purple-400/5'
-                      }`} style={{ borderRadius: '0px', boxShadow: '2px 2px 0px currentColor' }}>
+                      }`}>
                       {item.year}
                     </span>
                   </div>

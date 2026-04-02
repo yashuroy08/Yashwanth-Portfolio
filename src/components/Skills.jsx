@@ -31,9 +31,9 @@ const Skills = () => {
               <span className="text-red font-bold">// 02</span>
               <span>&mdash; CAPABILITIES</span>
             </h4>
-            <h2 className="text-4xl md:text-6xl font-black mb-4 uppercase tracking-tighter" style={{ fontFamily: 'monospace' }}>
+            <h2 className="text-4xl md:text-6xl font-black mb-4 uppercase tracking-tighter">
               <span className="text-muted/30"></span>
-              <span className="glitch-hover mx-2" data-text="SKILLS" style={{ color: 'var(--color-accent)' }}>SKILLS</span>
+              <span className="text-reveal-mask mx-2 text-accent">SKILLS</span>
               <span className="text-muted/30"></span>
             </h2>
             <div className="w-16 h-[4px]" style={{ backgroundColor: 'var(--color-red)' }} />
@@ -49,14 +49,7 @@ const Skills = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="md:col-span-2 md:row-span-2 border-4 bg-primary p-6 md:p-10 relative flex flex-col justify-between group"
-            style={{
-              borderColor: 'var(--color-accent)',
-              boxShadow: '10px 10px 0px var(--color-accent)', // Heavy hard-edge shadow
-              transition: 'transform 0.2s, box-shadow 0.2s'
-            }}
-            onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(4px, 4px)'; e.currentTarget.style.boxShadow = '6px 6px 0px var(--color-accent)'; }}
-            onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '10px 10px 0px var(--color-accent)'; }}
+            className="neo-card magic-glow md:col-span-2 md:row-span-2 bg-primary p-6 md:p-10 relative flex flex-col justify-between group"
           >
             <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-muted opacity-80 absolute top-4 left-4">L CORE_TECH</h3>
 
@@ -82,14 +75,7 @@ const Skills = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="md:col-span-2 md:row-span-1 border-4 bg-primary p-6 md:p-8 relative flex flex-col justify-center"
-            style={{
-              borderColor: 'var(--color-red)',
-              boxShadow: '8px 8px 0px var(--color-red)',
-              transition: 'transform 0.2s, box-shadow 0.2s'
-            }}
-            onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(4px, 4px)'; e.currentTarget.style.boxShadow = '4px 4px 0px var(--color-red)'; }}
-            onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '8px 8px 0px var(--color-red)'; }}
+            className="neo-card magic-glow md:col-span-2 md:row-span-1 bg-primary p-6 md:p-8 relative flex flex-col justify-center border-t-4 border-t-red"
           >
             <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-red opacity-80 absolute top-4 left-4">L CLIENT_&_MOBILE</h3>
 
@@ -120,14 +106,7 @@ const Skills = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="md:col-span-2 md:row-span-1 border-4 bg-primary p-6 relative flex justify-between items-center"
-            style={{
-              borderColor: 'var(--color-accent)',
-              boxShadow: '8px 8px 0px var(--color-accent)',
-              transition: 'transform 0.2s, box-shadow 0.2s'
-            }}
-            onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(4px, 4px)'; e.currentTarget.style.boxShadow = '4px 4px 0px var(--color-accent)'; }}
-            onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '8px 8px 0px var(--color-accent)'; }}
+            className="neo-card magic-glow md:col-span-2 md:row-span-1 bg-primary p-6 relative flex justify-between items-center"
           >
             <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-muted mb-2 absolute top-4 left-4">L DATA_LAYER</h3>
 
@@ -149,15 +128,7 @@ const Skills = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="md:col-span-1 md:row-span-1 border-4 p-6 relative flex flex-col items-center justify-center text-center"
-            style={{
-              borderColor: 'var(--color-red)',
-              boxShadow: '6px 6px 0px var(--color-red)',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              backgroundColor: 'var(--color-secondary)'
-            }}
-            onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(3px, 3px)'; e.currentTarget.style.boxShadow = '3px 3px 0px var(--color-red)'; }}
-            onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '6px 6px 0px var(--color-red)'; }}
+            className="neo-card magic-glow md:col-span-1 md:row-span-1 p-6 relative flex flex-col items-center justify-center text-center bg-secondary border-t-4 border-t-red"
           >
             <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-red opacity-80 absolute top-4 left-4">L DEPLOYMENT</h3>
             <div className="flex gap-4 mb-4 mt-6">
@@ -176,22 +147,14 @@ const Skills = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className="md:col-span-1 md:row-span-1 border-4 p-6 relative flex flex-col items-center justify-center text-center"
-            style={{
-              borderColor: 'var(--color-accent)',
-              boxShadow: '6px 6px 0px var(--color-accent)',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              backgroundColor: 'var(--color-secondary)'
-            }}
-            onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(3px, 3px)'; e.currentTarget.style.boxShadow = '3px 3px 0px var(--color-accent)'; }}
-            onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '6px 6px 0px var(--color-accent)'; }}
+            className="neo-card magic-glow md:col-span-1 md:row-span-1 p-6 relative flex flex-col items-center justify-center text-center bg-secondary border-t-4 border-t-accent"
           >
             <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-muted opacity-80 absolute top-4 left-4">L VCS</h3>
             {/* Official Git Logo */}
             <svg className="w-10 h-10 mb-2 mt-6 opacity-80" style={{ color: 'var(--color-accent)' }} viewBox="0 0 24 24" fill="currentColor"><path d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.738 2.736c.64-.23 1.383-.09 1.899.426.702.702.702 1.841 0 2.541-.702.703-1.84.703-2.54 0-.52-.52-.662-1.272-.435-1.921l-2.707-2.706c-.05.025-.102.046-.153.067v3.917c.231.22.378.533.378.878 0 .674-.547 1.221-1.221 1.221s-1.22-.547-1.22-1.22c0-.342.146-.653.374-.871V8.406c-.228-.219-.374-.53-.374-.873 0-.17.037-.333.103-.483L5.457 4.593 .454 9.596c-.605.604-.605 1.584 0 2.19l10.48 10.478c.604.604 1.581.604 2.188 0l10.424-10.423c.603-.604.603-1.584 0-2.19m0 0" /></svg>
             <div className="flex flex-col items-center">
               <span className="font-bold text-lg uppercase tracking-widest text-light">GIT</span>
-              <span className="font-bold text-lg uppercase tracking-widest text-red">SVN</span>
+              <span className="font-bold text-sm uppercase tracking-widest text-red">GITHUB</span>
             </div>
           </motion.div>
 
@@ -201,14 +164,7 @@ const Skills = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="md:col-span-2 md:row-span-1 border-4 bg-primary p-6 md:p-8 relative flex flex-col justify-center overflow-hidden"
-            style={{
-              borderColor: 'var(--color-accent)',
-              boxShadow: '8px 8px 0px var(--color-accent)',
-              transition: 'transform 0.2s, box-shadow 0.2s'
-            }}
-            onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(4px, 4px)'; e.currentTarget.style.boxShadow = '4px 4px 0px var(--color-accent)'; }}
-            onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '8px 8px 0px var(--color-accent)'; }}
+            className="neo-card magic-glow md:col-span-2 md:row-span-1 bg-primary p-6 md:p-8 relative flex flex-col justify-center border-t-4 border-t-accent"
           >
             {/* Decorative warning stripes */}
             <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, var(--color-red) 10px, var(--color-red) 20px)' }} />
