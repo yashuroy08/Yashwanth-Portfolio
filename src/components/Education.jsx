@@ -62,13 +62,19 @@ const Education = () => {
 
         <div className="relative max-w-4xl mx-auto pl-4 md:pl-0">
           {/* Vertical line on the left */}
-          <div className="absolute left-[29px] top-2 bottom-0 w-[1px] opacity-20 overflow-hidden">
+          <div className="absolute left-[29px] top-2 bottom-0 w-[1px] bg-red/10 overflow-hidden">
             <motion.div 
-              initial={{ y: "-100%" }}
-              animate={{ y: "100%" }}
-              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              className="w-full h-full"
-              style={{ backgroundImage: 'linear-gradient(to bottom, var(--color-red) 50%, transparent 50%)', backgroundSize: '1px 20px' }}
+              animate={{ 
+                y: ["-100%", "100%"],
+                opacity: [0.1, 1, 0.1]
+              }}
+              transition={{ 
+                duration: 4, 
+                repeat: Infinity, 
+                ease: "linear" 
+              }}
+              className="w-full h-1/4 bg-gradient-to-b from-transparent via-red-500 to-transparent"
+              style={{ filter: 'drop-shadow(0 0 4px var(--color-red))' }}
             />
           </div>
 

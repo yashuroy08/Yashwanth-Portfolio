@@ -1,6 +1,65 @@
-import { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import ScrollReveal from './ScrollReveal';
+
+const ScrambleText = ({ text, className, style }) => {
+  const [displayText, setDisplayText] = useState(text);
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    return () => clearInterval(intervalRef.current);
+  }, []);
+
+  const scramble = () => {
+    let iteration = 0;
+    clearInterval(intervalRef.current);
+
+    intervalRef.current = setInterval(() => {
+      setDisplayText(text
+        .split("")
+        .map((letter, index) => {
+          if (index < iteration || letter === " ") {
+            return text[index];
+          }
+          const chars = ">!*&#@%$!^ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+          return chars[Math.floor(Math.random() * chars.length)];
+        })
+        .join("")
+      );
+
+      if (iteration >= text.length) {
+        clearInterval(intervalRef.current);
+      }
+
+      iteration += 1 / 3;
+    }, 30);
+  };
+
+  return (
+    <span
+      className={`cursor-crosshair inline-block ${className || ''}`}
+      style={style}
+      onMouseEnter={scramble}
+      onTouchStart={scramble}
+    >
+      {displayText}
+    </span>
+  );
+};
+
+const bootUpVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (customDelay) => ({
+    opacity: [0, 0.4, 0.1, 1],
+    y: 0,
+    transition: {
+      delay: customDelay,
+      duration: 0.6,
+      times: [0, 0.4, 0.6, 1],
+      ease: "easeOut"
+    }
+  })
+};
 
 const Skills = () => {
   const ref = useRef(null);
@@ -45,10 +104,11 @@ const Skills = () => {
 
           {/* Card 1: Large Core Area (Span 2x2) */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            custom={0.1}
+            initial="hidden"
+            whileInView="visible"
+            variants={bootUpVariants}
+            viewport={{ once: true, amount: 0.2 }}
             className="md:col-span-2 md:row-span-2 border-4 bg-primary p-6 md:p-10 relative flex flex-col justify-between group"
             style={{
               borderColor: 'var(--color-accent)',
@@ -58,7 +118,7 @@ const Skills = () => {
             onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(4px, 4px)'; e.currentTarget.style.boxShadow = '6px 6px 0px var(--color-accent)'; }}
             onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '10px 10px 0px var(--color-accent)'; }}
           >
-            <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-muted opacity-80 absolute top-4 left-4">L CORE_TECH</h3>
+            <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-muted opacity-80 absolute top-4 left-4 glitch-hover" data-text="L CORE_TECH">L CORE_TECH</h3>
 
             <div className="flex gap-6 mb-8 mt-10">
               {/* Java */}
@@ -67,59 +127,24 @@ const Skills = () => {
               <svg className="w-10 h-10 text-red opacity-80" viewBox="0 0 64 64" fill="currentColor"><path d="M58.2 3.365a29.503 29.503 0 0 1-3.419 6.064A32.094 32.094 0 1 0 9.965 55.372l1.186 1.047a32.08 32.08 0 0 0 52.67-22.253c.875-8.17-1.524-18.51-5.62-30.8zM14.53 55.558a2.744 2.744 0 1 1-.404-3.857 2.744 2.744 0 0 1 .404 3.857zm43.538-9.61c-7.92 10.55-24.83 6.99-35.672 7.502 0 0-1.922.113-3.857.43 0 0 .73-.31 1.663-.663 7.614-2.65 11.213-3.16 15.838-5.54 8.708-4.427 17.322-14.122 19.112-24.2-3.313 9.695-13.373 18.032-22.53 21.418-6.276 2.313-17.614 4.566-17.614 4.566l-.457-.245c-7.714-3.75-7.952-20.457 6.077-25.845 6.143-2.366 12.02-1.067 18.654-2.65 7.084-1.683 15.28-6.99 18.615-13.916 3.73 11.08 8.224 28.422.166 39.15z" /></svg>
             </div>
 
-            <div className="flex flex-col">
-              <span className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none" style={{ color: 'var(--color-accent)' }}>JAVA</span>
-              <span className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none text-red mt-2">SPRING BOOT</span>
+            <div className="flex flex-col items-start">
+              <ScrambleText text="JAVA" className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none" style={{ color: 'var(--color-accent)' }} />
+              <ScrambleText text="SPRING BOOT" className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none text-red mt-2" />
             </div>
             <div className="mt-8 text-sm md:text-lg font-bold text-muted uppercase tracking-widest">
               High-Availability Backend Architecture
             </div>
           </motion.div>
 
-          {/* Card 2: Medium Frontend/Language Area (Span 2x1) */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="md:col-span-2 md:row-span-1 border-4 bg-primary p-6 md:p-8 relative flex flex-col justify-center"
-            style={{
-              borderColor: 'var(--color-red)',
-              boxShadow: '8px 8px 0px var(--color-red)',
-              transition: 'transform 0.2s, box-shadow 0.2s'
-            }}
-            onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(4px, 4px)'; e.currentTarget.style.boxShadow = '4px 4px 0px var(--color-red)'; }}
-            onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '8px 8px 0px var(--color-red)'; }}
-          >
-            <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-red opacity-80 absolute top-4 left-4">L CLIENT_&_MOBILE</h3>
 
-            <div className="flex gap-6 mb-6 mt-10">
-              {/* React */}
-              <svg className="w-10 h-10 text-accent opacity-80" viewBox="0 0 256 296" fill="currentColor"><path fill="currentColor" d="m128 0 128 73.9v147.8l-128 73.9L0 221.7V73.9z" /><path d="M34.865 220.478c17.016 21.78 71.095 5.185 122.15-34.704 51.055-39.888 80.24-88.345 63.224-110.126-17.017-21.78-71.095-5.184-122.15 34.704-51.055 39.89-80.24 88.346-63.224 110.126Zm7.27-5.68c-5.644-7.222-3.178-21.402 7.573-39.253 11.322-18.797 30.541-39.548 54.06-57.923 23.52-18.375 48.303-32.004 69.281-38.442 19.922-6.113 34.277-5.075 39.92 2.148 5.644 7.223 3.178 21.403-7.573 39.254-11.322 18.797-30.541 39.547-54.06 57.923-23.52 18.375-48.304 32.004-69.281 38.441-19.922 6.114-34.277 5.076-39.92-2.147Z" fill="#1e1e1e" /><path d="M220.239 220.478c17.017-21.78-12.169-70.237-63.224-110.126C105.96 70.464 51.88 53.868 34.865 75.648c-17.017 21.78 12.169 70.238 63.224 110.126 51.055 39.889 105.133 56.485 122.15 34.704Zm-7.27-5.68c-5.643 7.224-19.998 8.262-39.92 2.148-20.978-6.437-45.761-20.066-69.28-38.441-23.52-18.376-42.74-39.126-54.06-57.923-10.752-17.851-13.218-32.03-7.575-39.254 5.644-7.223 19.999-8.261 39.92-2.148 20.978 6.438 45.762 20.067 69.281 38.442 23.52 18.375 42.739 39.126 54.06 57.923 10.752 17.85 13.218 32.03 7.574 39.254Z" fill="#1e1e1e" /><path d="M127.552 167.667c10.827 0 19.603-8.777 19.603-19.604 0-10.826-8.776-19.603-19.603-19.603-10.827 0-19.604 8.777-19.604 19.603 0 10.827 8.777 19.604 19.604 19.604Z" fill="#1e1e1e" /></svg>
-              {/* Flutter */}
-              <svg className="w-10 h-10 text-red opacity-80" viewBox="0 0 256 317" fill="none"><path fill="currentColor" d="M158 0 0 158l49 48L255 0zM157 145l-85 85 49 50 49-49 85-86z" /><path fill="white" fillOpacity="0.4" d="m121 280 37 37h97l-85-86z" /><path fill="white" fillOpacity="0.2" d="m72 230 48-48 50 49-49 49z" /></svg>
-              {/* Dart */}
-              <svg className="w-10 h-10 text-accent opacity-80" viewBox="0 0 256 256" fill="currentColor"><path d="M52.209 203.791 8.413 159.995C3.218 154.67 0 147.141 0 139.782c0-3.407 1.92-8.733 3.369-11.782l40.427-84.204 8.413 159.995Z" /><path d="M202.116 52.209 158.32 8.413C154.5 4.573 146.538 0 139.8 0c-5.796 0-11.48 1.167-15.15 3.369L43.815 43.796l158.301 8.413ZM104.418 256h106.111v-45.471l-79.16-25.276-72.422 25.276z" /><path fill="white" fillOpacity="0.5" d="M43.796 180.209c0 13.513 1.694 16.826 8.413 23.582l6.738 6.738h151.582l-74.097-84.204-92.636-82.53V180.21Z" /><path fill="white" fillOpacity="0.3" d="M178.534 43.777H43.796L210.529 210.51H256V106.093L202.097 52.19c-7.566-7.585-14.285-8.413-23.563-8.413Z" /></svg>
-              {/* Figma */}
-              <img src="/figma-logo-svgrepo-com.svg" alt="Figma" className="w-[1.8rem] h-[1.8rem] object-contain opacity-80 mt-1" />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <span className="text-3xl md:text-5xl font-black uppercase tracking-tight" style={{ color: 'var(--color-accent)' }}>REACT.JS</span>
-              <span className="text-3xl md:text-5xl font-black uppercase tracking-tight text-red">FLUTTER</span>
-              <div className="flex gap-4 items-baseline">
-                <span className="text-xl md:text-2xl font-bold uppercase tracking-tight text-muted">DART</span>
-                <span className="text-[1.2rem] md:text-2xl font-bold uppercase tracking-tight text-light">UI/UX</span>
-              </div>
-            </div>
-          </motion.div>
 
           {/* Card 3: Medium Data Layer (Span 2x1) */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            custom={0.3}
+            initial="hidden"
+            whileInView="visible"
+            variants={bootUpVariants}
+            viewport={{ once: true, amount: 0.2 }}
             className="md:col-span-2 md:row-span-1 border-4 bg-primary p-6 relative flex justify-between items-center"
             style={{
               borderColor: 'var(--color-accent)',
@@ -129,7 +154,7 @@ const Skills = () => {
             onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(4px, 4px)'; e.currentTarget.style.boxShadow = '4px 4px 0px var(--color-accent)'; }}
             onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '8px 8px 0px var(--color-accent)'; }}
           >
-            <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-muted mb-2 absolute top-4 left-4">L DATA_LAYER</h3>
+            <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-muted mb-2 absolute top-4 left-4 glitch-hover" data-text="L DATA_LAYER">L DATA_LAYER</h3>
 
             <div className="flex gap-6 mb-6 mt-10">
               {/* MongoDB (Simple Leaf) */}
@@ -138,17 +163,18 @@ const Skills = () => {
               <svg className="w-10 h-10 text-accent opacity-80" viewBox="0 0 256 252" fill="currentColor"><path d="M236 194c-14 0-25 1-34 5-3 1-7 1-7 4l3 6c2 3 5 8 9 11l11 8 21 10 11 9 6 4-3-6-5-5c-5-7-11-13-18-18-6-3-18-9-20-15h-1l12-3 18-3 8-2v-2l-9-10c-8-8-18-15-28-22l-18-8c-2-1-6-2-7-4l-7-13-15-30-8-20c-18-30-38-48-68-65-6-4-14-5-22-7l-13-1-8-6C34 5 8-9 1 9c-5 11 7 22 11 28l9 13 3 9c3 8 5 17 9 24l6 10c2 2 4 3 5 6-3 4-3 9-4 13-7 20-4 44 5 59 2 4 9 14 18 10 8-3 6-13 8-22l1-4 8 14c5 9 14 18 22 24 4 3 8 8 13 10l-4-4-9-10c-8-10-14-21-20-32l-7-17-3-6c-3 4-7 7-9 12-3 7-3 17-4 26h-1c-6-1-8-7-10-12-5-12-6-32-1-46 1-4 6-15 4-19-1-3-4-5-6-7l-7-12-10-30-9-13c-3-5-7-8-10-14-1-2-2-5 0-7l2-2c2-2 9 0 11 1 6 3 12 5 17 9l8 6h4c6 1 12 0 17 2 9 3 18 7 25 12 23 14 42 35 54 59 3 4 3 8 5 12l12 26c4 8 7 16 12 23 3 4 14 6 18 8l12 4 18 12c2 2 11 7 12 10Z" /><path d="m58 43-7 1 6 7 4 9v-1c3-1 4-4 4-8l-2-4-5-4Z" /></svg>
             </div>
 
-            <div className="flex flex-col gap-2">
-              <span className="text-3xl md:text-4xl font-bold uppercase tracking-widest" style={{ color: 'var(--color-accent)' }}>MONGODB</span>
-              <span className="text-3xl md:text-4xl font-bold uppercase tracking-widest text-muted">MYSQL</span>
+            <div className="flex flex-col gap-2 items-end">
+              <ScrambleText text="MONGODB" className="text-3xl md:text-4xl font-bold uppercase tracking-widest" style={{ color: 'var(--color-accent)' }} />
+              <ScrambleText text="MYSQL" className="text-3xl md:text-4xl font-bold uppercase tracking-widest text-muted" />
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            custom={0.4}
+            initial="hidden"
+            whileInView="visible"
+            variants={bootUpVariants}
+            viewport={{ once: true, amount: 0.2 }}
             className="md:col-span-1 md:row-span-1 border-4 p-6 relative flex flex-col items-center justify-center text-center"
             style={{
               borderColor: 'var(--color-red)',
@@ -159,23 +185,24 @@ const Skills = () => {
             onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(3px, 3px)'; e.currentTarget.style.boxShadow = '3px 3px 0px var(--color-red)'; }}
             onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '6px 6px 0px var(--color-red)'; }}
           >
-            <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-red opacity-80 absolute top-4 left-4">L DEPLOYMENT</h3>
+            <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-red opacity-80 absolute top-4 left-4 glitch-hover" data-text="L DEPLOYMENT">L DEPLOYMENT</h3>
             <div className="flex gap-4 mb-4 mt-6">
               <svg viewBox="0 0 256 222" className="w-8 h-8 object-contain" fill="currentColor"><path d="m128 0 128 221.705H0z" /></svg>
               <img src="/render.svg" alt="Render" className="w-8 h-8 object-contain" />
             </div>
-            <div className="flex flex-col items-center">
-              <span className="font-bold text-sm uppercase tracking-widest text-light">VERCEL</span>
-              <span className="font-bold text-sm uppercase tracking-widest text-red">RENDER</span>
+            <div className="flex flex-col items-center gap-1">
+              <ScrambleText text="VERCEL" className="font-bold text-sm uppercase tracking-widest text-light" />
+              <ScrambleText text="RENDER" className="font-bold text-sm uppercase tracking-widest text-red" />
             </div>
           </motion.div>
 
           {/* Card 5: Small Square Version Control */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.5 }}
+            custom={0.5}
+            initial="hidden"
+            whileInView="visible"
+            variants={bootUpVariants}
+            viewport={{ once: true, amount: 0.2 }}
             className="md:col-span-1 md:row-span-1 border-4 p-6 relative flex flex-col items-center justify-center text-center"
             style={{
               borderColor: 'var(--color-accent)',
@@ -186,45 +213,50 @@ const Skills = () => {
             onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(3px, 3px)'; e.currentTarget.style.boxShadow = '3px 3px 0px var(--color-accent)'; }}
             onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '6px 6px 0px var(--color-accent)'; }}
           >
-            <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-muted opacity-80 absolute top-4 left-4">L VCS</h3>
+            <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-muted opacity-80 absolute top-4 left-4 glitch-hover" data-text="L VCS">L VCS</h3>
             {/* Official Git Logo */}
             <svg className="w-10 h-10 mb-2 mt-6 opacity-80" style={{ color: 'var(--color-accent)' }} viewBox="0 0 24 24" fill="currentColor"><path d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.738 2.736c.64-.23 1.383-.09 1.899.426.702.702.702 1.841 0 2.541-.702.703-1.84.703-2.54 0-.52-.52-.662-1.272-.435-1.921l-2.707-2.706c-.05.025-.102.046-.153.067v3.917c.231.22.378.533.378.878 0 .674-.547 1.221-1.221 1.221s-1.22-.547-1.22-1.22c0-.342.146-.653.374-.871V8.406c-.228-.219-.374-.53-.374-.873 0-.17.037-.333.103-.483L5.457 4.593 .454 9.596c-.605.604-.605 1.584 0 2.19l10.48 10.478c.604.604 1.581.604 2.188 0l10.424-10.423c.603-.604.603-1.584 0-2.19m0 0" /></svg>
-            <div className="flex flex-col items-center">
-              <span className="font-bold text-lg uppercase tracking-widest text-light">GIT</span>
-              <span className="font-bold text-lg uppercase tracking-widest text-red">SVN</span>
+            <div className="flex flex-col items-center gap-1">
+              <ScrambleText text="GIT" className="font-bold text-lg uppercase tracking-widest text-light" />
+              <ScrambleText text="SVN" className="font-bold text-lg uppercase tracking-widest text-red" />
             </div>
           </motion.div>
 
           {/* Card 6: Wide Security / API Layer */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="md:col-span-2 md:row-span-1 border-4 bg-primary p-6 md:p-8 relative flex flex-col justify-center overflow-hidden"
+            custom={0.6}
+            initial="hidden"
+            whileInView="visible"
+            variants={bootUpVariants}
+            viewport={{ once: true, amount: 0.2 }}
+            className="md:col-span-4 md:row-span-1 border-4 bg-primary p-6 md:p-8 relative flex flex-col justify-center overflow-hidden"
             style={{
               borderColor: 'var(--color-accent)',
-              boxShadow: '8px 8px 0px var(--color-accent)',
+              boxShadow: '10px 10px 0px var(--color-accent)',
               transition: 'transform 0.2s, box-shadow 0.2s'
             }}
-            onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(4px, 4px)'; e.currentTarget.style.boxShadow = '4px 4px 0px var(--color-accent)'; }}
-            onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '8px 8px 0px var(--color-accent)'; }}
+            onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(4px, 4px)'; e.currentTarget.style.boxShadow = '6px 6px 0px var(--color-accent)'; }}
+            onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '10px 10px 0px var(--color-accent)'; }}
           >
             {/* Decorative warning stripes */}
             <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, var(--color-red) 10px, var(--color-red) 20px)' }} />
 
-            <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-muted mb-4 absolute top-4 left-4 z-20">L SECURITY_&_APIS</h3>
+            <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-muted mb-4 absolute top-4 left-4 z-20 glitch-hover" data-text="L SECURITY_&_APIS">L SECURITY_&_APIS</h3>
 
-            {/* Shield Icon container */}
-            <div className="flex gap-6 mb-6 mt-10 relative z-10">
-              <svg className="w-10 h-10 text-accent opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                <path strokeLinecap="square" strokeLinejoin="miter" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-            </div>
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between w-full relative z-10 mt-8 md:mt-0">
+              
+              {/* Shield Icon container */}
+              <div className="flex gap-6 mb-6 md:mb-0 items-center mt-2 md:mt-0">
+                <svg className="w-12 h-12 text-accent opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                  <path strokeLinecap="square" strokeLinejoin="miter" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
 
-            <div className="relative z-10 flex flex-col gap-2">
-              <span className="text-3xl md:text-4xl font-bold uppercase tracking-widest text-light">REST APIS</span>
-              <span className="text-2xl md:text-3xl font-bold uppercase tracking-widest text-red">SPRING SEC</span>
+              <div className="flex flex-col md:flex-row gap-2 md:gap-8 items-start md:items-center text-left md:text-right border-l-0 md:border-l-4 pl-0 md:pl-8 border-transparent md:border-red">
+                <ScrambleText text="REST APIS" className="text-3xl md:text-5xl font-black uppercase tracking-widest text-light" />
+                <ScrambleText text="SPRING SEC" className="text-2xl md:text-4xl font-black uppercase tracking-widest text-red" />
+              </div>
+
             </div>
           </motion.div>
 

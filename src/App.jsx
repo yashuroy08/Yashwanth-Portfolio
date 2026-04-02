@@ -24,7 +24,7 @@ import { ThemeProvider } from './context/ThemeContext.jsx';
 import NotFound from './components/NotFound.jsx';
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
 
 
