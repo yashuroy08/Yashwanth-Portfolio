@@ -47,6 +47,29 @@ const ScrambleText = ({ text, className, style }) => {
   );
 };
 
+const ProficiencyBadge = ({ level, label = "SYS.LEVEL" }) => {
+  return (
+    <div className="flex items-center gap-2 mt-2 opacity-90 bg-black/20 w-fit px-2 py-1 border border-border-strong/50">
+      <span className="text-[9px] font-mono tracking-widest text-muted uppercase">{label}</span>
+      <div className="flex gap-1 ml-1">
+        {[...Array(5)].map((_, i) => (
+          <motion.div
+            key={i}
+            className={`w-1.5 h-3 ${i < level ? 'bg-red' : 'bg-muted/20'}`}
+            animate={i < level ? { opacity: [0.3, 1, 0.3] } : {}}
+            transition={{
+              duration: 1.5 - (level * 0.15), // Higher proficiency = faster pulse (sys vibe)
+              repeat: Infinity,
+              delay: i * 0.1,
+              ease: "linear"
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const bootUpVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: (customDelay) => ({
@@ -127,9 +150,15 @@ const Skills = () => {
               <svg className="w-10 h-10 text-red opacity-80" viewBox="0 0 64 64" fill="currentColor"><path d="M58.2 3.365a29.503 29.503 0 0 1-3.419 6.064A32.094 32.094 0 1 0 9.965 55.372l1.186 1.047a32.08 32.08 0 0 0 52.67-22.253c.875-8.17-1.524-18.51-5.62-30.8zM14.53 55.558a2.744 2.744 0 1 1-.404-3.857 2.744 2.744 0 0 1 .404 3.857zm43.538-9.61c-7.92 10.55-24.83 6.99-35.672 7.502 0 0-1.922.113-3.857.43 0 0 .73-.31 1.663-.663 7.614-2.65 11.213-3.16 15.838-5.54 8.708-4.427 17.322-14.122 19.112-24.2-3.313 9.695-13.373 18.032-22.53 21.418-6.276 2.313-17.614 4.566-17.614 4.566l-.457-.245c-7.714-3.75-7.952-20.457 6.077-25.845 6.143-2.366 12.02-1.067 18.654-2.65 7.084-1.683 15.28-6.99 18.615-13.916 3.73 11.08 8.224 28.422.166 39.15z" /></svg>
             </div>
 
-            <div className="flex flex-col items-start">
-              <ScrambleText text="JAVA" className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none" style={{ color: 'var(--color-accent)' }} />
-              <ScrambleText text="SPRING BOOT" className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none text-red mt-2" />
+            <div className="flex flex-col items-start w-full">
+              <div className="flex flex-col md:flex-row md:items-end gap-2 md:gap-4 w-full">
+                <ScrambleText text="JAVA" className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none" style={{ color: 'var(--color-accent)' }} />
+                <div className="mb-1"><ProficiencyBadge level={5} label="JAVA" /></div>
+              </div>
+              <div className="flex flex-col md:flex-row md:items-end gap-2 md:gap-4 mt-4 w-full">
+                <ScrambleText text="SPRING BOOT" className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none text-red" />
+                <div className="mb-1"><ProficiencyBadge level={4} label="SPRING BOOT" /></div>
+              </div>
             </div>
             <div className="mt-8 text-sm md:text-lg font-bold text-muted uppercase tracking-widest">
               High-Availability Backend Architecture
@@ -163,9 +192,15 @@ const Skills = () => {
               <svg className="w-10 h-10 text-accent opacity-80" viewBox="0 0 256 252" fill="currentColor"><path d="M236 194c-14 0-25 1-34 5-3 1-7 1-7 4l3 6c2 3 5 8 9 11l11 8 21 10 11 9 6 4-3-6-5-5c-5-7-11-13-18-18-6-3-18-9-20-15h-1l12-3 18-3 8-2v-2l-9-10c-8-8-18-15-28-22l-18-8c-2-1-6-2-7-4l-7-13-15-30-8-20c-18-30-38-48-68-65-6-4-14-5-22-7l-13-1-8-6C34 5 8-9 1 9c-5 11 7 22 11 28l9 13 3 9c3 8 5 17 9 24l6 10c2 2 4 3 5 6-3 4-3 9-4 13-7 20-4 44 5 59 2 4 9 14 18 10 8-3 6-13 8-22l1-4 8 14c5 9 14 18 22 24 4 3 8 8 13 10l-4-4-9-10c-8-10-14-21-20-32l-7-17-3-6c-3 4-7 7-9 12-3 7-3 17-4 26h-1c-6-1-8-7-10-12-5-12-6-32-1-46 1-4 6-15 4-19-1-3-4-5-6-7l-7-12-10-30-9-13c-3-5-7-8-10-14-1-2-2-5 0-7l2-2c2-2 9 0 11 1 6 3 12 5 17 9l8 6h4c6 1 12 0 17 2 9 3 18 7 25 12 23 14 42 35 54 59 3 4 3 8 5 12l12 26c4 8 7 16 12 23 3 4 14 6 18 8l12 4 18 12c2 2 11 7 12 10Z" /><path d="m58 43-7 1 6 7 4 9v-1c3-1 4-4 4-8l-2-4-5-4Z" /></svg>
             </div>
 
-            <div className="flex flex-col gap-2 items-end">
-              <ScrambleText text="MONGODB" className="text-3xl md:text-4xl font-bold uppercase tracking-widest" style={{ color: 'var(--color-accent)' }} />
-              <ScrambleText text="MYSQL" className="text-3xl md:text-4xl font-bold uppercase tracking-widest text-muted" />
+            <div className="flex flex-col gap-4 items-end">
+              <div className="flex flex-col items-end gap-1">
+                <ScrambleText text="MONGODB" className="text-3xl md:text-4xl font-bold uppercase tracking-widest leading-none" style={{ color: 'var(--color-accent)' }} />
+                <ProficiencyBadge level={4} label="NOSQL" />
+              </div>
+              <div className="flex flex-col items-end gap-1 mt-2">
+                <ScrambleText text="MYSQL" className="text-3xl md:text-4xl font-bold uppercase tracking-widest text-muted leading-none" />
+                <ProficiencyBadge level={4} label="SQL" />
+              </div>
             </div>
           </motion.div>
 
@@ -190,9 +225,10 @@ const Skills = () => {
               <svg viewBox="0 0 256 222" className="w-8 h-8 object-contain" fill="currentColor"><path d="m128 0 128 221.705H0z" /></svg>
               <img src="/render.svg" alt="Render" className="w-8 h-8 object-contain" />
             </div>
-            <div className="flex flex-col items-center gap-1">
+            <div className="flex flex-col items-center gap-1 w-full">
               <ScrambleText text="VERCEL" className="font-bold text-sm uppercase tracking-widest text-light" />
               <ScrambleText text="RENDER" className="font-bold text-sm uppercase tracking-widest text-red" />
+              <div className="mt-2 text-center flex justify-center w-full"><ProficiencyBadge level={3} label="CLOUD" /></div>
             </div>
           </motion.div>
 
@@ -216,9 +252,10 @@ const Skills = () => {
             <h3 className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-muted opacity-80 absolute top-4 left-4 glitch-hover" data-text="L VCS">L VCS</h3>
             {/* Official Git Logo */}
             <svg className="w-10 h-10 mb-2 mt-6 opacity-80" style={{ color: 'var(--color-accent)' }} viewBox="0 0 24 24" fill="currentColor"><path d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.738 2.736c.64-.23 1.383-.09 1.899.426.702.702.702 1.841 0 2.541-.702.703-1.84.703-2.54 0-.52-.52-.662-1.272-.435-1.921l-2.707-2.706c-.05.025-.102.046-.153.067v3.917c.231.22.378.533.378.878 0 .674-.547 1.221-1.221 1.221s-1.22-.547-1.22-1.22c0-.342.146-.653.374-.871V8.406c-.228-.219-.374-.53-.374-.873 0-.17.037-.333.103-.483L5.457 4.593 .454 9.596c-.605.604-.605 1.584 0 2.19l10.48 10.478c.604.604 1.581.604 2.188 0l10.424-10.423c.603-.604.603-1.584 0-2.19m0 0" /></svg>
-            <div className="flex flex-col items-center gap-1">
+            <div className="flex flex-col items-center gap-1 w-full">
               <ScrambleText text="GIT" className="font-bold text-lg uppercase tracking-widest text-light" />
               <ScrambleText text="SVN" className="font-bold text-lg uppercase tracking-widest text-red" />
+              <div className="mt-1 text-center justify-center flex"><ProficiencyBadge level={4} label="VCS" /></div>
             </div>
           </motion.div>
 
@@ -252,9 +289,15 @@ const Skills = () => {
                 </svg>
               </div>
 
-              <div className="flex flex-col md:flex-row gap-2 md:gap-8 items-start md:items-center text-left md:text-right border-l-0 md:border-l-4 pl-0 md:pl-8 border-transparent md:border-red">
-                <ScrambleText text="REST APIS" className="text-3xl md:text-5xl font-black uppercase tracking-widest text-light" />
-                <ScrambleText text="SPRING SEC" className="text-2xl md:text-4xl font-black uppercase tracking-widest text-red" />
+              <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-start md:items-center text-left md:text-right border-l-0 md:border-l-4 pl-0 md:pl-8 border-transparent md:border-red">
+                <div className="flex flex-col">
+                  <ScrambleText text="REST APIS" className="text-3xl md:text-4xl font-black uppercase tracking-widest text-light leading-none" />
+                  <ProficiencyBadge level={5} label="APIS" />
+                </div>
+                <div className="flex flex-col mt-4 md:mt-0">
+                  <ScrambleText text="SPRING SEC" className="text-2xl md:text-3xl font-black uppercase tracking-widest text-red leading-none" />
+                  <ProficiencyBadge level={4} label="SECURITY" />
+                </div>
               </div>
 
             </div>

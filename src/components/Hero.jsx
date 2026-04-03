@@ -225,25 +225,19 @@ const Hero = () => {
                   onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(-2px, -2px)'; e.currentTarget.style.boxShadow = '4px 4px 0px var(--color-accent)'; }}>
                   EXPLORE_PROJECTS
                 </a>
-                <a href={import.meta.env.VITE_RESUME_URL || '/resume.pdf'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => {
-                    const link = document.createElement('a');
-                    link.href = import.meta.env.VITE_RESUME_URL || '/resume.pdf';
-                    link.download = 'Yashwanth_Resume.pdf';
-                    link.click();
-                  }}
-                  className="glitch-click group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-light bg-primary border-2 border-border-strong"
-                  style={{
-                    padding: '1rem 2rem',
-                    boxShadow: '4px 4px 0px var(--color-border-strong)',
-                    transform: 'translate(-2px, -2px)'
-                  }}
-                  onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '0px 0px 0px var(--color-border-strong)'; }}
-                  onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(-2px, -2px)'; e.currentTarget.style.boxShadow = '4px 4px 0px var(--color-border-strong)'; }}>
-                  VIEW_RESUME
-                </a>
+                  <a href={import.meta.env.VITE_RESUME_URL || '/resume.pdf'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="glitch-click group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-red bg-primary border-2 border-red mt-2 sm:mt-0"
+                    style={{
+                      padding: '1rem 2rem',
+                      boxShadow: '4px 4px 0px var(--color-red)',
+                      transform: 'translate(-2px, -2px)'
+                    }}
+                    onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '0px 0px 0px var(--color-red)'; }}
+                    onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(-2px, -2px)'; e.currentTarget.style.boxShadow = '4px 4px 0px var(--color-red)'; }}>
+                    VIEW_RESUME
+                  </a>
               </motion.div>
 
               <motion.div

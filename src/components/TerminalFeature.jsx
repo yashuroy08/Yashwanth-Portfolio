@@ -251,7 +251,7 @@ const TerminalFeature = () => {
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: isIdle ? 0 : 1, x: isIdle ? -10 : 0 }}
                         exit={{ opacity: 0, x: -10 }}
-                        className={`fixed bottom-[100px] left-6 z-40 bg-primary/80 backdrop-blur-sm border border-border-strong px-2 py-1.5 rounded-sm shadow-sm flex items-center gap-2 hover:border-accent hover:bg-white/5 transition-all outline-none ${isIdle ? 'pointer-events-none' : ''}`}
+                        className={`hidden md:flex fixed bottom-[100px] left-6 z-40 bg-primary/80 backdrop-blur-sm border border-border-strong px-2 py-1.5 rounded-sm shadow-sm transition-all outline-none ${isIdle ? 'pointer-events-none' : ''}`}
                         title="Open Terminal (Ctrl+K)"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent">
@@ -270,14 +270,18 @@ const TerminalFeature = () => {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
+                        drag
+                        dragMomentum={false}
+                        dragElastic={0}
+                        dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
                         initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
                         className="fixed inset-0 md:inset-auto md:bottom-24 md:left-8 md:w-[500px] md:h-[400px] z-[60] bg-[#0c0c0c] border border-accent/20 rounded-lg shadow-2xl flex flex-col font-mono overflow-hidden"
                     >
-                        {/* Title Bar */}
-                        <div className="bg-primary/80 px-4 py-2 border-b border-accent/10 flex items-center justify-between">
-                            <span className="text-xs text-muted">terminal — yashwanth_portfolio</span>
+                        {/* Title Bar - Drag Handle */}
+                        <div className="bg-primary/80 px-4 py-2 border-b border-accent/10 flex items-center justify-between cursor-grab active:cursor-grabbing">
+                            <span className="text-xs text-muted pointer-events-none">terminal — yashwanth_portfolio</span>
                             <button
                                 onClick={() => setIsOpen(false)}
                                 className="hover:text-white text-muted transition-colors"

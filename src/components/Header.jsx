@@ -57,6 +57,8 @@ const Header = () => {
     })
   };
 
+  const resumeUrl = import.meta.env.VITE_RESUME_URL || '/resume.pdf';
+
   return (
     <>
       <motion.header
@@ -101,9 +103,9 @@ const Header = () => {
           </motion.div>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-4 lg:gap-8 ml-auto">
+          <div className="hidden md:flex items-center gap-1.5 lg:gap-3 ml-auto">
             {/* Brutalist nav container */}
-            <nav className="flex items-center gap-1 xl:gap-2">
+            <nav className="flex items-center">
               {navItems.map((item, i) => {
                 const isActive = activeSection === item.toLowerCase();
                 return (
@@ -114,19 +116,42 @@ const Header = () => {
                     variants={navItemVariants}
                     initial="hidden"
                     animate="visible"
-                    className="relative px-2 lg:px-3 xl:px-4 py-1.5 xl:py-2 text-[9px] lg:text-[10px] xl:text-[11px] font-mono tracking-widest transition-all duration-200 uppercase border-2"
+                    className="relative px-1.5 lg:px-2.5 py-1.5 text-[9px] lg:text-[10px] font-mono tracking-widest transition-all duration-200 uppercase border-y-2 border-transparent hover:border-y-accent/10"
                     style={{
                       borderRadius: '0px',
-                      color: isActive ? 'var(--color-primary)' : 'var(--color-accent)',
-                      background: isActive ? 'var(--color-accent)' : 'transparent',
-                      borderColor: isActive ? 'var(--color-accent)' : 'transparent',
+                      color: isActive ? 'var(--color-accent)' : 'var(--color-muted)',
                     }}
                   >
                     {item}
+                    {isActive && (
+                      <motion.div
+                        layoutId="navActive"
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent"
+                      />
+                    )}
                   </motion.a>
                 );
               })}
             </nav>
+
+            {/* Separate Resume Button */}
+            <motion.a
+              href={resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5 }}
+              className="px-3 lg:px-4 py-1.5 bg-red text-white font-mono text-[9px] lg:text-[10px] font-bold tracking-widest uppercase border-2 border-accent hover:translate-y-[-2px] hover:shadow-[4px 4px 0px_var(--color-accent)] transition-all duration-200"
+              style={{
+                backgroundColor: 'var(--color-red)',
+                borderColor: 'var(--color-accent)',
+                boxShadow: scrolled ? '2px 2px 0px var(--color-accent)' : '3px 3px 0px var(--color-accent)',
+              }}
+            >
+              RESUME
+            </motion.a>
+
             <ThemeToggle />
           </div>
 
@@ -175,7 +200,7 @@ const Header = () => {
             className="fixed inset-0 z-[999] flex flex-col p-8 md:hidden h-screen pointer-events-auto"
             style={{ backgroundColor: 'var(--color-primary)' }}
           >
-            <div className="flex justify-between items-center mb-16 px-4">
+            <div className="flex justify-between items-center mb-12 px-4">
               <span className="font-mono text-xs tracking-[0.4em] opacity-40 text-accent uppercase">Navigation</span>
               <button
                 onClick={() => setMobileMenuOpen(false)}
@@ -187,7 +212,7 @@ const Header = () => {
               </button>
             </div>
 
-            <ul className="flex flex-col space-y-6 px-4">
+            <ul className="flex flex-col space-y-4 px-4 overflow-y-auto">
               {navItems.map((item, i) => {
                 const isActive = activeSection === item.toLowerCase();
                 return (
@@ -199,7 +224,7 @@ const Header = () => {
                   >
                     <a
                       href={`#${item.toLowerCase()}`}
-                      className={`text-3xl font-mono tracking-[0.1em] transition-all duration-300 uppercase flex items-baseline ${isActive ? 'text-accent' : 'text-muted hover:text-accent'
+                      className={`text-2xl font-mono tracking-[0.1em] transition-all duration-300 uppercase flex items-baseline ${isActive ? 'text-accent' : 'text-muted hover:text-accent'
                         }`}
                       onClick={() => setMobileMenuOpen(false)}
                     >
@@ -209,6 +234,24 @@ const Header = () => {
                   </motion.li>
                 );
               })}
+              {/* Separate Mobile Resume Button */}
+              <motion.li
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: navItems.length * 0.05 + 0.1 }}
+                className="pt-6"
+              >
+                <a
+                  href={resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-4 bg-red text-white font-mono text-center text-xl font-bold tracking-[0.1em] uppercase border-2 border-accent block shadow-[6px 6px 0px_var(--color-accent)]"
+                  style={{ backgroundColor: 'var(--color-red)' }}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  VIEW RESUME
+                </a>
+              </motion.li>
             </ul>
 
             <div className="mt-auto px-4 pb-12">

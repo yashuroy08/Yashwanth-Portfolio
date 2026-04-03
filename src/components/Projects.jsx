@@ -30,20 +30,6 @@ const projects = [
       "Automated risk evaluation & session management",
       "Instant session invalidation for high-risk activities"
     ]
-  },
-  {
-    title: "Weather Forecast App",
-    description: "A cross-platform mobile application built with Flutter and Dart that delivers real-time weather updates. It features a beautiful, responsive UI that adapts to current weather conditions, offering hourly and weekly forecasts, humidity levels, and wind speed details for any location worldwide. The app leverages device sensors for location access and provides accurate data visualization.",
-    tech: ["Flutter", "Dart", "OpenWeather API", "Geolocator", "Bloc Pattern"],
-    color: "from-orange-500/20 to-red-500/20",
-    liveLink: "#",
-    githubLink: "#",
-    highlights: [
-      "Real-time weather data integration",
-      "Automatic user location detection",
-      "Dynamic background animations based on weather",
-      "7-day forecast visualization"
-    ]
   }
 ];
 
