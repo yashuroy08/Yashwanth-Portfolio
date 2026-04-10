@@ -15,6 +15,13 @@ const Education = () => {
     //   type: "project"
     // },
     {
+      year: "Aug 2025 – Dec 2025",
+      title: "AI Intern",
+      subtitle: "LearnFlu (Remote)",
+      description: "Developed RESTful APIs with ML model integration. Improved pipeline efficiency by 30% using Azure ML optimizations and built microservices for scalable model access.",
+      type: "project"
+    },
+    {
       year: "2025-26",
       title: "Backend Development Mastery",
       subtitle: "Java & Spring Boot",

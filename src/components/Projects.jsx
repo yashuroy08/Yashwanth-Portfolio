@@ -5,7 +5,7 @@ import ScrollReveal from './ScrollReveal';
 const projects = [
   {
     title: "E-commerce Backend Service",
-    description: "A high-performance backend architecture for a modern e-commerce ecosystem. Developed using Spring Boot and MongoDB, this service handles complex business logic, concurrent order processing, and secure financial transactions through a multi-layered microservices-ready approach.",
+    description: "A high-performance backend architecture for a modern e-commerce ecosystem. Developed using Spring Boot and MongoDB, this service handles complex business logic, concurrent order processing, and secure financial transactions through a multi-layered microservices-ready approach deployed on Render and Vercel.",
     tech: ["Java", "Spring Boot", "MongoDB", "Render", "Vercel"],
     color: "from-blue-500/20 to-purple-500/20",
     liveLink: "https://threads-fashion.vercel.app/",
@@ -13,8 +13,8 @@ const projects = [
     highlights: [
       "Architected scalable RESTful APIs with Spring Boot",
       "Implemented secure JWT-based authentication & RBAC",
-      "Optimized database schema and queries in MongoDB",
-      "Deployed backend to Render and frontend to Vercel"
+      "Reduced query latency by 35% through MongoDB optimization",
+      "Deployed microservices architecture for scalable access"
     ]
   },
   {
@@ -25,10 +25,10 @@ const projects = [
     liveLink: "#",
     githubLink: "https://github.com/yashuroy08/RBAC",
     highlights: [
-      "Granular permission-based access control",
-      "Secure user authentication with JWT",
-      "Automated risk evaluation & session management",
-      "Instant session invalidation for high-risk activities"
+      "Granular permission-based access control (RBAC)",
+      "Secure user authentication with stateless JWT validation",
+      "Dynamic role-permission mapping with MySQL backend",
+      "Automated risk evaluation & session management"
     ]
   }
 ];
@@ -123,7 +123,7 @@ const Projects = () => {
                 <h3 className={`font-semibold text-lg mb-1 transition-colors duration-300 ${activeProject === index ? "text-light" : "text-muted group-hover:text-light/80"
                   }`}>
                   {project.title}
-</h3>
+                </h3>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {project.tech.slice(0, 3).map((t, i) => (
                     <span key={i} className="text-[10px] uppercase tracking-tighter text-muted/60 font-mono">

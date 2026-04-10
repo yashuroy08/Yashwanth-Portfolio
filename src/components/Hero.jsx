@@ -165,9 +165,8 @@ const Hero = () => {
                 </div>
 
                 <p className="text-muted text-sm md:text-base font-mono tracking-wide max-w-lg mx-auto lg:mx-0 mt-4 mb-8 border-l-4 pl-4" style={{ borderColor: 'var(--color-red)' }}>
-                  I am an enthusiastic student currently diving deep into the world of backend development.<br /><br />
-                  Passionate about learning Java, mastering Spring Boot, and understanding database optimization. I'm constantly building projects to improve my skills and explore how scalable systems work.<br /><br />
-                  <span className="text-accent opacity-75">/* Currently focused on expanding my backend knowledge and taking on new challenges. */</span>
+                  Java Backend Developer with experience building scalable RESTful APIs using Java, Spring Boot, and Spring Security. Proficient in MySQL, MongoDB, JWT-based authentication, CI/CD pipelines, and microservices architecture. Oracle Database Specialist certified.<br /><br />
+                  <span className="text-accent opacity-75">/* Currently focused on building scalable backend architectures and mastering cloud-native development. */</span>
                 </p>
                 <div className="inline-flex items-center gap-3 px-4 py-2 border-2 bg-primary" style={{ borderColor: 'var(--color-accent)', boxShadow: '4px 4px 0px var(--color-accent)' }}>
                   <span className="relative flex h-3 w-3">
@@ -200,7 +199,7 @@ const Hero = () => {
                   <span className="group-hover:text-red transition-colors">LEETCODE</span>
                 </a>
 
-                <a href="https://www.linkedin.com/in/yashwanth-patam-506044324/" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.linkedin.com/in/yashwanth-patam/" target="_blank" rel="noopener noreferrer"
                   className="group flex items-center gap-2 text-sm font-mono font-bold uppercase tracking-widest px-4 py-3 border-2 transition-all"
                   style={{ borderColor: 'var(--color-border-strong)' }}>
                   <svg className="w-5 h-5 group-hover:text-red transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -225,19 +224,19 @@ const Hero = () => {
                   onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(-2px, -2px)'; e.currentTarget.style.boxShadow = '4px 4px 0px var(--color-accent)'; }}>
                   EXPLORE_PROJECTS
                 </a>
-                  <a href={import.meta.env.VITE_RESUME_URL || '/resume.pdf'}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="glitch-click group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-red bg-primary border-2 border-red mt-2 sm:mt-0"
-                    style={{
-                      padding: '1rem 2rem',
-                      boxShadow: '4px 4px 0px var(--color-red)',
-                      transform: 'translate(-2px, -2px)'
-                    }}
-                    onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '0px 0px 0px var(--color-red)'; }}
-                    onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(-2px, -2px)'; e.currentTarget.style.boxShadow = '4px 4px 0px var(--color-red)'; }}>
-                    VIEW_RESUME
-                  </a>
+                <a href={import.meta.env.VITE_RESUME_URL || '/resume.pdf'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="glitch-click group flex items-center justify-center font-bold text-xs tracking-widest uppercase transition-all duration-200 text-red bg-primary border-2 border-red mt-2 sm:mt-0"
+                  style={{
+                    padding: '1rem 2rem',
+                    boxShadow: '4px 4px 0px var(--color-red)',
+                    transform: 'translate(-2px, -2px)'
+                  }}
+                  onMouseOver={(e) => { e.currentTarget.style.transform = 'translate(0px, 0px)'; e.currentTarget.style.boxShadow = '0px 0px 0px var(--color-red)'; }}
+                  onMouseOut={(e) => { e.currentTarget.style.transform = 'translate(-2px, -2px)'; e.currentTarget.style.boxShadow = '4px 4px 0px var(--color-red)'; }}>
+                  VIEW_RESUME
+                </a>
               </motion.div>
 
               <motion.div

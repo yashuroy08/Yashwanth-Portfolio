@@ -187,7 +187,7 @@ const TerminalFeature = () => {
     const commands = {
         help: `AVAILABLE_COMMANDS:\n\n  - about       : System overview\n  - skills      : Technical stack analysis\n  - projects    : Deployment logs\n  - contact     : Establish uplink\n  - resume      : DOWNLOAD_RESUME.PDF\n  - fetch-stats : Live GitHub telemetry\n  - theme       : Rotate accent sub-routines\n  - date        : System time\n  - status      : Tactical overview\n  - clear       : Wipe terminal buffer`,
         about: 'Yashwanth Patam - Java Developer specializing in Spring Boot and Backend Architectures.',
-        skills: 'Java, Spring Boot, MongoDB, Vercel, Render, React, Tailwind CSS.',
+        skills: 'Java, Spring Boot, MongoDB, MySQL, Render, Vercel, React, Tailwind CSS.',
         contact: 'Email: yashwanthp2335.sse@saveetha.com | Linkedin: https://www.linkedin.com/in/yashwanth-patam/',
         clear: 'clear',
         exit: 'exit'
