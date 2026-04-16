@@ -45,9 +45,38 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus({ submitting: true, submitted: false, error: null });
+
+    // Fetch user info with fallbacks (helps if one is blocked by adblockers)
+    let ip = 'Unknown';
+    let location = 'Unknown';
+    let deviceName = typeof navigator !== 'undefined' ? navigator.userAgent : 'Unknown';
+
+    try {
+      // Primary Attempt: freeipapi.com
+      const res = await fetch('https://freeipapi.com/api/json');
+      if (res.ok) {
+        const data = await res.json();
+        ip = data.ipAddress || 'Unknown';
+        location = [data.cityName, data.regionName, data.countryName].filter(Boolean).join(', ') || 'Unknown';
+      } else {
+        throw new Error('Primary failed');
+      }
+    } catch (err) {
+      try {
+        // Fallback: ipapi.co
+        const res = await fetch('https://ipapi.co/json/');
+        if (res.ok) {
+          const data = await res.json();
+          ip = data.ip || 'Unknown';
+          location = [data.city, data.region, data.country_name].filter(Boolean).join(', ') || 'Unknown';
+        }
+      } catch (e) {
+        console.error('Geolocation failed:', e);
+      }
+    }
 
     // EmailJS configuration
     const serviceId = import.meta.env.VITE_SERVICE_ID;
@@ -57,12 +86,18 @@ const Contact = () => {
     // Initialize EmailJS with your public key
     emailjs.init(publicKey);
 
+    // Append info to message so it displays in email regardless of template
+    const detailedMessage = `${formData.message}\n\n---\nSender Info:\nIP: ${ip}\nLocation: ${location}\nDevice: ${deviceName}`;
+
     // Prepare form data for EmailJS to match your template variables
     const templateParams = {
       name: formData.name,
       email: formData.email,
-      message: formData.message,
+      message: detailedMessage,
       title: `Portfolio Contact from ${formData.name}`, // Matches {{title}} in your screenshot
+      ip: ip,
+      location: location,
+      device: deviceName
     };
 
     emailjs.send(serviceId, templateId, templateParams)
