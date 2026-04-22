@@ -1,8 +1,7 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ScrollReveal from './ScrollReveal';
 import TiltCard from './TiltCard';
-import GlitchText from './GlitchText';
 
 const projects = [
   {

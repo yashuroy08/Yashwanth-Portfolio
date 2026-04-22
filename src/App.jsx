@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, Component } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ResumeRedirect from './components/ResumeRedirect.jsx';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -24,8 +24,34 @@ import SectionDivider from './components/SectionDivider.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
 import NotFound from './components/NotFound.jsx';
 
+/* ── Error Boundary ── */
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error, info) {
+    console.error('ErrorBoundary caught:', error, info);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', color: '#ff3333', fontFamily: 'monospace', padding: '2rem', textAlign: 'center' }}>
+          <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>// SYSTEM_FAULT</h1>
+          <p style={{ color: '#888', maxWidth: '400px' }}>Something went wrong. Please reload the page.</p>
+          <button onClick={() => window.location.reload()} style={{ marginTop: '1.5rem', padding: '0.75rem 2rem', background: '#ff3333', color: '#fff', border: 'none', cursor: 'pointer', fontFamily: 'monospace', fontWeight: 'bold', letterSpacing: '0.1em' }}>RELOAD</button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function App() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
 
 
@@ -65,7 +91,6 @@ function App() {
                       <Projects />
                       <SectionDivider />
                       <GithubStats />
-                      {/* <Memories /> */}
                       <SectionDivider />
                       <Education />
                       <SectionDivider />
@@ -87,4 +112,10 @@ function App() {
   );
 }
 
-export default App;
+const AppWithBoundary = () => (
+  <ErrorBoundary>
+    <App />
+  </ErrorBoundary>
+);
+
+export default AppWithBoundary;

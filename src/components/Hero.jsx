@@ -2,10 +2,12 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import Avatar from './Avatar';
 import TextDecode from './TextDecode';
-import MagneticWrapper from './MagneticWrapper';
 
 const ROLES = [
-  'JAVA DEVELOPER'
+  'JAVA DEVELOPER',
+  'BACKEND ENGINEER',
+  'API ARCHITECT',
+  'SPRING BOOT DEV',
 ];
 
 const TypewriterRole = () => {

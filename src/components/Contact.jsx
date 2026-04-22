@@ -47,6 +47,15 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Honeypot anti-spam check
+    const honeypot = formRef.current?.querySelector('[name="website"]');
+    if (honeypot && honeypot.value) {
+      // Bot detected — silently ignore
+      setStatus({ submitting: false, submitted: true, error: null });
+      return;
+    }
+
     setStatus({ submitting: true, submitted: false, error: null });
 
     // Fetch user info with fallbacks (helps if one is blocked by adblockers)
@@ -274,6 +283,11 @@ const Contact = () => {
               onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--color-red)'; e.currentTarget.style.boxShadow = '8px 8px 0px var(--color-red)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--color-border-strong)'; e.currentTarget.style.boxShadow = '8px 8px 0px var(--color-border-strong)'; }}>
               <h3 className="text-xl font-medium mb-6 uppercase tracking-widest border-b-2 border-border-strong pb-2 transition-colors duration-300">Send Message</h3>
+
+              {/* Honeypot field — hidden from humans, catches bots */}
+              <div style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, overflow: 'hidden' }} aria-hidden="true">
+                <input type="text" name="website" tabIndex="-1" autoComplete="off" />
+              </div>
 
               <div className="mb-6 flex flex-col items-start w-full relative group">
                 <label htmlFor="name" className="absolute -top-3 left-4 bg-primary px-2 font-mono text-[10px] tracking-widest uppercase transition-colors group-focus-within:text-red group-hover:text-red z-10" style={{ color: 'var(--color-muted)' }}>[ NAME ]</label>
