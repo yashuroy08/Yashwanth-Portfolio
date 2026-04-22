@@ -1,6 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useState, useRef } from 'react';
+import TiltCard from './TiltCard';
+import GlitchText from './GlitchText';
 
 /* ─── Reference Icon SVGs ─── */
 const YouTubeIcon = () => (
@@ -158,7 +160,9 @@ const Blogs = () => {
                                 exit="exit"
                                 transition={{ duration: 0.35, ease: 'easeInOut' }}
                             >
-                                <div
+                                <TiltCard
+                                    maxTilt={4}
+                                    glare={true}
                                     className="neo-card p-6 md:p-10 bg-primary border-2 border-border-strong relative overflow-hidden"
                                     style={{ boxShadow: '6px 6px 0px var(--color-border-strong)', borderRadius: 0 }}
                                 >
@@ -240,7 +244,7 @@ const Blogs = () => {
                                             </svg>
                                         </Link>
                                     </div>
-                                </div>
+                                </TiltCard>
                             </motion.div>
                         </AnimatePresence>
                     </div>

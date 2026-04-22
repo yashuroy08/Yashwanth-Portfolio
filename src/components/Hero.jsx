@@ -1,6 +1,8 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import Avatar from './Avatar';
+import TextDecode from './TextDecode';
+import MagneticWrapper from './MagneticWrapper';
 
 const ROLES = [
   'JAVA DEVELOPER'
@@ -156,7 +158,13 @@ const Hero = () => {
 
                 {/* Name */}
                 <h1 className="font-mono tracking-tighter text-5xl md:text-7xl lg:text-8xl font-bold mb-3 leading-none">
-                  <span className="glitch-hover" data-text="YASHWANTH">YASHWANTH</span>
+                  <TextDecode
+                    text="YASHWANTH"
+                    className="glitch-hover"
+                    style={{ cursor: 'crosshair' }}
+                    speed={35}
+                    stagger={2}
+                  />
                 </h1>
 
                 {/* Typewriter cycling role */}

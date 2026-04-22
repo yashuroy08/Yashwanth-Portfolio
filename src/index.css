@@ -502,3 +502,106 @@ body {
   box-shadow: none !important;
   transform: translate(0px, 0px) !important;
 }
+
+/* ═══════════════════════════════════════════
+   GLITCH TEXT REVEAL (Chromatic Aberration)
+   ═══════════════════════════════════════════ */
+.glitch-text-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text-wrapper::before,
+.glitch-text-wrapper::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+.glitch-text-wrapper::before {
+  color: #ff0040;
+  z-index: 0;
+}
+
+.glitch-text-wrapper::after {
+  color: #00f0ff;
+  z-index: 0;
+}
+
+.glitch-text-wrapper.glitch-active::before {
+  opacity: 0.7;
+  animation: glitch-reveal-1 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.glitch-text-wrapper.glitch-active::after {
+  opacity: 0.7;
+  animation: glitch-reveal-2 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both;
+}
+
+@keyframes glitch-reveal-1 {
+  0% { clip-path: inset(40% 0 61% 0); transform: translate(-3px, -2px); }
+  20% { clip-path: inset(92% 0 1% 0); transform: translate(2px, 3px); }
+  40% { clip-path: inset(20% 0 50% 0); transform: translate(-2px, 1px); }
+  60% { clip-path: inset(60% 0 10% 0); transform: translate(3px, -1px); }
+  80% { clip-path: inset(10% 0 80% 0); transform: translate(-1px, 2px); }
+  100% { clip-path: inset(0 0 0 0); transform: translate(0); opacity: 0; }
+}
+
+@keyframes glitch-reveal-2 {
+  0% { clip-path: inset(65% 0 8% 0); transform: translate(3px, 2px); }
+  20% { clip-path: inset(15% 0 65% 0); transform: translate(-3px, -3px); }
+  40% { clip-path: inset(72% 0 9% 0); transform: translate(2px, 3px); }
+  60% { clip-path: inset(5% 0 78% 0); transform: translate(-2px, -2px); }
+  80% { clip-path: inset(40% 0 20% 0); transform: translate(3px, -3px); }
+  100% { clip-path: inset(0 0 0 0); transform: translate(0); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════
+   3D TILT CARD WITH SHINE
+   ═══════════════════════════════════════════ */
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.tilt-card .tilt-shine {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(
+    600px circle at var(--shine-x, 50%) var(--shine-y, 50%),
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 60%
+  );
+}
+
+.tilt-card:hover .tilt-shine {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════
+   MATRIX DECODE TEXT ANIMATION
+   ═══════════════════════════════════════════ */
+@keyframes decode-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.decode-char {
+  display: inline-block;
+  animation: decode-flicker 0.08s ease-in-out;
+  font-family: 'Courier New', monospace;
+}

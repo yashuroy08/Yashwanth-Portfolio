@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ThemeToggle from './ThemeToggle.jsx';
+import MagneticWrapper from './MagneticWrapper.jsx';
 
 const navItems = ['HOME', 'SKILLS', 'PROJECTS', 'ACTIVITY', 'EDUCATION', 'BLOGS', 'CONTACT'];
 
@@ -109,48 +110,51 @@ const Header = () => {
               {navItems.map((item, i) => {
                 const isActive = activeSection === item.toLowerCase();
                 return (
-                  <motion.a
-                    key={item}
-                    href={`#${item.toLowerCase()}`}
-                    custom={i}
-                    variants={navItemVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="relative px-1.5 lg:px-2.5 py-1.5 text-[9px] lg:text-[10px] font-mono tracking-widest transition-all duration-200 uppercase border-y-2 border-transparent hover:border-y-accent/10"
-                    style={{
-                      borderRadius: '0px',
-                      color: isActive ? 'var(--color-accent)' : 'var(--color-muted)',
-                    }}
-                  >
-                    {item}
-                    {isActive && (
-                      <motion.div
-                        layoutId="navActive"
-                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent"
-                      />
-                    )}
-                  </motion.a>
+                  <MagneticWrapper key={item} strength={0.3}>
+                    <motion.a
+                      href={`#${item.toLowerCase()}`}
+                      custom={i}
+                      variants={navItemVariants}
+                      initial="hidden"
+                      animate="visible"
+                      className="relative px-1.5 lg:px-2.5 py-1.5 text-[9px] lg:text-[10px] font-mono tracking-widest transition-all duration-200 uppercase border-y-2 border-transparent hover:border-y-accent/10"
+                      style={{
+                        borderRadius: '0px',
+                        color: isActive ? 'var(--color-accent)' : 'var(--color-muted)',
+                      }}
+                    >
+                      {item}
+                      {isActive && (
+                        <motion.div
+                          layoutId="navActive"
+                          className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent"
+                        />
+                      )}
+                    </motion.a>
+                  </MagneticWrapper>
                 );
               })}
             </nav>
 
             {/* Separate Resume Button */}
-            <motion.a
-              href={resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5 }}
-              className="px-3 lg:px-4 py-1.5 bg-red text-white font-mono text-[9px] lg:text-[10px] font-bold tracking-widest uppercase border-2 border-accent hover:translate-y-[-2px] hover:shadow-[4px 4px 0px_var(--color-accent)] transition-all duration-200"
-              style={{
-                backgroundColor: 'var(--color-red)',
-                borderColor: 'var(--color-accent)',
-                boxShadow: scrolled ? '2px 2px 0px var(--color-accent)' : '3px 3px 0px var(--color-accent)',
-              }}
-            >
-              RESUME
-            </motion.a>
+            <MagneticWrapper strength={0.4}>
+              <motion.a
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5 }}
+                className="px-3 lg:px-4 py-1.5 bg-red text-white font-mono text-[9px] lg:text-[10px] font-bold tracking-widest uppercase border-2 border-accent hover:translate-y-[-2px] hover:shadow-[4px 4px 0px_var(--color-accent)] transition-all duration-200"
+                style={{
+                  backgroundColor: 'var(--color-red)',
+                  borderColor: 'var(--color-accent)',
+                  boxShadow: scrolled ? '2px 2px 0px var(--color-accent)' : '3px 3px 0px var(--color-accent)',
+                }}
+              >
+                RESUME
+              </motion.a>
+            </MagneticWrapper>
 
             <ThemeToggle />
           </div>

@@ -1,6 +1,8 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import ScrollReveal from './ScrollReveal';
+import StaggerReveal from './StaggerReveal';
+import GlitchText from './GlitchText';
 
 const Education = () => {
   const ref = useRef(null);
@@ -61,7 +63,7 @@ const Education = () => {
           className="mb-12 md:mb-16"
         >
           <ScrollReveal delay={0}>
-            <h4 className="font-mono text-sm text-muted mb-2 tracking-widest uppercase"><span className="text-red">// 05</span> &mdash; EXPERIENCE</h4>
+            <h4 className="font-mono text-sm text-muted mb-2 tracking-widest uppercase"><span className="text-red">// 04</span> &mdash; EXPERIENCE</h4>
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accent"><span className="glitch-hover" data-text="MY JOURNEY">MY JOURNEY</span></h2>
             <div className="w-16 h-[2px]" style={{ backgroundColor: 'var(--color-red)', opacity: 0.6 }}></div>
           </ScrollReveal>
@@ -85,13 +87,10 @@ const Education = () => {
             />
           </div>
 
-          <div className="space-y-8">
+          <StaggerReveal staggerDelay={0.12} direction="left" className="space-y-8">
             {timelineData.map((item, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, x: -20 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="relative flex gap-6 md:gap-8 min-h-[80px]"
               >
                 {/* Tactical Node (Crosshair style) */}
@@ -131,9 +130,9 @@ const Education = () => {
                     {item.description}
                   </p>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </div>
+          </StaggerReveal>
         </div>
       </div>
     </section>

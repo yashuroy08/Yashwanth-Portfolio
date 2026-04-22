@@ -20,6 +20,7 @@ import AnimatedBackground from './components/AnimatedBackground.jsx';
 import SoundEffects from './components/SoundEffects.jsx';
 import CursorBubble from './components/CursorBubble.jsx';
 import ScrollProgress from './components/ScrollProgress.jsx';
+import SectionDivider from './components/SectionDivider.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
 import NotFound from './components/NotFound.jsx';
 
@@ -58,12 +59,18 @@ function App() {
                     <Header />
                     <main>
                       <Hero />
+                      <SectionDivider />
                       <Skills />
+                      <SectionDivider />
                       <Projects />
+                      <SectionDivider />
                       <GithubStats />
                       {/* <Memories /> */}
+                      <SectionDivider />
                       <Education />
+                      <SectionDivider />
                       <Blogs />
+                      <SectionDivider />
                       <Contact />
                     </main>
                     <Footer />

@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ScrollReveal from './ScrollReveal';
+import TiltCard from './TiltCard';
+import GlitchText from './GlitchText';
 
 const projects = [
   {
@@ -35,20 +37,6 @@ const projects = [
 
 const Projects = () => {
   const [activeProject, setActiveProject] = useState(0);
-  const cardRef = useRef(null);
-
-  // 3-D tilt state
-  const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
-
-  const handleMouseMove = (e) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const { left, top, width, height } = card.getBoundingClientRect();
-    const x = (e.clientX - left) / width - 0.5;   // -0.5 → 0.5
-    const y = (e.clientY - top) / height - 0.5;
-    setTilt({ rotateX: -y * 10, rotateY: x * 10 }); // max ±5°
-  };
-  const resetTilt = () => setTilt({ rotateX: 0, rotateY: 0 });
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -154,20 +142,16 @@ const Projects = () => {
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeProject}
-                ref={cardRef}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.4, ease: 'easeOut' }}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={resetTilt}
-                className="nothing-card overflow-hidden cursor-default"
-                style={{
-                  transform: `perspective(800px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)`,
-                  transition: 'transform 0.15s ease-out',
-                  willChange: 'transform',
-                }}
               >
+                <TiltCard
+                  maxTilt={6}
+                  glare={true}
+                  className="nothing-card overflow-hidden cursor-default"
+                >
                 {/* Bottom crosshairs for Nothing style */}
                 <div className="nothing-corner-bottom pointer-events-none absolute inset-0 z-0"></div>
 
@@ -254,6 +238,7 @@ const Projects = () => {
                     )}
                   </div>
                 </div>
+                </TiltCard>
               </motion.div>
             </AnimatePresence>
           </div>
