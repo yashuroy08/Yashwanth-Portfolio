@@ -71,7 +71,7 @@ const Avatar = () => {
       let deltaYLeft = event.clientY - leftEyeCenterY;
       const distanceLeft = Math.sqrt(deltaXLeft * deltaXLeft + deltaYLeft * deltaYLeft);
       const pupilXLeft = (distanceLeft > 0) ? (deltaXLeft / distanceLeft) * Math.min(distanceLeft, MAX_PUPIL_OFFSET_X) : 0;
-      const pupilYLeft = (distanceLeft > 0) ? (deltaYLeft / distanceLeft) * Math.min(distanceLeft, MAX_PUPIL_OFFSET_Y) : 0;
+      const pupilYLeft = (distanceLeft > 0) ? (deltaYLeft / distanceLeft) * Math.min(deltaYLeft, MAX_PUPIL_OFFSET_Y) : 0;
       setLeftPupilTransform(`translate(calc(-50% + ${pupilXLeft}px), calc(-50% + ${pupilYLeft}px))`);
 
       const rightEyeSocketViewportX = headViewportX + RIGHT_EYE_SOCKET_LEFT;
