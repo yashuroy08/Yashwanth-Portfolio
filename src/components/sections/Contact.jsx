@@ -1,12 +1,13 @@
 import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import emailjs from '@emailjs/browser';
-import ScrollReveal from './ScrollReveal';
-
+import ScrollReveal from '../ui/ScrollReveal';
+import { useGeolocation } from '../../hooks/useGeolocation';
 const Contact = () => {
   const ref = useRef(null);
   const formRef = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const { locData } = useGeolocation();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -59,33 +60,9 @@ const Contact = () => {
     setStatus({ submitting: true, submitted: false, error: null });
 
     // Fetch user info with fallbacks (helps if one is blocked by adblockers)
-    let ip = 'Unknown';
-    let location = 'Unknown';
+    let ip = locData.ip;
+    let location = locData.fullLocation;
     let deviceName = typeof navigator !== 'undefined' ? navigator.userAgent : 'Unknown';
-
-    try {
-      // Primary Attempt: freeipapi.com
-      const res = await fetch('https://freeipapi.com/api/json');
-      if (res.ok) {
-        const data = await res.json();
-        ip = data.ipAddress || 'Unknown';
-        location = [data.cityName, data.regionName, data.countryName].filter(Boolean).join(', ') || 'Unknown';
-      } else {
-        throw new Error('Primary failed');
-      }
-    } catch (err) {
-      try {
-        // Fallback: ipapi.co
-        const res = await fetch('https://ipapi.co/json/');
-        if (res.ok) {
-          const data = await res.json();
-          ip = data.ip || 'Unknown';
-          location = [data.city, data.region, data.country_name].filter(Boolean).join(', ') || 'Unknown';
-        }
-      } catch (e) {
-        console.error('Geolocation failed:', e);
-      }
-    }
 
     // EmailJS configuration
     const serviceId = import.meta.env.VITE_SERVICE_ID;

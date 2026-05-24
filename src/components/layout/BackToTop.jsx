@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import useIdle from '../hooks/useIdle';
+import useIdle from '../../hooks/useIdle';
 
 const BackToTop = () => {
     const [isVisible, setIsVisible] = useState(false);

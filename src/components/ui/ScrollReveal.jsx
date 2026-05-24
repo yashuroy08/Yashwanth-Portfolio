@@ -2,9 +2,8 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 /**
- * ScrollReveal — safe 3D-ish entrance using only opacity, y, and scale.
- * (rotateX removed — framer-motion's WAAPI AcceleratedAnimation crashes on
- * rotateX/rotateY during unmount when it tries to flush unresolved keyframes.)
+ * ScrollReveal — safe 3D-ish entrance using opacity, y, blur, and skew.
+ * Upgraded to a more dynamic, modern reveal.
  */
 const ScrollReveal = ({
     children,
@@ -18,16 +17,16 @@ const ScrollReveal = ({
     return (
         <div ref={ref} className={className}>
             <motion.div
-                initial={{ opacity: 0, y: 44, scale: 0.97 }}
+                initial={{ opacity: 0, y: 60, scale: 0.98, filter: 'blur(12px)', skewY: 2 }}
                 animate={
                     isInView
-                        ? { opacity: 1, y: 0, scale: 1 }
-                        : { opacity: 0, y: 44, scale: 0.97 }
+                        ? { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', skewY: 0 }
+                        : { opacity: 0, y: 60, scale: 0.98, filter: 'blur(12px)', skewY: 2 }
                 }
                 transition={{
-                    duration: 0.7,
+                    duration: 0.8,
                     delay,
-                    ease: [0.22, 1, 0.36, 1],
+                    ease: [0.25, 1, 0.35, 1], // Snappy cubic bezier
                 }}
             >
                 {children}

@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import ScrollReveal from './ScrollReveal';
+import ScrollReveal from '../ui/ScrollReveal';
 
 const Blogs = () => {
     const ref = useRef(null);

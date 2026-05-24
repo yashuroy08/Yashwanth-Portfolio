@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ThemeToggle from './ThemeToggle.jsx';
-import MagneticWrapper from './MagneticWrapper.jsx';
+import ThemeToggle from '../ui/ThemeToggle.jsx';
+import MagneticWrapper from '../ui/MagneticWrapper.jsx';
 
 const navItems = ['HOME', 'SKILLS', 'PROJECTS', 'ACTIVITY', 'EDUCATION', 'BLOGS', 'CONTACT'];
 

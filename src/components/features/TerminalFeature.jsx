@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import useIdle from '../hooks/useIdle';
-import { useTheme } from '../context/ThemeContext';
+import useIdle from '../../hooks/useIdle';
+import { useTheme } from '../../context/ThemeContext';
 
 const GitHubStats = () => {
     const [stats, setStats] = useState(null);
@@ -184,23 +184,91 @@ const TerminalFeature = () => {
         return () => document.removeEventListener('keydown', handleKeyDown);
     }, [handleKeyDown]);
 
+    const SECTIONS = ['home', 'skills', 'projects', 'activity', 'education', 'blogs', 'contact'];
+
+    // Simple Levenshtein distance for fuzzy matching
+    const levenshtein = (a, b) => {
+        const matrix = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+        for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
+        for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+
+        for (let i = 1; i <= a.length; i++) {
+            for (let j = 1; j <= b.length; j++) {
+                const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+                matrix[i][j] = Math.min(
+                    matrix[i - 1][j] + 1,
+                    matrix[i][j - 1] + 1,
+                    matrix[i - 1][j - 1] + cost
+                );
+            }
+        }
+        return matrix[a.length][b.length];
+    };
+
+    const findClosestSection = (query) => {
+        const lowerQuery = query.toLowerCase();
+        let closestMatch = null;
+        let minDistance = Infinity;
+
+        for (const section of SECTIONS) {
+            const distance = levenshtein(lowerQuery, section);
+            // Allow a distance of up to 3 for typos, adjust as needed
+            if (distance < minDistance && distance <= 3) {
+                minDistance = distance;
+                closestMatch = section;
+            }
+            // Substring heuristic (e.g., 'proj' matches 'projects')
+            if (section.startsWith(lowerQuery)) {
+                return section;
+            }
+        }
+        return closestMatch;
+    };
+
     const commands = {
-        help: `AVAILABLE_COMMANDS:\n\n  - about       : System overview\n  - skills      : Technical stack analysis\n  - projects    : Deployment logs\n  - contact     : Establish uplink\n  - resume      : DOWNLOAD_RESUME.PDF\n  - fetch-stats : Live GitHub telemetry\n  - theme       : Rotate accent sub-routines\n  - date        : System time\n  - status      : Tactical overview\n  - clear       : Wipe terminal buffer`,
-        about: 'Yashwanth Patam - Java Developer specializing in Spring Boot and Backend Architectures.',
-        skills: 'Java, Spring Boot, MongoDB, MySQL, Render, Vercel, React, Tailwind CSS.',
-        contact: 'Email: yashwanthp2335.sse@saveetha.com | Linkedin: https://www.linkedin.com/in/yashwanth-patam/',
-        clear: 'clear',
-        exit: 'exit'
+        help: `AVAILABLE_COMMANDS:\n\nNAVIGATION:\n  - home        : Go to Home\n  - skills      : Go to Skills\n  - projects    : Go to Projects\n  - activity    : Go to GitHub Activity\n  - education   : Go to Education\n  - blogs       : Go to Blogs\n  - contact     : Go to Contact\n\nUTILITIES:\n  - search <sec>: Find and navigate to a section\n  - goto <sec>  : Navigate to a section\n  - resume      : DOWNLOAD_RESUME.PDF\n  - theme       : Rotate accent sub-routines\n  - date        : System time\n  - status      : Tactical overview\n  - clear       : Wipe terminal buffer\n  - exit        : Close terminal`,
     };
 
     const handleCommand = (e) => {
         if (e.key === 'Enter') {
             const trimmedInput = input.trim().toLowerCase();
+            const rawInput = input.trim();
             if (trimmedInput !== '') {
                 setCommandHistory((prev) => [...prev, input.trim()]);
                 setHistoryIndex(-1);
             }
             const newHistory = [...history, { type: 'input', content: input }];
+
+            const navigateTo = (sectionId, wasFuzzy = false, originalQuery = '') => {
+                const el = document.getElementById(sectionId);
+                if (el) {
+                    if (wasFuzzy) {
+                         newHistory.push({ type: 'output', content: `[AUTO-CORRECT] "${originalQuery}" matched with "${sectionId}".\n[NAVIGATING] Routing to /${sectionId} ...` });
+                    } else {
+                         newHistory.push({ type: 'output', content: `[NAVIGATING] Routing to /${sectionId} ...` });
+                    }
+                    el.scrollIntoView({ behavior: 'smooth' });
+                    // Optionally close terminal after a slight delay
+                    setTimeout(() => setIsOpen(false), 1200);
+                    return true;
+                }
+                return false;
+            };
+
+            const processNavigationQuery = (query) => {
+                 const exactMatch = SECTIONS.find(s => s === query);
+                 if (exactMatch) {
+                     navigateTo(exactMatch);
+                     return true;
+                 }
+                 
+                 const fuzzyMatch = findClosestSection(query);
+                 if (fuzzyMatch) {
+                     navigateTo(fuzzyMatch, true, query);
+                     return true;
+                 }
+                 return false;
+            };
 
             if (trimmedInput === 'clear') {
                 setHistory([]);
@@ -220,9 +288,6 @@ const TerminalFeature = () => {
                 setAccentColor(nextAccent);
                 newHistory.push({ type: 'output', content: `Accent theme switched to ${nextAccent.toUpperCase()}` });
                 setHistory(newHistory);
-            } else if (trimmedInput === 'fetch-stats') {
-                newHistory.push({ type: 'component', component: 'github-stats' });
-                setHistory(newHistory);
             } else if (trimmedInput === 'date') {
                 newHistory.push({ type: 'output', content: `CURRENT_SYSTEM_TIME: ${new Date().toLocaleString()}\nUTC_OFFSET: ${new Date().getTimezoneOffset()}\nSTATUS: TIME_SYNC_SUCCESSFUL` });
                 setHistory(newHistory);
@@ -232,8 +297,19 @@ const TerminalFeature = () => {
             } else if (commands[trimmedInput]) {
                 newHistory.push({ type: 'output', content: commands[trimmedInput] });
                 setHistory(newHistory);
+            } else if (trimmedInput === 'about') {
+                 navigateTo('home');
+            } else if (trimmedInput.startsWith('search ') || trimmedInput.startsWith('goto ')) {
+                const query = trimmedInput.split(' ')[1];
+                if (!processNavigationQuery(query)) {
+                    newHistory.push({ type: 'output', content: `[ERROR] No matching section found for: "${query}".\nAvailable sections: ${SECTIONS.join(', ')}` });
+                }
+                setHistory(newHistory);
             } else if (trimmedInput !== '') {
-                newHistory.push({ type: 'output', content: `Command not found: ${trimmedInput}. Type "help" for options.` });
+                // Try to navigate using the raw input as a search term
+                if (!processNavigationQuery(trimmedInput)) {
+                     newHistory.push({ type: 'output', content: `Command or section not found: "${rawInput}". Type "help" for options.` });
+                }
                 setHistory(newHistory);
             }
 
@@ -251,7 +327,7 @@ const TerminalFeature = () => {
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: isIdle ? 0 : 1, x: isIdle ? -10 : 0 }}
                         exit={{ opacity: 0, x: -10 }}
-                        className={`hidden md:flex fixed bottom-[100px] left-6 z-40 bg-primary/80 backdrop-blur-sm border border-border-strong px-2 py-1.5 rounded-sm shadow-sm transition-all outline-none ${isIdle ? 'pointer-events-none' : ''}`}
+                        className={`hidden md:flex fixed bottom-20 left-6 z-40 bg-primary/80 backdrop-blur-sm border border-border-strong px-2 py-1.5 rounded-sm shadow-sm transition-all outline-none ${isIdle ? 'pointer-events-none' : ''}`}
                         title="Open Terminal (Ctrl+K)"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent">

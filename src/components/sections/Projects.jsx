@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ScrollReveal from './ScrollReveal';
-import TiltCard from './TiltCard';
+import ScrollReveal from '../ui/ScrollReveal';
+import TiltCard from '../ui/TiltCard';
 
 const projects = [
   {

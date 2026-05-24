@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import useIdle from '../hooks/useIdle';
+import useIdle from '../../hooks/useIdle';
 
 const SoundEffects = () => {
     const audioContextRef = useRef(null);
@@ -69,11 +69,11 @@ const SoundEffects = () => {
     return (
         <motion.button
             onClick={() => setIsMuted(!isMuted)}
-            className={`hidden md:flex fixed bottom-24 right-8 z-[100] p-3 w-12 h-12 items-center justify-center bg-primary border-2 border-border-strong text-accent transition-all duration-300 hover:border-red hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0px_var(--color-red)] rounded-none group ${isIdle ? 'pointer-events-none' : ''}`}
-            initial={{ opacity: 0, x: 20 }}
+            className={`hidden md:flex fixed bottom-6 left-6 z-[100] p-3 w-12 h-12 items-center justify-center bg-primary border-2 border-border-strong text-accent transition-all duration-300 hover:border-red hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0px_var(--color-red)] rounded-none group ${isIdle ? 'pointer-events-none' : ''}`}
+            initial={{ opacity: 0, x: -20 }}
             animate={{ 
                 opacity: isIdle ? 0 : 1, 
-                x: isIdle ? 10 : 0,
+                x: isIdle ? -10 : 0,
                 scale: isIdle ? 0.9 : 1
             }}
             transition={{ duration: 0.3 }}

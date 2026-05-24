@@ -1,28 +1,28 @@
 import { useState, Component } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ResumeRedirect from './components/ResumeRedirect.jsx';
+import ResumeRedirect from './components/features/ResumeRedirect.jsx';
 import { motion, AnimatePresence } from 'framer-motion';
-import Header from './components/Header.jsx';
-import Hero from './components/Hero.jsx';
-import Projects from './components/Projects.jsx';
-import TerminalFeature from './components/TerminalFeature.jsx';
-import Skills from './components/Skills.jsx';
-import GithubStats from './components/GithubStats.jsx';
-import Education from './components/Education.jsx';
-import Blogs from './components/Blogs.jsx';
-import BlogPost from './components/BlogPost.jsx';
-import Contact from './components/Contact.jsx';
-import Footer from './components/Footer.jsx';
-import SystemHUD from './components/SystemHUD.jsx';
-import Loader from './components/Loader.jsx';
-import BackToTop from './components/BackToTop.jsx';
-import AnimatedBackground from './components/AnimatedBackground.jsx';
-import SoundEffects from './components/SoundEffects.jsx';
-import CursorBubble from './components/CursorBubble.jsx';
-import ScrollProgress from './components/ScrollProgress.jsx';
-import SectionDivider from './components/SectionDivider.jsx';
+import Header from './components/layout/Header.jsx';
+import Hero from './components/sections/Hero.jsx';
+import Projects from './components/sections/Projects.jsx';
+import TerminalFeature from './components/features/TerminalFeature.jsx';
+import Skills from './components/sections/Skills.jsx';
+import GithubStats from './components/features/GithubStats.jsx';
+import Education from './components/sections/Education.jsx';
+import Blogs from './components/sections/Blogs.jsx';
+import BlogPost from './components/sections/BlogPost.jsx';
+import Contact from './components/sections/Contact.jsx';
+import Footer from './components/layout/Footer.jsx';
+import SystemHUD from './components/features/SystemHUD.jsx';
+import Loader from './components/features/Loader.jsx';
+import BackToTop from './components/layout/BackToTop.jsx';
+import AnimatedBackground from './components/effects/AnimatedBackground.jsx';
+import SoundEffects from './components/effects/SoundEffects.jsx';
+import CursorBubble from './components/effects/CursorBubble.jsx';
+import ScrollProgress from './components/layout/ScrollProgress.jsx';
+import SectionDivider from './components/ui/SectionDivider.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
-import NotFound from './components/NotFound.jsx';
+import NotFound from './components/sections/NotFound.jsx';
 
 /* ── Error Boundary ── */
 class ErrorBoundary extends Component {
@@ -63,15 +63,14 @@ function App() {
         <Routes>
           <Route path="/resume" element={<ResumeRedirect />} />
           <Route path="/blog/:id" element={<BlogPost />} />
-          <Route path="/404" element={<NotFound />} />
           <Route
-            path="/*"
+            path="/"
             element={
               <AnimatePresence>
                 {loading ? (
                   <Loader key="loader" onComplete={() => setLoading(false)} />
                 ) : (
-                  <motion.div
+                    <motion.div
                     key="app"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -79,7 +78,7 @@ function App() {
                     transition={{ duration: 0.5 }}
                     className="bg-primary text-accent min-h-screen relative z-0"
                   >
-                    <SystemHUD />
+                    {/* <SystemHUD /> */}
                     <AnimatedBackground />
                     <ScrollProgress />
                     <Header />
@@ -106,6 +105,7 @@ function App() {
               </AnimatePresence>
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </ThemeProvider>

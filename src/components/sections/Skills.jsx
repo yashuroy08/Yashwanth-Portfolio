@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
-import ScrollReveal from './ScrollReveal';
+import ScrollReveal from '../ui/ScrollReveal';
 
 const ScrambleText = ({ text, className, style }) => {
   const [displayText, setDisplayText] = useState(text);

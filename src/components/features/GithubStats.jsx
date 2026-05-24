@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 
-import { useTheme } from '../context/ThemeContext.jsx';
+import { useTheme } from '../../context/ThemeContext.jsx';
 
 const GithubStats = () => {
     const ref = useRef(null);

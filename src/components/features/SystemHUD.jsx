@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import useIdle from '../hooks/useIdle';
+import useIdle from '../../hooks/useIdle';
 
 const SystemHUD = () => {
     const [uptime, setUptime] = useState(0);
@@ -44,12 +44,12 @@ const SystemHUD = () => {
     };
 
     return (
-        <div className="fixed bottom-6 left-6 z-[100] hidden md:block">
+        <div className="fixed top-24 right-8 z-[100] hidden md:block">
             <motion.div
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: 20 }}
                     animate={{ 
                         opacity: isIdle ? 0 : 1, 
-                        x: isIdle ? -10 : 0 
+                        x: isIdle ? 10 : 0 
                     }}
                     transition={{ duration: 0.3 }}
                     className={`nothing-card cursor-pointer bg-primary transition-all duration-300 ${isCollapsed ? 'p-3' : 'p-4 min-w-[220px]'} ${isIdle ? 'pointer-events-none' : ''}`}

@@ -1,7 +1,8 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import Avatar from './Avatar';
-import TextDecode from './TextDecode';
+import TextDecode from '../ui/TextDecode';
+import { useGeolocation } from '../../hooks/useGeolocation';
+import Avatar from '../Avatar';
 
 const ROLES = [
   'JAVA DEVELOPER',
@@ -67,23 +68,7 @@ const TypewriterRole = () => {
 const Hero = () => {
   const sectionRef = useRef(null);
 
-  const [locData, setLocData] = useState({ city: 'HYD', countryCode: 'IND', lat: 17.3850, lon: 78.4867 });
-
-  useEffect(() => {
-    fetch('https://ipapi.co/json/')
-      .then(res => res.json())
-      .then(data => {
-        if (data.city && data.country_code && data.latitude !== undefined) {
-          setLocData({
-            city: data.city.toUpperCase().substring(0, 3),
-            countryCode: data.country_code,
-            lat: data.latitude,
-            lon: data.longitude
-          });
-        }
-      })
-      .catch(err => console.error("Location fetch failed", err));
-  }, []);
+  const { locData } = useGeolocation();
 
   // Scroll progress tied to the hero section
   const { scrollYProgress } = useScroll({

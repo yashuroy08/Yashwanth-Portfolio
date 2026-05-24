@@ -24,18 +24,20 @@ const containerVariants = (staggerDelay) => ({
 });
 
 const directionMap = {
-    up: { y: 40, x: 0 },
-    down: { y: -40, x: 0 },
-    left: { y: 0, x: 40 },
-    right: { y: 0, x: -40 },
+    up: { y: 60, x: 0 },
+    down: { y: -60, x: 0 },
+    left: { y: 0, x: 60 },
+    right: { y: 0, x: -60 },
 };
 
 const itemVariants = (direction) => ({
     hidden: {
         opacity: 0,
         ...directionMap[direction],
-        scale: 0.95,
-        filter: 'blur(4px)',
+        scale: 0.98,
+        filter: 'blur(12px)',
+        skewY: (direction === 'up' || direction === 'down') ? 2 : 0,
+        skewX: (direction === 'left' || direction === 'right') ? 2 : 0,
     },
     visible: {
         opacity: 1,
@@ -43,9 +45,11 @@ const itemVariants = (direction) => ({
         x: 0,
         scale: 1,
         filter: 'blur(0px)',
+        skewY: 0,
+        skewX: 0,
         transition: {
-            duration: 0.6,
-            ease: [0.22, 1, 0.36, 1],
+            duration: 0.8,
+            ease: [0.25, 1, 0.35, 1],
         },
     },
 });

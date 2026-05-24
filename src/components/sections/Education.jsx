@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import ScrollReveal from './ScrollReveal';
-import StaggerReveal from './StaggerReveal';
-import GlitchText from './GlitchText';
+import ScrollReveal from '../ui/ScrollReveal';
+import StaggerReveal from '../ui/StaggerReveal';
+import GlitchText from '../ui/GlitchText';
 
 const Education = () => {
   const ref = useRef(null);
