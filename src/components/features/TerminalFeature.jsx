@@ -1,176 +1,41 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import useIdle from '../../hooks/useIdle';
 import { useTheme } from '../../context/ThemeContext';
 
-const GitHubStats = () => {
-    const [stats, setStats] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-    const [queryTime, setQueryTime] = useState(0);
 
-    useEffect(() => {
-        const fetchStats = async () => {
-            const start = performance.now();
-            try {
-                const [userRes, reposRes] = await Promise.all([
-                    fetch('https://api.github.com/users/yashuroy08'),
-                    fetch('https://api.github.com/users/yashuroy08/repos?per_page=100')
-                ]);
-
-                if (!userRes.ok || !reposRes.ok) throw new Error('API Error');
-
-                const user = await userRes.json();
-                const repos = await reposRes.json();
-
-                const stars = repos.reduce((acc, repo) => acc + repo.stargazers_count, 0);
-                const forks = repos.reduce((acc, repo) => acc + repo.forks_count, 0);
-
-                setStats({
-                    repos: user.public_repos,
-                    followers: user.followers,
-                    stars,
-                    forks
-                });
-            } catch {
-                setError(true);
-            } finally {
-                setQueryTime(Math.round(performance.now() - start));
-                setLoading(false);
-            }
-        };
-
-        fetchStats();
-    }, []);
-
-    if (loading) return <div className="mt-4 mb-4 text-accent text-sm animate-pulse font-mono">[sys] querying github api...</div>;
-    if (error) return <div className="mt-4 mb-4 text-red text-sm font-mono">[err] failed to fetch data. rate limit possibly exceeded.</div>;
-
-    return (
-        <div className="mt-4 mb-4 relative max-w-[400px]">
-            {/* Terminal Prompt Header */}
-            <div className="mb-3 flex flex-col gap-1">
-                <div className="flex items-center gap-2 text-xs font-mono">
-                    <span className="text-red">yash@portfolio</span>
-                    <span className="text-muted">:</span>
-                    <span className="text-accent">~/stats</span>
-                    <span className="text-muted">$</span>
-                    <span className="text-accent">fetch --profile-summary</span>
-                </div>
-                <div className="h-0.5 w-12 bg-accent opacity-50 mt-1"></div>
-            </div>
-
-            {/* Stats Card (Split Pane) */}
-            <div className="bg-[#0a0a0a] border border-border-strong rounded-sm overflow-hidden relative group">
-                <div className="absolute inset-0 pointer-events-none opacity-20 bg-[linear-gradient(rgba(255,255,255,0)_50%,rgba(255,255,255,0.05)_50%)] bg-[length:100%_4px] mix-blend-overlay z-10"></div>
-
-                <div className="bg-[#111] px-3 py-1.5 border-b border-border-strong flex justify-between items-center relative z-20">
-                    <span className="text-[9px] font-mono uppercase tracking-widest text-muted">System.GitHub_Records</span>
-                    <div className="flex gap-1.5">
-                        <div className="w-1.5 h-1.5 rounded-full bg-border-strong animate-pulse"></div>
-                    </div>
-                </div>
-
-                <div className="flex divide-x divide-border-strong relative z-20">
-                    <div className="flex flex-col items-center justify-around py-4 px-3 bg-[#111]/50 w-12">
-                        <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
-                        <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
-                        <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
-                        <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                    </div>
-
-                    <div className="flex-1 p-4 grid grid-cols-1 gap-4">
-                        <div className="flex justify-between items-center group-hover:pl-1 transition-all">
-                            <span className="text-xs text-muted uppercase tracking-wider">Public Repos</span>
-                            <span className="font-bold text-green-500 text-sm">{stats.repos}</span>
-                        </div>
-                        <div className="flex justify-between items-center group-hover:pl-1 transition-all">
-                            <span className="text-xs text-muted uppercase tracking-wider">Total Stars</span>
-                            <span className="font-bold text-green-500 text-sm">{stats.stars}</span>
-                        </div>
-                        <div className="flex justify-between items-center group-hover:pl-1 transition-all">
-                            <span className="text-xs text-muted uppercase tracking-wider">Forks</span>
-                            <span className="font-bold text-accent text-sm">{stats.forks}</span>
-                        </div>
-                        <div className="flex justify-between items-center group-hover:pl-1 transition-all">
-                            <span className="text-xs text-muted uppercase tracking-wider">Followers</span>
-                            <span className="font-bold text-accent text-sm">{stats.followers}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-[#111] px-3 py-1.5 border-t border-border-strong flex justify-between items-center z-20 relative">
-                    <span className="text-[9px] font-mono text-muted">query.time: {queryTime}ms</span>
-                    <span className="text-[9px] font-mono text-green-500">[LIVE]</span>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const WELCOME_MESSAGES = [
-    'Welcome to Yashwanth\'s Portfolio Terminal v1.0.0',
-    'Type "help" to see available commands.'
+const COMMAND_OPTIONS = [
+    { id: 'terminal', label: 'Open Terminal', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg> },
+    { id: 'home', label: 'Go to Home', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> },
+    { id: 'skills', label: 'View Skills', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg> },
+    { id: 'projects', label: 'View Projects', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg> },
+    { id: 'activity', label: 'GitHub Activity', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg> },
+    { id: 'education', label: 'Education', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg> },
+    { id: 'blogs', label: 'Read Blogs', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg> },
+    { id: 'contact', label: 'Contact Me', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> },
+    { id: 'resume', label: 'Download Resume', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> },
+    { id: 'theme', label: 'Toggle Theme', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg> }
 ];
-
-const TypingLine = ({ text, onDone }) => {
-    const [displayed, setDisplayed] = useState('');
-    useEffect(() => {
-        let i = 0;
-        const interval = setInterval(() => {
-            setDisplayed(text.slice(0, i + 1));
-            i++;
-            if (i >= text.length) {
-                clearInterval(interval);
-                onDone?.();
-            }
-        }, 25);
-        return () => clearInterval(interval);
-    }, [text, onDone]);
-    return <div className="text-muted leading-relaxed whitespace-pre-wrap">{displayed}<span className="animate-pulse">▌</span></div>;
-};
 
 const TerminalFeature = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const isIdle = useIdle(3000); // 3 seconds timeout
     const { accentColor, setAccentColor } = useTheme();
     const [input, setInput] = useState('');
-    const [history, setHistory] = useState([]);
-    const [welcomeStep, setWelcomeStep] = useState(0);
-    const [commandHistory, setCommandHistory] = useState([]);
-    const [_historyIndex, setHistoryIndex] = useState(-1);
-    const scrollRef = useRef(null);
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const listRef = useRef(null);
+    const inputRef = useRef(null);
 
-    const scrollToBottom = () => {
-        scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-    };
+    const filteredOptions = useMemo(() => {
+        if (!input.trim()) return COMMAND_OPTIONS;
+        const query = input.toLowerCase();
+        return COMMAND_OPTIONS.filter(opt => 
+            opt.id.toLowerCase().includes(query) || 
+            opt.label.toLowerCase().includes(query)
+        );
+    }, [input]);
 
     useEffect(() => {
-        scrollToBottom();
-    }, [history]);
-
-    // Trigger welcome typing when terminal opens
-    useEffect(() => {
-        if (isOpen) setWelcomeStep(0);
-    }, [isOpen]);
-
-    const handleArrowKeys = useCallback((e) => {
-        if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            setHistoryIndex((prev) => {
-                const next = Math.min(prev + 1, commandHistory.length - 1);
-                setInput(commandHistory[commandHistory.length - 1 - next] ?? '');
-                return next;
-            });
-        } else if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            setHistoryIndex((prev) => {
-                const next = Math.max(prev - 1, -1);
-                setInput(next === -1 ? '' : (commandHistory[commandHistory.length - 1 - next] ?? ''));
-                return next;
-            });
-        }
-    }, [commandHistory]);
+        setSelectedIndex(0);
+    }, [input]);
 
     const handleKeyDown = useCallback((e) => {
         if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -184,231 +49,138 @@ const TerminalFeature = () => {
         return () => document.removeEventListener('keydown', handleKeyDown);
     }, [handleKeyDown]);
 
-    const SECTIONS = ['home', 'skills', 'projects', 'activity', 'education', 'blogs', 'contact'];
+    useEffect(() => {
+        const handleOpenTerminal = () => {
+            setIsOpen((prev) => !prev);
+            setTimeout(() => {
+                if (window.innerWidth >= 768) {
+                    inputRef.current?.focus();
+                }
+            }, 100);
+        };
+        window.addEventListener('open-terminal', handleOpenTerminal);
+        return () => window.removeEventListener('open-terminal', handleOpenTerminal);
+    }, []);
 
-    // Simple Levenshtein distance for fuzzy matching
-    const levenshtein = (a, b) => {
-        const matrix = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
-        for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
-        for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
-
-        for (let i = 1; i <= a.length; i++) {
-            for (let j = 1; j <= b.length; j++) {
-                const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-                matrix[i][j] = Math.min(
-                    matrix[i - 1][j] + 1,
-                    matrix[i][j - 1] + 1,
-                    matrix[i - 1][j - 1] + cost
-                );
+    const executeCommand = (cmdId) => {
+        const navigateTo = (sectionId) => {
+            const el = document.getElementById(sectionId);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+                setTimeout(() => setIsOpen(false), 300);
             }
+        };
+
+        const SECTIONS = ['home', 'skills', 'projects', 'activity', 'education', 'blogs', 'contact'];
+
+        if (SECTIONS.includes(cmdId)) {
+            navigateTo(cmdId);
+        } else if (cmdId === 'terminal') {
+            window.dispatchEvent(new CustomEvent('open-floating-terminal'));
+            setIsOpen(false);
+        } else if (cmdId === 'resume') {
+            const resumeUrl = '/resume.pdf';
+            window.open(resumeUrl, '_blank');
+            setIsOpen(false);
+        } else if (cmdId === 'theme') {
+            const nextAccent = accentColor === 'red' ? 'green' : 'red';
+            setAccentColor(nextAccent);
+            setIsOpen(false);
         }
-        return matrix[a.length][b.length];
+
+        setInput('');
     };
 
-    const findClosestSection = (query) => {
-        const lowerQuery = query.toLowerCase();
-        let closestMatch = null;
-        let minDistance = Infinity;
-
-        for (const section of SECTIONS) {
-            const distance = levenshtein(lowerQuery, section);
-            // Allow a distance of up to 3 for typos, adjust as needed
-            if (distance < minDistance && distance <= 3) {
-                minDistance = distance;
-                closestMatch = section;
+    const handleInputKeyDown = (e) => {
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            setSelectedIndex(prev => Math.min(prev + 1, filteredOptions.length - 1));
+            // scroll list down if needed
+            const item = listRef.current?.children[selectedIndex + 1];
+            item?.scrollIntoView({ block: 'nearest' });
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            setSelectedIndex(prev => Math.max(prev - 1, 0));
+            const item = listRef.current?.children[selectedIndex - 1];
+            item?.scrollIntoView({ block: 'nearest' });
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (filteredOptions.length > 0) {
+                executeCommand(filteredOptions[selectedIndex].id);
+            } else if (input.trim() !== '') {
+                executeCommand(input.trim().toLowerCase());
             }
-            // Substring heuristic (e.g., 'proj' matches 'projects')
-            if (section.startsWith(lowerQuery)) {
-                return section;
-            }
-        }
-        return closestMatch;
-    };
-
-    const commands = {
-        help: `AVAILABLE_COMMANDS:\n\nNAVIGATION:\n  - home        : Go to Home\n  - skills      : Go to Skills\n  - projects    : Go to Projects\n  - activity    : Go to GitHub Activity\n  - education   : Go to Education\n  - blogs       : Go to Blogs\n  - contact     : Go to Contact\n\nUTILITIES:\n  - search <sec>: Find and navigate to a section\n  - goto <sec>  : Navigate to a section\n  - resume      : DOWNLOAD_RESUME.PDF\n  - theme       : Rotate accent sub-routines\n  - date        : System time\n  - status      : Tactical overview\n  - clear       : Wipe terminal buffer\n  - exit        : Close terminal`,
-    };
-
-    const handleCommand = (e) => {
-        if (e.key === 'Enter') {
-            const trimmedInput = input.trim().toLowerCase();
-            const rawInput = input.trim();
-            if (trimmedInput !== '') {
-                setCommandHistory((prev) => [...prev, input.trim()]);
-                setHistoryIndex(-1);
-            }
-            const newHistory = [...history, { type: 'input', content: input }];
-
-            const navigateTo = (sectionId, wasFuzzy = false, originalQuery = '') => {
-                const el = document.getElementById(sectionId);
-                if (el) {
-                    if (wasFuzzy) {
-                         newHistory.push({ type: 'output', content: `[AUTO-CORRECT] "${originalQuery}" matched with "${sectionId}".\n[NAVIGATING] Routing to /${sectionId} ...` });
-                    } else {
-                         newHistory.push({ type: 'output', content: `[NAVIGATING] Routing to /${sectionId} ...` });
-                    }
-                    el.scrollIntoView({ behavior: 'smooth' });
-                    // Optionally close terminal after a slight delay
-                    setTimeout(() => setIsOpen(false), 1200);
-                    return true;
-                }
-                return false;
-            };
-
-            const processNavigationQuery = (query) => {
-                 const exactMatch = SECTIONS.find(s => s === query);
-                 if (exactMatch) {
-                     navigateTo(exactMatch);
-                     return true;
-                 }
-                 
-                 const fuzzyMatch = findClosestSection(query);
-                 if (fuzzyMatch) {
-                     navigateTo(fuzzyMatch, true, query);
-                     return true;
-                 }
-                 return false;
-            };
-
-            if (trimmedInput === 'clear') {
-                setHistory([]);
-            } else if (trimmedInput === 'exit') {
-                setIsOpen(false);
-            } else if (trimmedInput === 'resume') {
-                const resumeUrl = '/resume.pdf';
-                window.open(resumeUrl, '_blank');
-                const link = document.createElement('a');
-                link.href = resumeUrl;
-                link.download = 'Yashwanth_Resume.pdf';
-                link.click();
-                newHistory.push({ type: 'output', content: 'INITIALIZING_RESUME_UPLINK... [OPEN_IN_NEW_TAB // TRIGGER_DOWNLOAD]' });
-                setHistory(newHistory);
-            } else if (trimmedInput === 'theme') {
-                const nextAccent = accentColor === 'red' ? 'green' : 'red';
-                setAccentColor(nextAccent);
-                newHistory.push({ type: 'output', content: `Accent theme switched to ${nextAccent.toUpperCase()}` });
-                setHistory(newHistory);
-            } else if (trimmedInput === 'date') {
-                newHistory.push({ type: 'output', content: `CURRENT_SYSTEM_TIME: ${new Date().toLocaleString()}\nUTC_OFFSET: ${new Date().getTimezoneOffset()}\nSTATUS: TIME_SYNC_SUCCESSFUL` });
-                setHistory(newHistory);
-            } else if (trimmedInput === 'status') {
-                newHistory.push({ type: 'output', content: `[SYSTEM_STATUS_REPORT]\n----------------------\nUPTIME: 12h 43m 12s\nMEMORY: 1.4GB / 4.0GB [|||||-----]\nCPU: 12% LOAD\nCONNECTION: STABLE_SSL\nSESSION: ${Math.random().toString(16).substring(2, 10).toUpperCase()}\n----------------------\nALL SYSTEMS NOMINAL` });
-                setHistory(newHistory);
-            } else if (commands[trimmedInput]) {
-                newHistory.push({ type: 'output', content: commands[trimmedInput] });
-                setHistory(newHistory);
-            } else if (trimmedInput === 'about') {
-                 navigateTo('home');
-            } else if (trimmedInput.startsWith('search ') || trimmedInput.startsWith('goto ')) {
-                const query = trimmedInput.split(' ')[1];
-                if (!processNavigationQuery(query)) {
-                    newHistory.push({ type: 'output', content: `[ERROR] No matching section found for: "${query}".\nAvailable sections: ${SECTIONS.join(', ')}` });
-                }
-                setHistory(newHistory);
-            } else if (trimmedInput !== '') {
-                // Try to navigate using the raw input as a search term
-                if (!processNavigationQuery(trimmedInput)) {
-                     newHistory.push({ type: 'output', content: `Command or section not found: "${rawInput}". Type "help" for options.` });
-                }
-                setHistory(newHistory);
-            }
-
-            setInput('');
+        } else if (e.key === 'Escape') {
+            setIsOpen(false);
         }
     };
 
     return (
-        <>
-            {/* Terminal Shortcut Hint Button */}
-            <AnimatePresence>
-                {!isOpen && (
-                    <motion.button
-                        onClick={() => setIsOpen(true)}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: isIdle ? 0 : 1, x: isIdle ? -10 : 0 }}
-                        exit={{ opacity: 0, x: -10 }}
-                        className={`hidden md:flex fixed bottom-20 left-6 z-40 bg-primary/80 backdrop-blur-sm border border-border-strong px-2 py-1.5 rounded-sm shadow-sm transition-all outline-none ${isIdle ? 'pointer-events-none' : ''}`}
-                        title="Open Terminal (Ctrl+K)"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent">
-                            <polyline points="4 17 10 11 4 5"></polyline>
-                            <line x1="12" y1="19" x2="20" y2="19"></line>
-                        </svg>
-                        <span className="text-[10px] text-muted font-mono tracking-wider"></span>
-                        <div className="hidden md:flex gap-1 ml-1 opacity-60">
-                            <kbd className="bg-secondary px-1 py-0.5 rounded text-[9px] font-mono border border-border-strong text-accent">Ctrl+K</kbd>
-                        </div>
-                    </motion.button>
-                )}
-            </AnimatePresence>
-
-            {/* Terminal Window */}
-            <AnimatePresence>
-                {isOpen && (
+        <AnimatePresence>
+            {isOpen && (
+                <div 
+                    className="fixed inset-0 z-[110] flex items-start justify-center pt-[10vh] px-4 bg-primary/80 backdrop-blur-sm"
+                    onClick={(e) => { if (e.target === e.currentTarget) setIsOpen(false) }}
+                >
                     <motion.div
-                        drag
-                        dragMomentum={false}
-                        dragElastic={0}
-                        dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                        initial={{ opacity: 0, scale: 0.95, y: -20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className="fixed inset-0 md:inset-auto md:bottom-24 md:left-8 md:w-[500px] md:h-[400px] z-[60] bg-[#0c0c0c] border border-accent/20 rounded-lg shadow-2xl flex flex-col font-mono overflow-hidden"
+                        exit={{ opacity: 0, scale: 0.95, y: -20 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        className="w-full max-w-2xl bg-secondary border-2 border-border-strong flex flex-col font-mono shadow-2xl relative"
+                        style={{ boxShadow: '8px 8px 0px var(--color-border-strong)' }}
                     >
-                        {/* Title Bar - Drag Handle */}
-                        <div className="bg-primary/80 px-4 py-2 border-b border-accent/10 flex items-center justify-between cursor-grab active:cursor-grabbing">
-                            <span className="text-xs text-muted pointer-events-none">terminal — yashwanth_portfolio</span>
-                            <button
-                                onClick={() => setIsOpen(false)}
-                                className="hover:text-white text-muted transition-colors"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                            </button>
+                        {/* Input Header */}
+                        <div className="flex items-center px-4 py-4 border-b-2 border-border-strong gap-3 bg-primary/90 min-h-[60px]">
+                            <span className={`${accentColor === 'green' ? 'text-green-500' : 'text-red'} font-bold`}>&gt;</span>
+                            <input
+                                ref={inputRef}
+                                className="flex-1 bg-transparent border-none outline-none text-accent text-base lg:text-lg placeholder:text-muted/50"
+                                placeholder="Search sections or run command..."
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                onKeyDown={handleInputKeyDown}
+                            />
+                            <kbd className="hidden sm:inline-block px-2 py-1 text-[10px] font-mono border border-border-strong text-muted rounded-sm">ESC</kbd>
                         </div>
 
-                        {/* Content Area */}
-                        <div className="flex-1 p-4 overflow-y-auto text-sm text-accent/80 scrollbar-hide">
-                            {/* Animated welcome lines */}
-                            {WELCOME_MESSAGES.slice(0, welcomeStep + 1).map((msg, i) => (
-                                <div key={`welcome-${i}`} className="mb-2">
-                                    {i === welcomeStep && i < WELCOME_MESSAGES.length ? (
-                                        <TypingLine text={msg} onDone={() => setWelcomeStep(s => Math.min(s + 1, WELCOME_MESSAGES.length - 1))} />
-                                    ) : (
-                                        <div className="text-muted leading-relaxed whitespace-pre-wrap">{msg}</div>
-                                    )}
-                                </div>
-                            ))}
-                            {history.map((line, i) => (
-                                <div key={i} className="mb-2">
-                                    {line.type === 'input' ? (
-                                        <div className="flex">
-                                            <span className={`${accentColor === 'green' ? 'text-green-500' : 'text-red'} mr-2`}>yash@portfolio:~$</span>
-                                            <span className="text-white">{line.content}</span>
-                                        </div>
-                                    ) : line.type === 'component' && line.component === 'github-stats' ? (
-                                        <GitHubStats />
-                                    ) : (
-                                        <div className="text-muted leading-relaxed whitespace-pre-wrap">{line.content}</div>
-                                    )}
-                                </div>
-                            ))}
-
-                            <div className="flex items-center">
-                                <span className={`${accentColor === 'green' ? 'text-green-500' : 'text-red'} mr-2`}>yash@portfolio:~$</span>
-                                <input
-                                    autoFocus
-                                    className="bg-transparent border-none outline-none flex-1 text-white caret-white"
-                                    value={input}
-                                    onChange={(e) => setInput(e.target.value)}
-                                    onKeyDown={(e) => { handleArrowKeys(e); handleCommand(e); }}
-                                />
+                        {/* Command Options View */}
+                        <div className="flex flex-col max-h-[60vh] overflow-hidden">
+                            {/* Command Options */}
+                            <div className="flex-1 overflow-y-auto p-2 scrollbar-hide" ref={listRef}>
+                                {filteredOptions.length > 0 ? (
+                                    filteredOptions.map((opt, i) => {
+                                        const isSelected = i === selectedIndex;
+                                        return (
+                                            <div 
+                                                key={opt.id}
+                                                className={`flex items-center gap-3 px-3 py-3 min-h-[48px] cursor-pointer transition-colors border-l-2 ${isSelected ? 'bg-border-strong/30 border-accent' : 'border-transparent hover:bg-border-strong/10'}`}
+                                                onClick={() => executeCommand(opt.id)}
+                                                onMouseEnter={() => setSelectedIndex(i)}
+                                            >
+                                                <div className={`text-muted ${isSelected ? 'text-accent' : ''}`}>
+                                                    {opt.icon}
+                                                </div>
+                                                <span className={`text-sm tracking-wide ${isSelected ? 'text-accent' : 'text-muted'}`}>
+                                                    {opt.label}
+                                                </span>
+                                                <span className="ml-auto text-[10px] text-muted/40 uppercase">
+                                                    {opt.id}
+                                                </span>
+                                            </div>
+                                        );
+                                    })
+                                ) : (
+                                    <div className="p-4 text-center text-muted text-sm italic">
+                                        No matching commands or sections found. Press enter to run as terminal command.
+                                    </div>
+                                )}
                             </div>
-                            <div ref={scrollRef} />
                         </div>
                     </motion.div>
-                )}
-            </AnimatePresence>
-        </>
+                </div>
+            )}
+        </AnimatePresence>
     );
 };
 

@@ -19,22 +19,22 @@ const Loader = ({ onComplete }) => {
 
   useEffect(() => {
     let p = 0;
-    // Fast tick — fills 0→100 in ~1.2s
+    // Ultra-fast tick
     const interval = setInterval(() => {
-      p += Math.random() * 5 + 2.5;
+      p += Math.random() * 15 + 10;
       if (p >= 100) {
         p = 100;
         clearInterval(interval);
         setLogLine('SYSTEM READY');
         setProgress(100);
-        setTimeout(() => setPhase('done'), 200);
-        setTimeout(() => setPhase('exit'), 600);
-        setTimeout(onComplete, 1000);
+        setTimeout(() => setPhase('done'), 50);
+        setTimeout(() => setPhase('exit'), 200);
+        setTimeout(onComplete, 400);
         return;
       }
       setProgress(Math.floor(p));
       setLogLine(logs[Math.min(Math.floor((p / 100) * logs.length), logs.length - 1)]);
-    }, 22);
+    }, 15);
     return () => clearInterval(interval);
   }, [onComplete]);
 

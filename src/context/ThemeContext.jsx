@@ -14,6 +14,10 @@ export const ThemeProvider = ({ children }) => {
         return localStorage.getItem('accentColor') || 'red';
     });
 
+    const [isLowPerf, setIsLowPerf] = useState(() => {
+        return localStorage.getItem('isLowPerf') === 'true';
+    });
+
     useEffect(() => {
         const root = window.document.documentElement;
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -38,6 +42,10 @@ export const ThemeProvider = ({ children }) => {
         root.setAttribute('data-accent', accentColor);
         localStorage.setItem('accentColor', accentColor);
 
+        // Apply Performance Mode attribute
+        root.setAttribute('data-low-perf', isLowPerf);
+        localStorage.setItem('isLowPerf', isLowPerf);
+
         const listener = () => {
             if (theme === 'system') {
                 applyTheme('system');
@@ -46,10 +54,10 @@ export const ThemeProvider = ({ children }) => {
 
         mediaQuery.addEventListener('change', listener);
         return () => mediaQuery.removeEventListener('change', listener);
-    }, [theme, accentColor]);
+    }, [theme, accentColor, isLowPerf]);
 
     return (
-        <ThemeContext.Provider value={{ theme, setTheme, accentColor, setAccentColor }}>
+        <ThemeContext.Provider value={{ theme, setTheme, accentColor, setAccentColor, isLowPerf, setIsLowPerf }}>
             {children}
         </ThemeContext.Provider>
     );

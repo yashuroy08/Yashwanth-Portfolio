@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import TiltCard from '../ui/TiltCard';
 import GlitchText from '../ui/GlitchText';
 
@@ -28,7 +28,7 @@ const RenderIcon = () => (
 );
 const VercelIcon = () => (
     <svg viewBox="0 0 256 222" className="w-4 h-4 shrink-0" fill="currentColor">
-        <path d="m128 0 128 221.705H0z" />
+        <path d="M128 0L256 221.705H0z" />
     </svg>
 );
 const OpenAIIcon = () => (
@@ -56,6 +56,7 @@ const blogPosts = [
         unit: 'CASE_STUDY',
         category: 'Project Reflection',
         title: 'BUILDING A SCALABLE E-COMMERCE BACKEND WITH JAVA',
+        image: '/ecommerce-ss.png',
         excerpt: 'A walkthrough of the full lifecycle of my Spring Boot & MongoDB e-commerce API — from raw sketches to scalable deployment on Render and Vercel.',
         tags: ['JAVA', 'SPRING_BOOT', 'MONGODB', 'RENDER', 'VERCEL'],
         refs: [
@@ -72,6 +73,7 @@ const blogPosts = [
         unit: 'HOW_TO_GUIDE',
         category: 'How-To Guide',
         title: 'IMPLEMENTING ROLE-BASED ACCESS CONTROL WITH SPRING SECURITY',
+        image: '/rbac-ss.png',
         excerpt: 'Step-by-step guide on setting up JWT-based RBAC in a Spring Boot application — with granular roles, method-level security and session management.',
         tags: ['SPRING_SECURITY', 'JWT', 'MYSQL', 'JPA'],
         refs: [
@@ -91,6 +93,7 @@ const cardVariants = {
 
 const Blogs = () => {
     const [[page, direction], setPage] = useState([0, 0]);
+    const [isHovered, setIsHovered] = useState(false);
     const dragStartX = useRef(0);
 
     const current = ((page % blogPosts.length) + blogPosts.length) % blogPosts.length;
@@ -98,6 +101,14 @@ const Blogs = () => {
     const paginate = (newDir) => {
         setPage(([prev]) => [prev + newDir, newDir]);
     };
+
+    useEffect(() => {
+        if (isHovered) return;
+        const timer = setInterval(() => {
+            paginate(1);
+        }, 5000);
+        return () => clearInterval(timer);
+    }, [page, isHovered]);
 
     const handleDragStart = (e) => {
         dragStartX.current = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
@@ -112,7 +123,7 @@ const Blogs = () => {
     const post = blogPosts[current];
 
     return (
-        <section id="blogs" className="py-20 px-4 md:px-10 relative overflow-hidden bg-primary">
+        <section id="blogs" className="py-20 px-4 md:px-10 relative overflow-hidden bg-primary" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
             <div className="absolute top-0 right-0 w-64 h-64 border-r-2 border-t-2 border-border-strong opacity-10 pointer-events-none" />
 
             <div className="container-custom mx-auto relative z-10">
@@ -133,10 +144,7 @@ const Blogs = () => {
                     <h2 className="text-3xl md:text-5xl font-bold mb-4 text-accent">
                         <span className="glitch-hover" data-text="PERSONAL BLOGS">PERSONAL BLOGS</span>
                     </h2>
-                    <div className="w-16 h-[4px] mb-6" style={{ backgroundColor: 'var(--color-red)' }} />
-                    <p className="text-muted max-w-2xl text-lg">
-                        Deep dives, learning logs, and how-to guides from my actual project experience.
-                    </p>
+                    <div className="w-16 h-[4px]" style={{ backgroundColor: 'var(--color-red)' }} />
                 </motion.div>
 
                 {/* Carousel */}
@@ -163,7 +171,7 @@ const Blogs = () => {
                                 <TiltCard
                                     maxTilt={4}
                                     glare={true}
-                                    className="neo-card p-6 md:p-10 bg-primary border-2 border-border-strong relative overflow-hidden"
+                                    className="neo-card p-4 md:p-10 bg-primary border-2 border-border-strong relative overflow-hidden"
                                     style={{ boxShadow: '6px 6px 0px var(--color-border-strong)', borderRadius: 0 }}
                                 >
                                     {/* Corner accents */}
@@ -174,29 +182,26 @@ const Blogs = () => {
 
                                     {/* Meta */}
                                     <div className="flex flex-wrap justify-between items-center mb-6 gap-2">
-                                        <span className="font-mono text-[9px] tracking-widest text-muted">// {post.date}</span>
+                                        <div className="flex flex-col gap-2">
+                                            <span className="font-mono text-[9px] tracking-widest text-muted">// {post.date}</span>
+                                            {/* Category Badge */}
+                                            <div className="inline-block font-mono text-[8px] tracking-[0.3em] uppercase px-2 py-1 text-accent bg-red/10 border border-red/30 w-fit">
+                                                {post.category}
+                                            </div>
+                                        </div>
                                         <span className="font-mono text-[9px] tracking-widest text-red font-bold border border-red px-2 py-0.5">
                                             [{post.unit}]
                                         </span>
                                     </div>
 
-                                    {/* Category Badge */}
-                                    <div className="inline-block font-mono text-[8px] tracking-[0.3em] uppercase mb-4 px-2 py-1 text-accent bg-red/10 border border-red/30">
-                                        {post.category}
-                                    </div>
 
                                     {/* Title */}
-                                    <h3 className="text-2xl md:text-3xl font-black font-mono uppercase tracking-tight mb-4 text-accent leading-tight">
+                                    <h3 className="text-xl md:text-3xl font-black font-mono uppercase tracking-tight mb-4 text-accent leading-tight">
                                         {post.title}
                                     </h3>
 
                                     {/* Divider */}
-                                    <div className="w-12 h-[2px] mb-6" style={{ backgroundColor: 'var(--color-red)' }} />
-
-                                    {/* Excerpt */}
-                                    <p className="text-muted text-sm md:text-base leading-relaxed mb-8 max-w-3xl">
-                                        {post.excerpt}
-                                    </p>
+                                    <div className="w-12 h-[2px] mb-4 md:mb-6" style={{ backgroundColor: 'var(--color-red)' }} />
 
                                     {/* Tags */}
                                     <div className="flex flex-wrap gap-2 mb-8">
@@ -207,33 +212,8 @@ const Blogs = () => {
                                         ))}
                                     </div>
 
-                                    {/* References */}
-                                    <div className="border-t border-border-strong/30 pt-6">
-                                        <p className="font-mono text-[9px] tracking-[0.3em] text-muted/60 uppercase mb-4">
-                                            // REFERENCES &amp; TOOLS
-                                        </p>
-                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                            {post.refs.map((ref, i) => (
-                                                <a
-                                                    key={i}
-                                                    href={ref.url}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="group flex items-center gap-2 border border-border-strong/50 hover:border-red/60 px-3 py-2 transition-all duration-200 hover:bg-red/5"
-                                                >
-                                                    <span className="text-muted group-hover:text-red transition-colors">
-                                                        <ref.Icon />
-                                                    </span>
-                                                    <span className="font-mono text-[8px] tracking-wide text-muted group-hover:text-red transition-colors truncate">
-                                                        {ref.label}
-                                                    </span>
-                                                </a>
-                                            ))}
-                                        </div>
-                                    </div>
-
                                     {/* Read More */}
-                                    <div className="mt-8">
+                                    <div className="mt-6 pt-6 border-t border-border-strong/30">
                                         <Link
                                             to={`/blog/${post.id}`}
                                             className="inline-flex items-center gap-2 font-mono text-[10px] tracking-widest uppercase text-red hover:gap-4 transition-all duration-200"

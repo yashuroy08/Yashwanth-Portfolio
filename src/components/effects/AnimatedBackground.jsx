@@ -1,12 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '../../context/ThemeContext';
 
 const AnimatedBackground = () => {
     const bgRef = useRef(null);
     const [ripples, setRipples] = useState([]);
     const [particles, setParticles] = useState([]);
+    const { isLowPerf } = useTheme();
 
     useEffect(() => {
+        if (isLowPerf) {
+            setParticles([]);
+            return;
+        }
         const generatedParticles = Array.from({ length: 20 }, (_, i) => ({
             id: i,
             x: Math.random() * 100,
@@ -16,9 +22,11 @@ const AnimatedBackground = () => {
             delay: -Math.random() * 20
         }));
         setParticles(generatedParticles);
-    }, []);
+    }, [isLowPerf]);
 
     useEffect(() => {
+        if (isLowPerf) return;
+
         const handleMouseMove = (e) => {
             if (!bgRef.current) return;
             const x = e.clientX;
@@ -44,7 +52,7 @@ const AnimatedBackground = () => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('click', handleClick);
         };
-    }, []);
+    }, [isLowPerf]);
 
     return (
         <div ref={bgRef} className="fixed inset-0 -z-20 overflow-hidden pointer-events-none bg-primary">
@@ -63,82 +71,88 @@ const AnimatedBackground = () => {
                 }}
             />
 
-            {/* Interactive Glowing Grid layer that follows the mouse */}
-            <div
-                className="absolute inset-0 opacity-[0.35]"
-                style={{
-                    backgroundImage: `
-                        linear-gradient(to right, var(--color-accent) 1px, transparent 1px),
-                        linear-gradient(to bottom, var(--color-accent) 1px, transparent 1px)
-                    `,
-                    backgroundSize: '80px 80px',
-                    // The mask creates a 250px visible circle around the cursor
-                    maskImage: 'radial-gradient(250px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), black 0%, transparent 100%)',
-                    WebkitMaskImage: 'radial-gradient(250px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), black 0%, transparent 100%)'
-                }}
-            />
-
-            {/* Faint crosshairs at intersections within the glow */}
-            <div
-                className="absolute inset-0 opacity-[0.8]"
-                style={{
-                    backgroundImage: `
-                        radial-gradient(circle at center, #ff3333 2px, transparent 2px)
-                    `,
-                    backgroundSize: '80px 80px',
-                    // A tighter red glow right at the cursor center
-                    maskImage: 'radial-gradient(100px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), black 0%, transparent 100%)',
-                    WebkitMaskImage: 'radial-gradient(100px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), black 0%, transparent 100%)'
-                }}
-            />
-
-            {/* Floating Particles */}
-            {particles.map((p) => (
-                <motion.div
-                    key={p.id}
-                    className="absolute rounded-full bg-accent/20 pointer-events-none"
-                    style={{
-                        width: p.size,
-                        height: p.size,
-                        left: `${p.x}%`,
-                        top: `${p.y}%`,
-                    }}
-                    animate={{
-                        y: [0, -40, 0],
-                        x: [0, 20, 0],
-                        opacity: [0.2, 0.5, 0.2]
-                    }}
-                    transition={{
-                        duration: p.duration,
-                        repeat: Infinity,
-                        ease: "linear",
-                        delay: p.delay
-                    }}
-                />
-            ))}
-
-            {/* Click Ripples */}
-            <AnimatePresence>
-                {ripples.map((ripple) => (
-                    <motion.div
-                        key={ripple.id}
-                        initial={{ opacity: 0.5, scale: 0 }}
-                        animate={{ opacity: 0, scale: 2 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.6, ease: "easeOut" }}
-                        className="absolute rounded-full border border-accent/20"
+            {!isLowPerf && (
+                <>
+                    {/* Interactive Glowing Grid layer that follows the mouse */}
+                    <div
+                        className="absolute inset-0 opacity-[0.35]"
                         style={{
-                            left: ripple.x - 250,
-                            top: ripple.y - 250,
-                            width: 500,
-                            height: 500,
                             backgroundImage: `
-                                radial-gradient(circle at center, transparent 40%, var(--color-border-subtle) 45%, transparent 50%)
+                                linear-gradient(to right, var(--color-accent) 1px, transparent 1px),
+                                linear-gradient(to bottom, var(--color-accent) 1px, transparent 1px)
                             `,
+                            backgroundSize: '80px 80px',
+                            // The mask creates a 250px visible circle around the cursor
+                            maskImage: 'radial-gradient(250px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), black 0%, transparent 100%)',
+                            WebkitMaskImage: 'radial-gradient(250px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), black 0%, transparent 100%)'
                         }}
                     />
-                ))}
-            </AnimatePresence>
+
+                    {/* Faint crosshairs at intersections within the glow */}
+                    <div
+                        className="absolute inset-0 opacity-[0.8]"
+                        style={{
+                            backgroundImage: `
+                                radial-gradient(circle at center, #ff3333 2px, transparent 2px)
+                            `,
+                            backgroundSize: '80px 80px',
+                            // A tighter red glow right at the cursor center
+                            maskImage: 'radial-gradient(100px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), black 0%, transparent 100%)',
+                            WebkitMaskImage: 'radial-gradient(100px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), black 0%, transparent 100%)'
+                        }}
+                    />
+
+                    {/* Floating Particles */}
+                    {particles.map((p) => (
+                        <motion.div
+                            key={p.id}
+                            className="absolute rounded-full bg-accent/20 pointer-events-none"
+                            style={{
+                                width: p.size,
+                                height: p.size,
+                                left: `${p.x}%`,
+                                top: `${p.y}%`,
+                                willChange: "transform, opacity"
+                            }}
+                            animate={{
+                                y: [0, -40, 0],
+                                x: [0, 20, 0],
+                                opacity: [0.2, 0.5, 0.2]
+                            }}
+                            transition={{
+                                duration: p.duration,
+                                repeat: Infinity,
+                                ease: "linear",
+                                delay: p.delay
+                            }}
+                        />
+                    ))}
+
+                    {/* Click Ripples */}
+                    <AnimatePresence>
+                        {ripples.map((ripple) => (
+                            <motion.div
+                                key={ripple.id}
+                                initial={{ opacity: 0.5, scale: 0 }}
+                                animate={{ opacity: 0, scale: 2 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.6, ease: "easeOut" }}
+                                className="absolute rounded-full border border-accent/20"
+                                style={{
+                                    left: ripple.x - 250,
+                                    top: ripple.y - 250,
+                                    width: 500,
+                                    height: 500,
+                                    backgroundImage: `
+                                        radial-gradient(circle at center, transparent 40%, var(--color-border-subtle) 45%, transparent 50%)
+                                    `,
+                                    willChange: "transform, opacity"
+                                }}
+                            />
+                        ))}
+                    </AnimatePresence>
+                </>
+            )}
         </div>
     );
 };

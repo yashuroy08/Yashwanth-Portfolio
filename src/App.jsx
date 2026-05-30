@@ -6,6 +6,8 @@ import Header from './components/layout/Header.jsx';
 import Hero from './components/sections/Hero.jsx';
 import Projects from './components/sections/Projects.jsx';
 import TerminalFeature from './components/features/TerminalFeature.jsx';
+import FloatingTerminal from './components/features/FloatingTerminal.jsx';
+import ChatAssistant from './components/features/ChatAssistant.jsx';
 import Skills from './components/sections/Skills.jsx';
 import GithubStats from './components/features/GithubStats.jsx';
 import Education from './components/sections/Education.jsx';
@@ -13,13 +15,8 @@ import Blogs from './components/sections/Blogs.jsx';
 import BlogPost from './components/sections/BlogPost.jsx';
 import Contact from './components/sections/Contact.jsx';
 import Footer from './components/layout/Footer.jsx';
-import SystemHUD from './components/features/SystemHUD.jsx';
 import Loader from './components/features/Loader.jsx';
-import BackToTop from './components/layout/BackToTop.jsx';
 import AnimatedBackground from './components/effects/AnimatedBackground.jsx';
-import SoundEffects from './components/effects/SoundEffects.jsx';
-import CursorBubble from './components/effects/CursorBubble.jsx';
-import ScrollProgress from './components/layout/ScrollProgress.jsx';
 import SectionDivider from './components/ui/SectionDivider.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
 import NotFound from './components/sections/NotFound.jsx';
@@ -57,8 +54,6 @@ function App() {
 
   return (
     <ThemeProvider>
-      <CursorBubble />
-      <SoundEffects />
       <Router>
         <Routes>
           <Route path="/resume" element={<ResumeRedirect />} />
@@ -72,6 +67,7 @@ function App() {
                 ) : (
                     <motion.div
                     key="app"
+                    id="main-portfolio-wrapper"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -80,7 +76,6 @@ function App() {
                   >
                     {/* <SystemHUD /> */}
                     <AnimatedBackground />
-                    <ScrollProgress />
                     <Header />
                     <main>
                       <Hero />
@@ -98,8 +93,9 @@ function App() {
                       <Contact />
                     </main>
                     <Footer />
-                    <BackToTop />
                     <TerminalFeature />
+                    <FloatingTerminal />
+                    <ChatAssistant />
                   </motion.div>
                 )}
               </AnimatePresence>
