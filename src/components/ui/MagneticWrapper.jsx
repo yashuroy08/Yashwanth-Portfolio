@@ -1,21 +1,26 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 /**
  * MagneticWrapper — Wraps any element and makes it gently "pull"
  * towards the cursor when the mouse hovers near it.
- * 
- * Props:
- *  - strength: how far the element moves towards cursor (default 0.35)
- *  - className: additional class names
- *  - children: the wrapped element
+ * Disables itself on mobile/touch devices to prevent layout breaks and optimize performance.
  */
 const MagneticWrapper = ({ children, strength = 0.35, className = '' }) => {
     const ref = useRef(null);
     const [pos, setPos] = useState({ x: 0, y: 0 });
+    const [isMobile, setIsMobile] = useState(true);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            setIsMobile(window.innerWidth < 768 || isTouch);
+        };
+        checkMobile();
+    }, []);
 
     const handleMouseMove = (e) => {
-        if (!ref.current) return;
+        if (isMobile || !ref.current) return;
         const { left, top, width, height } = ref.current.getBoundingClientRect();
         const centerX = left + width / 2;
         const centerY = top + height / 2;
@@ -25,8 +30,13 @@ const MagneticWrapper = ({ children, strength = 0.35, className = '' }) => {
     };
 
     const handleMouseLeave = () => {
+        if (isMobile) return;
         setPos({ x: 0, y: 0 });
     };
+
+    if (isMobile) {
+        return <div className={`inline-block ${className}`}>{children}</div>;
+    }
 
     return (
         <motion.div

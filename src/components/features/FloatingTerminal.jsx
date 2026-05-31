@@ -107,6 +107,43 @@ const GitHubStats = () => {
     );
 };
 
+const ZoroTerminalIcon = () => (
+    <svg 
+        width="48" 
+        height="48" 
+        viewBox="0 0 48 48" 
+        className="my-3 text-accent"
+        fill="none" 
+        stroke="currentColor" 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+    >
+        <circle cx="23.978" cy="22.3892" r="13.589"/>
+        <path d="M23.978,32.1058c-1.734,.0054-3.4656,.1293-5.1827,.3707,1.6204,.7677,3.3896,1.1704,5.1827,1.1795,1.7982-.009,3.5723-.4138,5.1965-1.1857-1.7218-.24-3.458-.3618-5.1965-.3646Z" fill="currentColor" fillOpacity="0.15"/>
+        <path d="M23.978,8.8012c-5.5025,.0113-10.455,3.3396-12.5438,8.4298,4.0158,1.4897,8.2607,2.2678,12.5438,2.2993,4.2914-.0318,8.5443-.813,12.5668-2.3085-2.0949-5.0943-7.0582-8.4201-12.5668-8.4206Z" fill="currentColor" fillOpacity="0.15"/>
+        <path d="M35.0191,20.4503c-3.4793,1.1204-7.1877,1.7334-11.0411,1.7334-3.8453,0-7.5465-.6103-11.0194-1.7262-.1425,.6953-.2184,1.4025-.2268,2.1121,.0101,2.9031,1.1497,5.6892,3.1792,7.7716,2.6435-.6146,5.3487-.9338,8.0671-.9401,2.721,.0026,5.4304,.3179,8.0772,.9301,2.0233-2.0815,3.1591-4.8633,3.169-7.7615-.0008-.7113-.0694-1.4209-.2051-2.1193Z"/>
+        <path d="M14.4473,20.8994v7.5824"/>
+        <path d="M18.2201,21.7149v8.1555"/>
+        <path d="M21.9929,22.1293v7.3266"/>
+        <path d="M33.3113,20.9542v7.8308"/>
+        <path d="M29.5385,21.753v8.0852"/>
+        <path d="M25.7657,22.1293v7.3159"/>
+        <path d="M12.9525,24.7384s7.343,.6929,11.0254,.6929,11.0254-.6929,11.0254-.6929"/>
+        
+        {/* Swords */}
+        <path d="M31.4515,35.9134c-.4512-.4171-.915-.8462-1.3894-1.2852M11.4552,17.2222c-1.2812-1.2261-2.3576-2.2709-3.1433-3.0564-6.215-6.2145-1.7762-8.9889-1.7762-8.9889l8.0061,7.5014m19.7958,18.548l.7854,.7358m2.6265,2.461l4.6819,4.3868-3.4874,4.0137s-1.8631-1.7125-4.6909-4.3223"/>
+        <path d="M29.5665,37.9626l7.5494-8.0133,2.3806,2.3894-7.0974,8.0465-2.8326-2.4226Z"/>
+        <path d="M10.377,21.7093H5.153v3.027h5.3744m26.8352,0h1.781c3.6591,0,3.6591-3.027,3.6591-3.027h-5.2219"/>
+        <path d="M5.153,21.7093l4.0886,2.9361"/>
+        <path d="M5.153,24.7363l4.1586-3.0269"/>
+        
+        {/* Sword 2 */}
+        <path d="M16.5485,35.913c.4512-.4171,.915-.8462,1.3894-1.2852m18.6069-17.406c1.2812-1.2261,2.3576-2.2709,3.1433-3.0564,6.215-6.2145,1.7762-8.9889,1.7762-8.9889l-8.0061,7.5014M13.6623,31.2258l-.7854,.7358m-2.6265,2.461l-4.6819,4.3868,3.4874,4.0137s1.8631-1.7125,4.6909-4.3223"/>
+        <path d="M18.4335,37.9622l-7.5494-8.0133-2.3806,2.3894,7.0974,8.0465,2.8326-2.4226Z"/>
+    </svg>
+);
+
 const FloatingTerminal = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isMinimized, setIsMinimized] = useState(false);
@@ -145,6 +182,17 @@ const FloatingTerminal = () => {
         }
     }, [history, isMinimized, isOpen]);
 
+    useEffect(() => {
+        if (isOpen && !isMinimized) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isOpen, isMinimized]);
+
     const executeCommand = (cmd) => {
         const trimmed = cmd.trim();
         if (!trimmed) return;
@@ -161,11 +209,34 @@ const FloatingTerminal = () => {
             setInput('');
             return;
         } else if (lowerCmd === 'help') {
-            newHistory.push({ type: 'output', content: 'AVAILABLE COMMANDS:\n  help    - Show this message\n  date    - Show system date\n  status  - Show system status\n  theme   - Toggle accent color\n  fps     - Toggle high FPS/perf mode\n  github  - Fetch GitHub stats\n  whoami  - Current user info\n  clear   - Clear terminal output\n  exit    - Close terminal' });
+            newHistory.push({ type: 'output', content: 'AVAILABLE COMMANDS:\n  help     - Show this message\n  skills   - View developer skills\n  projects - View featured projects\n  date     - Show system date\n  status   - Show system status\n  theme    - Toggle accent color\n  fps      - Toggle high FPS/perf mode\n  github   - Fetch GitHub stats\n  whoami   - Current user info\n  zoro     - Summon Roronoa Zoro AI\n  clear    - Clear terminal output\n  exit     - Close terminal' });
+        } else if (lowerCmd === 'skills') {
+            newHistory.push({ 
+                type: 'output', 
+                content: '⚔️ YASHWANTH\'S SKILLS:\n  [Java & Spring Boot]\n    - Java (Level 3 - Intermediate)\n    - Spring Boot (Level 3 - Intermediate)\n    - Spring Security & JWT (Level 3 - Intermediate)\n    - Hibernate/JPA (Level 2 - Familiar)\n  [Databases & Cloud]\n    - MySQL (Level 3 - Intermediate)\n    - MongoDB (Level 2 - Familiar)\n    - Docker (Level 3 - Intermediate)\n    - GCP (Level 3 - Intermediate)\n    - Azure (Level 3 - Intermediate)\n  [Frontend & Design]\n    - React (Level 2 - Familiar)\n    - Tailwind CSS (Level 2 - Familiar)\n    - Figma (Level 2 - Familiar)' 
+            });
+        } else if (lowerCmd === 'projects') {
+            newHistory.push({ 
+                type: 'output', 
+                content: '📂 YASHWANTH\'S PROJECTS:\n\n1. E-commerce Backend Service\n   - Tech: Java, Spring Boot, MongoDB, Render, Vercel\n   - Description: Scalable RESTful e-commerce API with secure JWT RBAC.\n   - Link: https://threads-fashion.vercel.app/\n\n2. Advanced RBAC System\n   - Tech: Spring Boot, Spring Security, JWT, MySQL, JPA\n   - Description: Granular permission-based access control with stateless authentication.\n   - Link: https://rbac-guard.vercel.app/' 
+            });
         } else if (lowerCmd === 'github' || lowerCmd === 'stats' || lowerCmd === 'github stats') {
             newHistory.push({ type: 'component', content: <GitHubStats /> });
         } else if (lowerCmd === 'whoami') {
-            newHistory.push({ type: 'output', content: 'yashuroy08 / Yashwanth Patam\nRole: Full Stack Developer\nLocation: Web\nStatus: Online' });
+            newHistory.push({ type: 'output', content: 'yashuroy08 / Yashwanth Patam\nRole: Backend Developer\nLocation: Web\nStatus: Online' });
+        } else if (lowerCmd === 'zoro') {
+            window.dispatchEvent(new CustomEvent('open-zoro'));
+            newHistory.push({ 
+                type: 'component', 
+                content: (
+                    <div className="flex flex-col gap-2 mt-2 mb-2 font-mono">
+                        <ZoroTerminalIcon />
+                        <div className="text-red font-bold">⚔️ RORONOA ZORO:</div>
+                        <div className="text-accent italic">"When I decided to follow my dream, I had already discarded my life."</div>
+                        <div className="text-muted text-xs">[sys] initiating system link to Zoro assistant...</div>
+                    </div>
+                )
+            });
         } else if (lowerCmd === 'date') {
             newHistory.push({ type: 'output', content: `CURRENT_SYSTEM_TIME: ${new Date().toLocaleString()}` });
         } else if (lowerCmd === 'status') {

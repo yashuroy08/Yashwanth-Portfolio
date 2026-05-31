@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '../../context/ThemeContext';
 
 /**
  * CursorBubble — A smooth, elastic bubble that follows the mouse cursor.
  * It grows when hovering over interactive elements and shows a subtle trail.
  */
 const CursorBubble = () => {
+    const { isLowPerf } = useTheme();
     const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
     const [isHovering, setIsHovering] = useState(false);
     const [isClicking, setIsClicking] = useState(false);
@@ -64,7 +66,7 @@ const CursorBubble = () => {
         };
     }, []);
 
-    if (!isVisible) return null;
+    if (isLowPerf || !isVisible) return null;
 
     const bubbleSize = isClicking ? 12 : isHovering ? 48 : 20;
 

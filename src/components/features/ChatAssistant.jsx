@@ -61,7 +61,7 @@ export default function ChatAssistant() {
         const session = ai.chats.create({
           model: 'gemini-2.5-flash',
           config: {
-            systemInstruction: "You are ZORO, the AI Assistant for Yashwanth's portfolio website. You are confident, cool, and a bit edgy like Roronoa Zoro from One Piece. CRITICAL RULES: 1. ONLY answer questions related to Yashwanth's portfolio, skills (Java, Spring Boot, React, etc.), projects, OR about yourself as Zoro from One Piece. 2. NEVER mention or discuss any other anime. If asked about other anime, deflect by saying you only care about becoming the greatest swordsman and helping Yashwanth. 3. Be brief, concise, and professional enough for a portfolio. No markdown headers, just plain text with occasional bolding.",
+            systemInstruction: "You are ZORO, the AI Assistant for Yashwanth's portfolio website. You are confident, cool, and a bit edgy like Roronoa Zoro from One Piece. Yashwanth is a Backend Developer (not a backend engineer). CRITICAL RULES: 1. ONLY answer questions related to Yashwanth's portfolio, skills (Java, Spring Boot, React, etc.), projects, OR about yourself as Zoro from One Piece. 2. NEVER mention or discuss any other anime. If asked about other anime, deflect by saying you only care about becoming the greatest swordsman and helping Yashwanth. 3. Be brief, concise, and professional enough for a portfolio. No markdown headers, just plain text with occasional bolding.",
             temperature: 0.7
           }
         });
@@ -124,7 +124,7 @@ export default function ChatAssistant() {
   };
 
   return (
-    <div className="fixed top-0 right-0 h-screen z-50 hidden md:block pointer-events-none">
+    <div className="fixed top-0 right-0 h-screen z-50 pointer-events-none">
       
       {/* Tooltip */}
       <AnimatePresence>
@@ -134,7 +134,7 @@ export default function ChatAssistant() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 10 }}
             transition={{ delay: 1.5, duration: 0.5 }}
-            className="absolute top-1/2 -translate-y-1/2 right-20 mr-2 pointer-events-none whitespace-nowrap"
+            className="absolute top-1/2 -translate-y-1/2 right-20 mr-2 pointer-events-none whitespace-nowrap hidden md:block"
           >
             <span className="font-mono text-[10px] sm:text-xs tracking-widest text-muted font-bold uppercase bg-primary px-2 py-1 border-2 border-border-strong shadow-[-4px_4px_0px_var(--color-border-strong)]">
               Interact with Zoro <span className="text-red ml-1">→</span>
@@ -142,30 +142,29 @@ export default function ChatAssistant() {
           </motion.div>
         )}
       </AnimatePresence>
-
+ 
       {/* Cyberpunk Side-Tab Toggle Button */}
       <button
         onClick={() => {
           setIsOpen(!isOpen);
           setShowTooltip(false);
         }}
-        className={`absolute top-1/2 -translate-y-1/2 right-0 bg-primary border-y-2 border-l-2 border-border-strong flex flex-col items-center justify-center py-6 px-3 transition-all duration-300 z-40 hover:bg-red group pointer-events-auto ${isOpen ? 'translate-x-full opacity-0' : 'translate-x-0 opacity-100 shadow-[-4px_4px_0px_var(--color-border-strong)] hover:-translate-x-1 hover:shadow-[-8px_4px_0px_var(--color-border-strong)]'}`}
+        className={`absolute top-1/2 -translate-y-1/2 right-0 bg-primary border-y-2 border-l-2 border-border-strong flex flex-col items-center justify-center py-4 md:py-6 px-2 md:px-3 transition-all duration-300 z-40 hover:bg-red group pointer-events-auto ${isOpen ? 'translate-x-full opacity-0' : 'translate-x-0 opacity-100 shadow-[-4px_4px_0px_var(--color-border-strong)] hover:-translate-x-1 hover:shadow-[-8px_4px_0px_var(--color-border-strong)]'}`}
         title="Ask Zoro"
       >
         <img 
           src="/zoro-to-svgrepo-com.svg" 
           alt="Zoro" 
-          className="w-10 h-10 object-contain mb-4 transition-all group-hover:invert-0 group-hover:brightness-200" 
-          style={{ filter: 'invert(100%)' }}
+          className="w-8 h-8 md:w-10 md:h-10 object-contain mb-3 md:mb-4 transition-all invert-0 dark:invert group-hover:invert group-hover:brightness-200" 
         />
         <div 
-          className="font-mono text-sm font-bold tracking-widest text-accent group-hover:text-white transition-colors uppercase"
+          className="font-mono text-xs md:text-sm font-bold tracking-widest text-accent group-hover:text-white transition-colors uppercase"
           style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
         >
           Ask Zoro
         </div>
       </button>
-
+ 
       {/* Main Drawer Frame */}
       <AnimatePresence>
         {isOpen && (
@@ -173,8 +172,12 @@ export default function ChatAssistant() {
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 150 }}
-            className="absolute right-0 top-0 w-80 md:w-96 bg-primary border-l-2 border-border-strong flex flex-col shadow-[-12px_0px_0px_var(--color-border-strong)] overflow-hidden pointer-events-auto h-screen"
+            transition={
+              typeof window !== 'undefined' && window.innerWidth < 768
+                ? { duration: 0.25, ease: 'easeOut' }
+                : { type: 'spring', damping: 25, stiffness: 150 }
+            }
+            className="absolute right-0 top-0 w-full sm:w-96 bg-primary border-l-2 border-border-strong flex flex-col shadow-none sm:shadow-[-12px_0px_0px_var(--color-border-strong)] overflow-hidden pointer-events-auto h-screen"
           >
             {/* CRT Scanline Overlay */}
             <div 
@@ -238,7 +241,7 @@ export default function ChatAssistant() {
                   <button 
                     key={i} 
                     onClick={() => handleSend(null, s)}
-                    className="bg-primary border-2 border-border-strong text-muted px-2 py-1.5 hover:bg-red hover:text-white hover:border-red hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_var(--color-red)] transition-all text-left"
+                    className="bg-primary border-2 border-border-strong text-muted px-2 py-1.5 md:hover:bg-red md:hover:text-white md:hover:border-red md:hover:-translate-y-0.5 md:hover:shadow-[2px_2px_0px_var(--color-red)] active:bg-red active:text-white active:border-red transition-all text-left"
                   >
                     {s}
                   </button>

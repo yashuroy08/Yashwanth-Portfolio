@@ -28,7 +28,7 @@ const Footer = () => {
               <span className="font-mono text-[10px] tracking-[0.5em] text-accent uppercase font-bold">DEVELOPER PORTFOLIO</span>
             </div>
             <p className="text-muted text-[10px] font-mono uppercase tracking-widest border-2 w-fit px-2 py-1 border-border-strong">
-              Backend Engineer
+              Backend Developer
             </p>
           </motion.div>
 

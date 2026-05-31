@@ -6,7 +6,7 @@ import Avatar from '../Avatar';
 
 const ROLES = [
   'JAVA DEVELOPER',
-  'BACKEND ENGINEER',
+  'BACKEND DEVELOPER',
   'API ARCHITECT',
   'SPRING BOOT DEV',
 ];

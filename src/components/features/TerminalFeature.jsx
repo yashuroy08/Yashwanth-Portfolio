@@ -62,6 +62,17 @@ const TerminalFeature = () => {
         return () => window.removeEventListener('open-terminal', handleOpenTerminal);
     }, []);
 
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isOpen]);
+
     const executeCommand = (cmdId) => {
         const navigateTo = (sectionId) => {
             const el = document.getElementById(sectionId);

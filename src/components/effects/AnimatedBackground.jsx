@@ -7,9 +7,21 @@ const AnimatedBackground = () => {
     const [ripples, setRipples] = useState([]);
     const [particles, setParticles] = useState([]);
     const { isLowPerf } = useTheme();
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        if (isLowPerf) {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768 || ('ontouchstart' in window) || (navigator.maxTouchPoints > 0));
+        };
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    const disableAnimations = isLowPerf || isMobile;
+
+    useEffect(() => {
+        if (disableAnimations) {
             setParticles([]);
             return;
         }
@@ -22,10 +34,10 @@ const AnimatedBackground = () => {
             delay: -Math.random() * 20
         }));
         setParticles(generatedParticles);
-    }, [isLowPerf]);
+    }, [disableAnimations]);
 
     useEffect(() => {
-        if (isLowPerf) return;
+        if (disableAnimations) return;
 
         const handleMouseMove = (e) => {
             if (!bgRef.current) return;
@@ -52,7 +64,7 @@ const AnimatedBackground = () => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('click', handleClick);
         };
-    }, [isLowPerf]);
+    }, [disableAnimations]);
 
     return (
         <div ref={bgRef} className="fixed inset-0 -z-20 overflow-hidden pointer-events-none bg-primary">
@@ -71,7 +83,7 @@ const AnimatedBackground = () => {
                 }}
             />
 
-            {!isLowPerf && (
+            {!disableAnimations && (
                 <>
                     {/* Interactive Glowing Grid layer that follows the mouse */}
                     <div

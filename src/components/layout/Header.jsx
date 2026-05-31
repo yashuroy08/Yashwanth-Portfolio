@@ -83,6 +83,16 @@ const Header = () => {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-1.5 lg:gap-3 ml-auto">
+          {/* Music Player Button */}
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('open-music-player'))}
+            className="hidden lg:flex items-center justify-center w-8 h-8 border-2 border-border-strong text-muted hover:border-accent hover:text-accent transition-all duration-300"
+            style={{ backgroundColor: 'var(--color-primary)', boxShadow: '3px 3px 0px var(--color-border-strong)' }}
+            title="Music Player"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+          </button>
+
           {/* Command Palette / Search Bar */}
           <div
             className="hidden lg:flex items-center gap-2 px-3 py-1.5 border-2 border-border-strong text-muted hover:border-accent hover:text-accent transition-all duration-300 cursor-text group mr-2"
@@ -118,9 +128,18 @@ const Header = () => {
         </div>
 
         {/* Mobile Nav */}
-        <div className="flex md:hidden items-center gap-4 ml-auto">
+        <div className="flex md:hidden items-center gap-3 ml-auto">
           <ThemeToggle />
           
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('open-music-player'))}
+            className="text-muted p-2 focus:outline-none z-[70] border-2 border-border-strong hover:text-accent"
+            style={{ boxShadow: '2px 2px 0px var(--color-border-strong)', backgroundColor: 'var(--color-primary)' }}
+            title="Music Player"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+          </button>
+
           <motion.button
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

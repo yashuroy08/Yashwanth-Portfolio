@@ -11,12 +11,15 @@ import ChatAssistant from './components/features/ChatAssistant.jsx';
 import Skills from './components/sections/Skills.jsx';
 import GithubStats from './components/features/GithubStats.jsx';
 import Education from './components/sections/Education.jsx';
+import MusicPlayer from './components/features/MusicPlayer.jsx';
 import Blogs from './components/sections/Blogs.jsx';
 import BlogPost from './components/sections/BlogPost.jsx';
 import Contact from './components/sections/Contact.jsx';
 import Footer from './components/layout/Footer.jsx';
 import Loader from './components/features/Loader.jsx';
 import AnimatedBackground from './components/effects/AnimatedBackground.jsx';
+import CursorBubble from './components/effects/CursorBubble.jsx';
+import SoundEffects from './components/effects/SoundEffects.jsx';
 import SectionDivider from './components/ui/SectionDivider.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
 import NotFound from './components/sections/NotFound.jsx';
@@ -96,6 +99,9 @@ function App() {
                     <TerminalFeature />
                     <FloatingTerminal />
                     <ChatAssistant />
+                    <MusicPlayer />
+                    <CursorBubble />
+                    <SoundEffects />
                   </motion.div>
                 )}
               </AnimatePresence>

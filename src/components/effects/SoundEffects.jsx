@@ -1,19 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 import useIdle from '../../hooks/useIdle';
 
 const SoundEffects = () => {
     const audioContextRef = useRef(null);
-    const isIdle = useIdle(3000); // 3 seconds timeout
-
-    const [isMuted, setIsMuted] = useState(() => {
-        const saved = localStorage.getItem('soundMuted');
-        return saved === 'true';
-    });
-
-    useEffect(() => {
-        localStorage.setItem('soundMuted', isMuted);
-    }, [isMuted]);
 
     useEffect(() => {
         const initAudio = () => {
@@ -25,8 +14,10 @@ const SoundEffects = () => {
             }
         };
 
-        const playClickSound = () => {
-            if (isMuted) return;
+        const playClickSound = (e) => {
+            // Only play on button or clickable element clicks
+            const target = e.target.closest('button, a, .cursor-pointer');
+            if (!target) return;
 
             initAudio();
 
@@ -35,20 +26,16 @@ const SoundEffects = () => {
             const ctx = audioContextRef.current;
             const t = ctx.currentTime;
 
-            // Modern UI "Select" Click (Crisp & Short)
             const osc = ctx.createOscillator();
             const gainNode = ctx.createGain();
 
-            osc.type = 'triangle'; // Cleaner than square, sharper than sine
-
-            // Pitch: Consistent high pitch, very slight drop
+            osc.type = 'triangle';
             osc.frequency.setValueAtTime(800, t);
             osc.frequency.exponentialRampToValueAtTime(600, t + 0.05);
 
-            // Envelope: Very short, snappy release
             gainNode.gain.setValueAtTime(0, t);
-            gainNode.gain.linearRampToValueAtTime(0.08, t + 0.005); // Attack
-            gainNode.gain.exponentialRampToValueAtTime(0.001, t + 0.05); // Short decay
+            gainNode.gain.linearRampToValueAtTime(0.08, t + 0.005);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
 
             osc.connect(gainNode);
             gainNode.connect(ctx.destination);
@@ -64,49 +51,9 @@ const SoundEffects = () => {
             window.removeEventListener('click', playClickSound);
             window.removeEventListener('mousedown', initAudio);
         };
-    }, [isMuted]);
+    }, []);
 
-    return (
-        <motion.button
-            onClick={() => setIsMuted(!isMuted)}
-            className={`hidden md:flex fixed bottom-6 left-6 z-[100] p-3 w-12 h-12 items-center justify-center bg-primary border-2 border-border-strong text-accent transition-all duration-300 hover:border-red hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0px_var(--color-red)] rounded-none group ${isIdle ? 'pointer-events-none' : ''}`}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ 
-                opacity: isIdle ? 0 : 1, 
-                x: isIdle ? -10 : 0,
-                scale: isIdle ? 0.9 : 1
-            }}
-            transition={{ duration: 0.3 }}
-            aria-label={isMuted ? "Unmute sounds" : "Mute sounds"}
-        >
-            <AnimatePresence mode="wait">
-                {isMuted ? (
-                    <motion.svg
-                        key="muted"
-                        initial={{ opacity: 0, scale: 0.5 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.5 }}
-                        xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                    >
-                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                        <line x1="23" y1="9" x2="17" y2="15"></line>
-                        <line x1="17" y1="9" x2="23" y2="15"></line>
-                    </motion.svg>
-                ) : (
-                    <motion.svg
-                        key="unmuted"
-                        initial={{ opacity: 0, scale: 0.5 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.5 }}
-                        xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent"
-                    >
-                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                    </motion.svg>
-                )}
-            </AnimatePresence>
-        </motion.button>
-    );
+    return null;
 };
 
 export default SoundEffects;
