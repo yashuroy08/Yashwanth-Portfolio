@@ -75,7 +75,7 @@ const Education = () => {
             {/* Blocker div to prevent grid lines showing through the person - Dark Mode Only */}
             <div className="absolute inset-10 bg-black blur-[40px] z-0 rounded-full hidden dark:block"></div>
             <img 
-              src="/avatar.png" 
+              src="/WhatsApp Image 2026-05-31 at 15.39.40.jpeg" 
               alt="Yashwanth Patam" 
               className="w-full h-auto grayscale hover:grayscale-0 transition-all duration-500 dark:mix-blend-lighten scale-110 origin-top relative z-10" 
             />

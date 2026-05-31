@@ -1,5 +1,5 @@
 import { useState, Component } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import ResumeRedirect from './components/features/ResumeRedirect.jsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import Header from './components/layout/Header.jsx';
@@ -50,65 +50,95 @@ class ErrorBoundary extends Component {
   }
 }
 
-function App() {
+const AnimatedRoutes = () => {
+  const location = useLocation();
   const [loading, setLoading] = useState(true);
 
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/resume" element={<ResumeRedirect />} />
+        <Route 
+          path="/blog/:id" 
+          element={
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <BlogPost />
+            </motion.div>
+          } 
+        />
+        <Route
+          path="/"
+          element={
+            <AnimatePresence>
+              {loading ? (
+                <Loader key="loader" onComplete={() => setLoading(false)} />
+              ) : (
+                <motion.div
+                  key="app"
+                  id="main-portfolio-wrapper"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="bg-primary text-accent min-h-screen relative z-0"
+                >
+                  <AnimatedBackground />
+                  <Header />
+                  <main>
+                    <Hero />
+                    <SectionDivider />
+                    <Skills />
+                    <SectionDivider />
+                    <Projects />
+                    <SectionDivider />
+                    <GithubStats />
+                    <SectionDivider />
+                    <Education />
+                    <SectionDivider />
+                    <Blogs />
+                    <SectionDivider />
+                    <Contact />
+                  </main>
+                  <Footer />
+                  <TerminalFeature />
+                  <FloatingTerminal />
+                  <ChatAssistant />
+                  <MusicPlayer />
+                  <CursorBubble />
+                  <SoundEffects />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          }
+        />
+        <Route 
+          path="*" 
+          element={
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <NotFound />
+            </motion.div>
+          } 
+        />
+      </Routes>
+    </AnimatePresence>
+  );
+};
 
-
+function App() {
   return (
     <ThemeProvider>
       <Router>
-        <Routes>
-          <Route path="/resume" element={<ResumeRedirect />} />
-          <Route path="/blog/:id" element={<BlogPost />} />
-          <Route
-            path="/"
-            element={
-              <AnimatePresence>
-                {loading ? (
-                  <Loader key="loader" onComplete={() => setLoading(false)} />
-                ) : (
-                    <motion.div
-                    key="app"
-                    id="main-portfolio-wrapper"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="bg-primary text-accent min-h-screen relative z-0"
-                  >
-                    {/* <SystemHUD /> */}
-                    <AnimatedBackground />
-                    <Header />
-                    <main>
-                      <Hero />
-                      <SectionDivider />
-                      <Skills />
-                      <SectionDivider />
-                      <Projects />
-                      <SectionDivider />
-                      <GithubStats />
-                      <SectionDivider />
-                      <Education />
-                      <SectionDivider />
-                      <Blogs />
-                      <SectionDivider />
-                      <Contact />
-                    </main>
-                    <Footer />
-                    <TerminalFeature />
-                    <FloatingTerminal />
-                    <ChatAssistant />
-                    <MusicPlayer />
-                    <CursorBubble />
-                    <SoundEffects />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AnimatedRoutes />
       </Router>
     </ThemeProvider>
   );
